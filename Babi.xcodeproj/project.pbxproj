@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4B1AC6875400A3D669 /* Gate.swift */; };
+		E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */; };
+		E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */; };
 		E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B39E1AC6862C00707BA8 /* AppDelegate.swift */; };
 		E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */; };
-		E453B3A41AC6862C00707BA8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A31AC6862C00707BA8 /* ViewController.swift */; };
+		E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A31AC6862C00707BA8 /* MainContainerController.swift */; };
 		E453B3A71AC6862C00707BA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A51AC6862C00707BA8 /* Main.storyboard */; };
 		E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A81AC6862C00707BA8 /* Images.xcassets */; };
 		E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */; };
@@ -27,11 +30,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E4375B4B1AC6875400A3D669 /* Gate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
+		E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTableViewController.swift; sourceTree = "<group>"; };
+		E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTVCell.swift; sourceTree = "<group>"; };
 		E453B3991AC6862C00707BA8 /* Babi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Babi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B39D1AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B39E1AC6862C00707BA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E453B3A11AC6862C00707BA8 /* Babi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Babi.xcdatamodel; sourceTree = "<group>"; };
-		E453B3A31AC6862C00707BA8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E453B3A31AC6862C00707BA8 /* MainContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerController.swift; sourceTree = "<group>"; };
 		E453B3A61AC6862C00707BA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E453B3A81AC6862C00707BA8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E453B3AB1AC6862C00707BA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -80,7 +86,10 @@
 			isa = PBXGroup;
 			children = (
 				E453B39E1AC6862C00707BA8 /* AppDelegate.swift */,
-				E453B3A31AC6862C00707BA8 /* ViewController.swift */,
+				E4375B4B1AC6875400A3D669 /* Gate.swift */,
+				E453B3A31AC6862C00707BA8 /* MainContainerController.swift */,
+				E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */,
+				E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */,
 				E453B3A51AC6862C00707BA8 /* Main.storyboard */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
 				E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */,
@@ -215,9 +224,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E453B3A41AC6862C00707BA8 /* ViewController.swift in Sources */,
+				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
+				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
+				E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */,
 				E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */,
+				E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +421,7 @@
 				E453B3BD1AC6862C00707BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E453B3BE1AC6862D00707BA8 /* Build configuration list for PBXNativeTarget "BabiTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +430,7 @@
 				E453B3C01AC6862D00707BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
