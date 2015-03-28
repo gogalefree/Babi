@@ -41,6 +41,9 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFS-1e-VxV">
                                             <rect key="frame" x="512" y="0.0" width="80" height="100"/>
                                             <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="80" id="3My-Yf-Ue4"/>
+                                            </constraints>
                                             <state key="normal" title="Button 1">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -75,8 +78,8 @@
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="ubm-d2-7HF"/>
                                                             <exclude reference="KDP-dH-gRj"/>
+                                                            <exclude reference="ubm-d2-7HF"/>
                                                         </mask>
                                                     </variation>
                                                 </label>
@@ -101,10 +104,12 @@
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="firstBaseline" secondItem="aFS-1e-VxV" secondAttribute="baseline" id="5uR-OT-gVF"/>
                                         <constraint firstAttribute="trailing" secondItem="QAy-b3-o6S" secondAttribute="trailing" constant="88" id="A6V-DS-2fN"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" id="JwJ-zX-ICd"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="aFS-1e-VxV" secondAttribute="bottom" constant="-8" id="PSC-Lu-58p"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="leading" secondItem="1ev-2i-63r" secondAttribute="leadingMargin" constant="424" id="S30-hP-wOc"/>
                                         <constraint firstItem="aFS-1e-VxV" firstAttribute="trailing" secondItem="1ev-2i-63r" secondAttribute="trailingMargin" id="YPD-F1-3Fm"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="tki-X6-UjG" secondAttribute="bottom" constant="-8" id="b36-TV-j8I"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="baseline" secondItem="aFS-1e-VxV" secondAttribute="firstBaseline" id="bCA-rs-ZJZ"/>
+                                        <constraint firstItem="aFS-1e-VxV" firstAttribute="top" secondItem="1ev-2i-63r" secondAttribute="topMargin" constant="-8" id="dfq-Yn-hdv"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" id="dgp-BX-UWC"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="bottom" secondItem="tki-X6-UjG" secondAttribute="bottom" id="e4z-hP-IaB"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="top" secondItem="aFS-1e-VxV" secondAttribute="top" id="nKh-pN-9hn"/>
@@ -114,8 +119,12 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="5uR-OT-gVF"/>
+                                            <exclude reference="A6V-DS-2fN"/>
                                             <exclude reference="S30-hP-wOc"/>
+                                            <exclude reference="bCA-rs-ZJZ"/>
                                             <exclude reference="dgp-BX-UWC"/>
+                                            <exclude reference="nKh-pN-9hn"/>
                                             <exclude reference="rFC-2C-g2U"/>
                                         </mask>
                                     </variation>
