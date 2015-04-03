@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import Foundation
 
 class MainContainerController: UIViewController {
+    
+    lazy var noGatesMessageVC : UIViewController!  = {
+        return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as UIViewController
+        }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +26,31 @@ class MainContainerController: UIViewController {
         gatesTVC.view.frame = self.view.bounds
         gatesTVC.didMoveToParentViewController(self)
         self.view.addSubview(gatesTVC.view)
+        
+        noGatesMessageIfNeeded()
+
     }
+
+    func noGatesMessageIfNeeded() {
+        
+        let gates = Model.shared.gates()
+        
+        if gates == nil || gates?.count == 0 {
+            
+            var frame = CGRectMake(0,64, self.view.bounds.width, self.view.bounds.height)
+            noGatesMessageVC.view.frame = frame
+            self.addChildViewController(noGatesMessageVC)
+            self.view.addSubview(noGatesMessageVC.view)
+            self.view.bringSubviewToFront(noGatesMessageVC.view)
+            noGatesMessageVC.didMoveToParentViewController(self)
+        }
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        noGatesMessageVC = nil
     }
-
 
 }
 

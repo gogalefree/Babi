@@ -18,7 +18,7 @@ class Gate: NSManagedObject {
     @NSManaged var automatic: Bool
     @NSManaged var phoneNumber: String
     
-    class func instatciate(
+    class func instansiate(
         name: String,
         latitude: Double,
         longitude: Double,
@@ -28,7 +28,7 @@ class Gate: NSManagedObject {
             var gate: Gate?
             
             let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
-
+            
             let request = NSFetchRequest(entityName: "Gate")
             request.predicate = NSPredicate(format: "name == %@", name)
             var error: NSError?
@@ -52,8 +52,19 @@ class Gate: NSManagedObject {
                 gate = newGate
             }
         
+    
             return gate
     }
     
+    class func instansiateWithZero() -> Gate {
+        
+        let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        
+        var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
+        
+        return newGate
+
+    }
+
    
 }

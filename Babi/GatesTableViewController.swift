@@ -10,23 +10,15 @@ import UIKit
 
 class GatesTableViewController: UITableViewController  , UITableViewDataSource, UITableViewDelegate, SwipeableCellDelegate {
     
+       
     var cellsCurrentlyEditing :NSMutableSet!
-    
-    
-    var objects = [String]()
+    var gates = Model.shared.gates() as [Gate]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        self.cellsCurrentlyEditing = NSMutableSet()
-        
-        for  index in 0...9 {
-            
-            let object = "a longer string with Object \(index)"
-            objects.append(object)
-        }
+        self.cellsCurrentlyEditing = NSMutableSet()        
+
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -37,7 +29,8 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as SwipeableCellTableViewCell
         cell.delegate = self
-        let title = objects[indexPath.row]
+        let gate = gates![indexPath.row] as Gate
+        let title = gate.name
         cell.itemText = title
         
         
@@ -48,7 +41,11 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        
+        if let gates = gates {
+            return gates.count
+        }
+        return 0
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -58,7 +55,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
-            objects.removeAtIndex(indexPath.row)
+            gates!.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             
         }
@@ -85,5 +82,20 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         println("button two clicked")
         
     }
+    
+    @IBAction func presentGateEditor(sender: AnyObject) {
+        //for creating a new gate
+        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as UINavigationController
+        gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        let gateEditor = gateEditorNavController.viewControllers[0] as GateEditorVC
+        gateEditor.state = .NewGate
+        self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
+    }
+    
+    @IBAction func unwindFromGateEditorVC(segue: UIStoryboardSegue) {
+        
+        println("unwind")
+    }
 
+    
 }

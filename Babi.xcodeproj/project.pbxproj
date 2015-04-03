@@ -10,6 +10,11 @@
 		E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4B1AC6875400A3D669 /* Gate.swift */; };
 		E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */; };
 		E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */; };
+		E4375B521AC6D6A000A3D669 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B511AC6D6A000A3D669 /* Model.swift */; };
+		E4375B541ACA756100A3D669 /* GateEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B531ACA756100A3D669 /* GateEditorVC.swift */; };
+		E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */; };
+		E4375B581ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */; };
+		E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */; };
 		E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B39E1AC6862C00707BA8 /* AppDelegate.swift */; };
 		E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */; };
 		E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A31AC6862C00707BA8 /* MainContainerController.swift */; };
@@ -17,6 +22,8 @@
 		E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A81AC6862C00707BA8 /* Images.xcassets */; };
 		E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */; };
 		E453B3B81AC6862C00707BA8 /* BabiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3B71AC6862C00707BA8 /* BabiTests.swift */; };
+		E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */; };
+		E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +40,11 @@
 		E4375B4B1AC6875400A3D669 /* Gate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
 		E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTableViewController.swift; sourceTree = "<group>"; };
 		E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTVCell.swift; sourceTree = "<group>"; };
+		E4375B511AC6D6A000A3D669 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		E4375B531ACA756100A3D669 /* GateEditorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorVC.swift; sourceTree = "<group>"; };
+		E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GateEditorTVCHeaderView.xib; sourceTree = "<group>"; };
+		E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTVCHeaderView.swift; sourceTree = "<group>"; };
+		E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		E453B3991AC6862C00707BA8 /* Babi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Babi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B39D1AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B39E1AC6862C00707BA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +56,8 @@
 		E453B3B11AC6862C00707BA8 /* BabiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B3B61AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B3B71AC6862C00707BA8 /* BabiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabiTests.swift; sourceTree = "<group>"; };
+		E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gateEditorTextFieldCell.swift; sourceTree = "<group>"; };
+		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,14 +100,12 @@
 			isa = PBXGroup;
 			children = (
 				E453B39E1AC6862C00707BA8 /* AppDelegate.swift */,
-				E4375B4B1AC6875400A3D669 /* Gate.swift */,
-				E453B3A31AC6862C00707BA8 /* MainContainerController.swift */,
-				E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */,
-				E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */,
 				E453B3A51AC6862C00707BA8 /* Main.storyboard */,
+				E473E3C61ACBABB90098D77A /* UI */,
+				E473E3C71ACBABC50098D77A /* Model */,
+				E473E3CA1ACBAC600098D77A /* Functions */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
 				E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */,
-				E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */,
 				E453B39C1AC6862C00707BA8 /* Supporting Files */,
 			);
 			path = Babi;
@@ -122,6 +134,55 @@
 				E453B3B61AC6862C00707BA8 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E473E3C61ACBABB90098D77A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E473E3C81ACBAC0B0098D77A /* Gates TVC */,
+				E473E3C91ACBAC210098D77A /* Gate Editor */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		E473E3C71ACBABC50098D77A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E4375B511AC6D6A000A3D669 /* Model.swift */,
+				E4375B4B1AC6875400A3D669 /* Gate.swift */,
+				E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E473E3C81ACBAC0B0098D77A /* Gates TVC */ = {
+			isa = PBXGroup;
+			children = (
+				E453B3A31AC6862C00707BA8 /* MainContainerController.swift */,
+				E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */,
+				E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */,
+			);
+			name = "Gates TVC";
+			sourceTree = "<group>";
+		};
+		E473E3C91ACBAC210098D77A /* Gate Editor */ = {
+			isa = PBXGroup;
+			children = (
+				E4375B531ACA756100A3D669 /* GateEditorVC.swift */,
+				E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */,
+				E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */,
+				E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */,
+				E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */,
+			);
+			name = "Gate Editor";
+			sourceTree = "<group>";
+		};
+		E473E3CA1ACBAC600098D77A /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */,
+			);
+			name = Functions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E453B3A71AC6862C00707BA8 /* Main.storyboard in Resources */,
+				E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */,
 				E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */,
 				E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */,
 			);
@@ -224,11 +286,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4375B521AC6D6A000A3D669 /* Model.swift in Sources */,
+				E4375B581ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift in Sources */,
+				E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */,
 				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
+				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
+				E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */,
 				E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */,
 				E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */,
+				E4375B541ACA756100A3D669 /* GateEditorVC.swift in Sources */,
 				E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Babi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -363,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Babi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
