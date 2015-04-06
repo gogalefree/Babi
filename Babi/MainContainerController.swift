@@ -14,6 +14,8 @@ class MainContainerController: UIViewController {
     lazy var noGatesMessageVC : UIViewController!  = {
         return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as UIViewController
         }()
+    
+    var presentingNoGatesMessage = false
 
 
     override func viewDidLoad() {
@@ -43,9 +45,17 @@ class MainContainerController: UIViewController {
             self.view.addSubview(noGatesMessageVC.view)
             self.view.bringSubviewToFront(noGatesMessageVC.view)
             noGatesMessageVC.didMoveToParentViewController(self)
+            presentingNoGatesMessage = true
         }
     }
     
+    func removeNoGatesMessageIfNeeded() {
+        println("removed")
+        if presentingNoGatesMessage {
+            noGatesMessageVC.view.removeFromSuperview()
+            noGatesMessageVC.removeFromParentViewController()
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

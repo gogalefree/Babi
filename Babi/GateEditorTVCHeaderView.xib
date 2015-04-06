@@ -12,12 +12,18 @@
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S9Q-du-2lL">
                     <rect key="frame" x="8" y="8" width="584" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="cgV-QQ-bNo"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m28-w4-lxO">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m28-w4-lxO">
                     <rect key="frame" x="8" y="40" width="584" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="wTi-cS-wSy"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -37,6 +43,12 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="9n9-Af-TnH"/>
+                    <exclude reference="oCQ-LW-Dwg"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="subTitleLabel" destination="m28-w4-lxO" id="YEJ-Yu-eFe"/>
                 <outlet property="tapGestureRecognizer" destination="YIg-Gd-ZLb" id="4fa-UV-qai"/>

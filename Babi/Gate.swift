@@ -17,13 +17,15 @@ class Gate: NSManagedObject {
     @NSManaged var longitude: Double
     @NSManaged var automatic: Bool
     @NSManaged var phoneNumber: String
+    @NSManaged var fireDistanceFromGate: Int
     
     class func instansiate(
         name: String,
         latitude: Double,
         longitude: Double,
         automatic: Bool?,
-        phoneNumber: String) -> Gate? {
+        phoneNumber: String,
+        fireDistanceFromGate: Int?) -> Gate? {
             
             var gate: Gate?
             
@@ -49,6 +51,7 @@ class Gate: NSManagedObject {
                 newGate.longitude = longitude
                 newGate.automatic = automatic ?? true
                 newGate.phoneNumber = phoneNumber
+                newGate.fireDistanceFromGate = fireDistanceFromGate ?? 0
                 gate = newGate
             }
         
@@ -64,6 +67,17 @@ class Gate: NSManagedObject {
         
         return newGate
 
+    }
+    
+    func toString() {
+        println("Gate: ***************")
+        println("name: \(self.name)")
+        println("latitude: \(self.latitude)")
+        println("longitude: \(self.longitude)")
+        println("mode: \(self.automatic)")
+        println("phone Number: \(phoneNumber)")
+        println("distance: \(fireDistanceFromGate)")
+        println("***************")
     }
 
    

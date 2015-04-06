@@ -24,6 +24,8 @@
 		E453B3B81AC6862C00707BA8 /* BabiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3B71AC6862C00707BA8 /* BabiTests.swift */; };
 		E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */; };
 		E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */; };
+		E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */; };
+		E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		E453B3B71AC6862C00707BA8 /* BabiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabiTests.swift; sourceTree = "<group>"; };
 		E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gateEditorTextFieldCell.swift; sourceTree = "<group>"; };
 		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
+		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
+		E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorAutomaticCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +177,8 @@
 				E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */,
 				E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */,
 				E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */,
+				E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */,
+				E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */,
 			);
 			name = "Gate Editor";
 			sourceTree = "<group>";
@@ -293,9 +299,11 @@
 				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
+				E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */,
 				E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */,
 				E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */,
 				E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */,
+				E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */,
 				E4375B541ACA756100A3D669 /* GateEditorVC.swift in Sources */,
 				E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */,
 			);

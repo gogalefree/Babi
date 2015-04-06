@@ -24,7 +24,6 @@ class GateEditorLocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         mapViewButton.titleLabel?.text = initialTitle
-        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

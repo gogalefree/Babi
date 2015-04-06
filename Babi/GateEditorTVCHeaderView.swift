@@ -23,6 +23,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     @IBOutlet weak var subTitleLabel: UILabel!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
+    var initialTitles = ["Gate Name" , "Gate Phone Number" , "Gate Location: Current Location" , "Automatic"]
+    
+    var section: Int!
+    
     weak var delegate: GateEditorHeaderViewDelegate!
 
     var headerRoll: Roll! {
@@ -32,20 +36,18 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     }
     
     func setInitialTitles() {
-    
-        switch headerRoll as Roll {
-            
-        case .GateName(let title):
-            titleLabel.text = "Gate Name"
-        case .GatePhoneNumber:
-            titleLabel.text = "Gate Phone Number"
-        case .GateLocation:
-            titleLabel.text = "Gate Location: Current Location"
-        case .GateMode:
-            titleLabel.text = "Gate Mode"
-        }
         
         titleLabel.textColor = UIColor.grayColor()
+        titleLabel.text = initialTitles[section]
+        
+        switch headerRoll as Roll {
+        case .GateMode , .GateLocation:
+            titleLabel.textColor = UIColor.blackColor()
+        default:
+            break
+
+        }
+        
     }
     
     func headerTapped(recognizer: UITapGestureRecognizer) {
@@ -54,7 +56,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     
     func animateNewText(text: String?) {
         
-     //   titleLabel.animateToAlphaWithSpring(0.3, alpha: 0)
+        titleLabel.animateToAlphaWithSpring(0.4, alpha: 0)
       
         if text == nil || text == "" {
             setInitialTitles()
@@ -64,12 +66,14 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
             titleLabel.text = text
         }
 
-       // titleLabel.animateToAlphaWithSpring(0.3, alpha: 1)
+        titleLabel.animateToAlphaWithSpring(0.4, alpha: 1)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.tapGestureRecognizer.addTarget(self, action: "headerTapped:")
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 66))
+
     }
     
 }

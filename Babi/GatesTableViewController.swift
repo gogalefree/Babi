@@ -93,7 +93,27 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     @IBAction func unwindFromGateEditorVC(segue: UIStoryboardSegue) {
+       
+        let gateEditor = segue.sourceViewController as GateEditorVC
+        let gate = gateEditor.gate
+        gate.toString()
         
+        //notify container to remove message
+        let container = self.navigationController?.parentViewController as MainContainerController
+        container.removeNoGatesMessageIfNeeded()
+       
+        /*
+        //Save Gate
+        let context = Model.shared.context
+        context?.save(nil)
+        
+        //add gate to data source
+        gates?.insert(gate, atIndex: 0)
+        
+        //add cell
+        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
+        */
+    
         println("unwind")
     }
 

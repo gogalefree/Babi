@@ -87,6 +87,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         textField.delegate = self
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

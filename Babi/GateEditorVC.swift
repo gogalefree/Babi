@@ -7,18 +7,20 @@
 //
 
 import UIKit
+import MapKit
 
 enum GateEditorState {
     case NewGate
     case EditGate
 }
 
-class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte {
+class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte, GateEditorLocationCellDelegate, GateAutomaticCellDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     
     var visibleSections: [Bool] = [false, false, false, false]
     var headers = [GateEditorTVCHeaderView]()
+    let automaticHeaderTitles = ["Manual" , "Automatic"]
     
     var gate: Gate!
     var state: GateEditorState! {
@@ -65,7 +67,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         case 2:
             return 1 //location
         case 3:
-            return 0 //mode
+            return 1 //mode
         default:
             return 0
         }
@@ -95,6 +97,12 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorLocationCell", forIndexPath: indexPath) as GateEditorLocationCell
             return cell
             
+        case 3:
+            var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as GateEditorAutomaticCell
+            cell.automatic = gate.automatic
+            cell.delegate = self
+            return cell
+            
         default:
             var cell = UITableViewCell()
             return cell
@@ -110,6 +118,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
         
         let headerView = UIView.loadFromNibNamed("GateEditorTVCHeaderView") as GateEditorTVCHeaderView
+        headerView.section = section
         headerView.headerRoll = GateEditorTVCHeaderView.Roll(rawValue: section)
         headerView.delegate = self
         headers.append(headerView)
@@ -128,15 +137,13 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let section = headerView.headerRoll.rawValue
         let visible = visibleSections[section]
 
-        if visible {
+        if visible && section < 2 {
         
             saveNewText(headerView.titleLabel.text!, section: section)
         }
         
         visibleSections[section] = !visible
         tableView.reloadSections(NSIndexSet(index:section), withRowAnimation: .Automatic)
-        
-        
     }
     
     func saveNewText(text: String, section: Int) {
@@ -164,9 +171,37 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
         let header = headers[indexpath.section]
         self.headerTapped(header)
-     //   header.animateNewText(text)
     }
     
+    //MARK: - LocationCell Delegate
+    
+    func didRequestMapView() {
+        
+    }
+
+    @IBAction func unwindFromMapViewVC(segue: UIStoryboardSegue) {
+        
+        println("unwind from map view")
+        let mapVC = segue.sourceViewController as MapViewVC
+        let mapAnnotation = mapVC.gateAnnotation
+        if let mapAnnotation = mapAnnotation {
+            gate.latitude = mapAnnotation.coordinate.latitude
+            gate.longitude = mapAnnotation.coordinate.longitude
+        }
+        
+        let locationHeader = headers[2]
+        locationHeader.animateNewText("Defined")
+        headerTapped(locationHeader)
+    }
+
+    //MARK: - AutomaticCell Delegate
+    
+    func didChangeGateAutomaticMode(isAutomatic: Bool) {
+        gate.automatic = isAutomatic
+        let header = headers[3]
+        let c = headers[isAutomatic.hashValue]
+        header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])
+    }
 
     func configureWithState(gateState: GateEditorState) {
         switch gateState {
@@ -186,14 +221,26 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+        if segue.identifier == "presentMapView" {
+            
+            if gate.longitude != 0.0 && gate.latitude != 0.0 {
+            
+                let mapNavController = segue.destinationViewController as UINavigationController
+                let mapVC = mapNavController.viewControllers[0] as MapViewVC
+                let gateAnnotation = MKPointAnnotation()
+                gateAnnotation.coordinate = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
+                mapVC.gateAnnotation = gateAnnotation
+            }
+        }
+        
+        else {println("back to tvc: \(segue.identifier)")}
     }
-    */
+    
 
 }
