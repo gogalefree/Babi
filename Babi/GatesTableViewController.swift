@@ -17,7 +17,10 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.cellsCurrentlyEditing = NSMutableSet()        
+        self.cellsCurrentlyEditing = NSMutableSet()
+        if gates == nil {
+            gates = [Gate]()
+        }
 
     }
     
@@ -28,6 +31,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as SwipeableCellTableViewCell
+        cell.indexPath = indexPath
         cell.delegate = self
         let gate = gates![indexPath.row] as Gate
         let title = gate.name
@@ -74,12 +78,12 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         self.cellsCurrentlyEditing.removeObject(self.tableView.indexPathForCell(cell)!);
     }
     
-    func buttonOneAction(itemText: String?){
-        println("button one clicked")
+    func buttonOneAction(cell: SwipeableCellTableViewCell){
+        println("button one clicked: \(cell.indexPath)")
     }
     
-    func buttonTwoAction(itemText: String?) {
-        println("button two clicked")
+    func buttonTwoAction(cell: SwipeableCellTableViewCell) {
+        println("button two clicked \(cell.indexPath)")
         
     }
     
@@ -98,10 +102,15 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         let gate = gateEditor.gate
         gate.toString()
         
-        //notify container to remove message
+        //notify container to remove no gates message
         let container = self.navigationController?.parentViewController as MainContainerController
         container.removeNoGatesMessageIfNeeded()
        
+        tableView.beginUpdates()
+        gates?.insert(gate, atIndex: 0)
+        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
+        tableView.endUpdates()
+
         /*
         //Save Gate
         let context = Model.shared.context

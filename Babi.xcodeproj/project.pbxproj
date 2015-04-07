@@ -26,6 +26,7 @@
 		E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */; };
 		E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */; };
 		E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */; };
+		E4FDC0E01AD3C5B200E48295 /* IMG_7003.JPG in Resources */ = {isa = PBXBuildFile; fileRef = E4FDC0DF1AD3C5B200E48295 /* IMG_7003.JPG */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
 		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
 		E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorAutomaticCell.swift; sourceTree = "<group>"; };
+		E4FDC0DF1AD3C5B200E48295 /* IMG_7003.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_7003.JPG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				E473E3CA1ACBAC600098D77A /* Functions */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
 				E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */,
+				E4FDC0DF1AD3C5B200E48295 /* IMG_7003.JPG */,
 				E453B39C1AC6862C00707BA8 /* Supporting Files */,
 			);
 			path = Babi;
@@ -272,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E453B3A71AC6862C00707BA8 /* Main.storyboard in Resources */,
+				E4FDC0E01AD3C5B200E48295 /* IMG_7003.JPG in Resources */,
 				E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */,
 				E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */,
 				E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */,

@@ -10,8 +10,8 @@ import UIKit
 
 protocol SwipeableCellDelegate{
     
-    func buttonOneAction(itemText: String?)
-    func buttonTwoAction(itemText: String?)
+    func buttonOneAction(cell: SwipeableCellTableViewCell)
+    func buttonTwoAction(cell: SwipeableCellTableViewCell)
     func cellDidOpen(cell: UITableViewCell)
     func cellDidClose(cell: UITableViewCell)
 }
@@ -34,6 +34,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     let kBounceValue: CGFloat = 20.0
     
     var delegate: SwipeableCellDelegate?
+    var indexPath: NSIndexPath!
     var itemText: String? {
         didSet {
             
@@ -48,11 +49,11 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         if let delegate = self.delegate {
             
             if sender == self.button1 {
-                delegate.buttonOneAction(self.textLabel?.text)
+                delegate.buttonOneAction(self)
                 
             }
             else if sender == self.button2 {
-                delegate.buttonTwoAction(self.textLabel?.text)
+                delegate.buttonTwoAction(self)
             }
                 
             else {

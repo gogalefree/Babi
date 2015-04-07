@@ -33,7 +33,7 @@ class GateEditorLocationCell: UITableViewCell {
     }
 
     @IBAction func buttonTapped() {
-        if let dlelegate = delegate {
+        if let delegate = delegate {
             delegate.didRequestMapView()
         }
     }

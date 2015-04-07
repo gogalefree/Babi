@@ -165,6 +165,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func editingText(text: String, indexpath: NSIndexPath){
         let header = headers[indexpath.section]
         header.animateNewText(text)
+        saveNewText(text, section: indexpath.section)
     }
 
     func didFinishEditingText(text: String?, indexpath: NSIndexPath) {
@@ -209,6 +210,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         case .NewGate:
 
             gate = Gate.instansiateWithZero()
+            gate.longitude = Model.shared.userLocation.coordinate.longitude
+            gate.latitude = Model.shared.userLocation.coordinate.latitude
+            println("longi \(gate.longitude) lati \(gate.latitude)")
         
         case .EditGate:
             break
