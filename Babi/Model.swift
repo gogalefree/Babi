@@ -17,12 +17,20 @@ class Model: NSObject, CLLocationManagerDelegate {
     let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
     let locationManager = CLLocationManager()
     var userLocation = CLLocation()
+    lazy var locationNotifications: LocationNotifications = {
+        return LocationNotifications()
+    }()
     
     func setUp() {
     
         if CLLocationManager.locationServicesEnabled() {
             self.setupLocationManager()
         }
+        
+        let types = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound;
+        let settings = UIUserNotificationSettings(forTypes: types, categories: nil);
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        
         
 //        let gate1 = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
 //        
@@ -81,6 +89,8 @@ class Model: NSObject, CLLocationManagerDelegate {
         
         return results as? [Gate]
     }
+    
+    
 }
 
 extension Model {

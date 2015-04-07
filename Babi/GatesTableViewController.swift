@@ -110,6 +110,8 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         gates?.insert(gate, atIndex: 0)
         tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
         tableView.endUpdates()
+        
+        Model.shared.locationNotifications.registerGateForLocationNotification(gate)
 
         /*
         //Save Gate
@@ -124,6 +126,10 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         */
     
         println("unwind")
+    }
+    
+    @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {
+        print("canceked and back to gates table view controller")
     }
 
     

@@ -215,9 +215,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="66" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="EK5-fm-clW">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="66" sectionHeaderHeight="10" sectionFooterHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="EK5-fm-clW">
                                             <rect key="frame" x="0.0" y="64" width="600" height="600"/>
-                                            <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <prototypes>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gateEditorTextFieldCell" id="7un-QD-zku" customClass="gateEditorTextFieldCell" customModule="Babi" customModuleProvider="target">
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -275,7 +275,7 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgC-ee-c2O">
-                                                                <rect key="frame" x="8" y="8" width="584" height="49"/>
+                                                                <rect key="frame" x="8" y="8" width="584" height="50"/>
                                                                 <state key="normal" title="Chose Location">
                                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
@@ -310,7 +310,7 @@
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="424" id="s0s-bT-t5k"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="default">
                                                                     <mask key="constraints">
@@ -358,14 +358,21 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="TW7-eg-reC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="20T-ON-DOz">
+                            <connections>
+                                <segue destination="YwA-df-DB4" kind="unwind" unwindAction="unwindeWithCancelButtonFromGateEditor:" id="tzi-R6-Xnl"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="9Jg-vs-syE">
                             <connections>
-                                <segue destination="YwA-df-DB4" kind="unwind" unwindAction="unwindFromGateEditorVC:" id="o5c-nP-i9n"/>
+                                <action selector="doneButtonClicked:" destination="H3d-ms-Sox" id="PHC-rQ-lZr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="9Jg-vs-syE" id="IAi-Eh-Ool"/>
                         <outlet property="tableView" destination="EK5-fm-clW" id="2V8-JB-Cyg"/>
+                        <segue destination="YwA-df-DB4" kind="unwind" identifier="unwindToGatesTVC" unwindAction="unwindFromGateEditorVC:" id="gZ8-i6-LP2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NSg-za-WmZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

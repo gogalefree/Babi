@@ -38,6 +38,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if let delegate = delegate {
+            //deleting chars
             delegate.didFinishEditingText(textField.text, indexpath: indexPath)
         }
         return true

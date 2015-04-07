@@ -17,6 +17,8 @@ enum GateEditorState {
 class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte, GateEditorLocationCellDelegate, GateAutomaticCellDelegate{
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+
     
     var visibleSections: [Bool] = [false, false, false, false]
     var headers = [GateEditorTVCHeaderView]()
@@ -41,6 +43,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         //1 gate phone number
         //2 gate location
         //3 gate mode
+        //4
         */
         return 4
     }
@@ -89,7 +92,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as gateEditorTextFieldCell
             cell.delegate = self
             cell.indexPath = indexPath
-            cell.textField.keyboardType = .PhonePad
+            cell.textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
             cell.textField.becomeFirstResponder()
             return cell
             
@@ -140,6 +143,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         if visible && section < 2 {
         
             saveNewText(headerView.titleLabel.text!, section: section)
+            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section)) as gateEditorTextFieldCell
+            cell.textField.resignFirstResponder()
+            let gateState = authenticateGate()
+            if gateState.authenticated {showDoneButton()}
+            else {hideDoneButton()}
         }
         
         visibleSections[section] = !visible
@@ -212,13 +220,59 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gate = Gate.instansiateWithZero()
             gate.longitude = Model.shared.userLocation.coordinate.longitude
             gate.latitude = Model.shared.userLocation.coordinate.latitude
-            println("longi \(gate.longitude) lati \(gate.latitude)")
-        
+            hideDoneButton()
         case .EditGate:
             break
         }
     }
+    
+    func hideDoneButton() {
+        self.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName:UIColor.clearColor()], forState: UIControlState.Disabled)
+        self.navigationItem.rightBarButtonItem?.enabled = false
+    }
+    
+    func showDoneButton() {
+        self.navigationItem.rightBarButtonItem?.enabled = true
+    }
 
+    @IBAction func doneButtonClicked(sender: AnyObject) {
+    
+        let gateAuthenticated = authenticateGate()
+        if !gateAuthenticated.authenticated {showAlert(gateAuthenticated.section!)}
+        else {self.performSegueWithIdentifier("unwindToGatesTVC", sender:self)}
+    }
+    
+    func authenticateGate() -> (authenticated: Bool, section: Int?) {
+        
+        
+        if gate.name == kGateNameDefaultValue || gate.name == initialTitles[0] {
+            return (false, 0)
+        }
+        else if gate.phoneNumber == kGatePhoneNumberDefaultValue || gate.phoneNumber == initialTitles[1] {
+            return (false, 1)
+        }
+        else if gate.latitude == kGateLatitudeDefaultValue || gate.longitude == kGateLongitudeDefaultValue {
+            return (false , 2)
+        }
+        
+        return (true , nil)
+    }
+    
+    func showAlert(section: Int) {
+        var message = ""
+        switch section {
+        case 0:
+            message = "Please Enter Gate Name"
+        case 1:
+            message = "Please Enter Gate Phone Number"
+        default:
+            message = "Unknown error"
+        }
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

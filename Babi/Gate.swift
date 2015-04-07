@@ -8,6 +8,13 @@
 import CoreData
 import UIKit
 
+let kGateNameDefaultValue = "Gate"
+let kGatePhoneNumberDefaultValue = "phoneNumber"
+let kGateLatitudeDefaultValue = 0.0
+let kGateLongitudeDefaultValue = 0.0
+let kGateModeDefaultValue = true
+let kGateDistanceToCallDefaultValue = 5
+
 @objc(Gate)
 class Gate: NSManagedObject {
     
@@ -67,6 +74,14 @@ class Gate: NSManagedObject {
         
         return newGate
 
+    }
+    
+    func gateDictionary(gate: Gate) -> [NSObject : AnyObject] {
+        
+        let keys = gate.entity.attributesByName.keys.array
+        let dict = gate.dictionaryWithValuesForKeys(keys)
+        print("keys are: \(dict)")
+        return dict
     }
     
     func toString() {
