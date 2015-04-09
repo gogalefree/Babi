@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewVC: UIViewController , UIGestureRecognizerDelegate{
+class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var buttonView: UIVisualEffectView!
@@ -24,6 +24,9 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate{
         let tapGesture = UITapGestureRecognizer(target: self, action: "mapTapped:")
         tapGesture.delegate = self
         self.mapView.addGestureRecognizer(tapGesture)
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
+        self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
 
         if let gateAnnotation = gateAnnotation {
             
