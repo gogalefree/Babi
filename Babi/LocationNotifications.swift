@@ -16,16 +16,26 @@ class LocationNotifications: NSObject {
     
     func registerGateForLocationNotification(gate: Gate) {
         
+        let localNotification = generateLocalNotification(gate)
+
         if gate.automatic {
             
             if registeredGates.containsObject(gate) {return}
-            
-            let localNotification = generateLocalNotification(gate)
             
             UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
             
             registeredGates.addObject(gate)
         }
+//        else {
+//        
+//            cancelLocalNotification(gate)
+//        }
+    }
+    
+    func cancelLocalNotification(gate: Gate) {
+        let notification = generateLocalNotification(gate)
+        UIApplication.sharedApplication().cancelLocalNotification(notification)
+        if registeredGates.containsObject(gate){registeredGates.removeObject(gate)}
     }
     
     func didRecieveLocalNotification(notification: UILocalNotification) {
@@ -35,8 +45,8 @@ class LocationNotifications: NSObject {
         if let userInfo = userInfo{
         
             let phoneNumber = userInfo["phoneNumber"] as String
-            var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
-            UIApplication.sharedApplication().openURL(url)
+            let phoneDialer = PhoneDialer()
+            phoneDialer.callGate(phoneNumber)
         }
     }
     
@@ -47,6 +57,7 @@ class LocationNotifications: NSObject {
         localNotification.alertBody = gate.name
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.regionTriggersOnce = false
+        localNotification.category = "ARRIVED_CATEGORY"
         localNotification.region = CLCircularRegion(
             center: CLLocationCoordinate2DMake(gate.latitude, gate.longitude),
             radius: CLLocationDistance(gate.fireDistanceFromGate),

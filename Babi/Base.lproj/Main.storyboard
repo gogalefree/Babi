@@ -80,8 +80,22 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zvy-ax-3Kp" id="1ev-2i-63r">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFS-1e-VxV">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BlU-wB-ehs">
                                             <rect key="frame" x="512" y="0.0" width="80" height="100"/>
+                                            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="80" id="cHb-v6-rOI"/>
+                                            </constraints>
+                                            <state key="normal" title="Delete">
+                                                <color key="titleColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="buttonClicked:" destination="Zvy-ax-3Kp" eventType="touchUpInside" id="Jrf-yY-kIl"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFS-1e-VxV">
+                                            <rect key="frame" x="432" y="0.0" width="80" height="100"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="80" id="3My-Yf-Ue4"/>
                                             </constraints>
@@ -93,12 +107,12 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAy-b3-o6S">
-                                            <rect key="frame" x="432" y="0.0" width="80" height="100"/>
+                                            <rect key="frame" x="352" y="0.0" width="80" height="100"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="80" id="vaG-Yi-0pQ"/>
                                             </constraints>
                                             <state key="normal" title="Automatic">
-                                                <color key="titleColor" red="0.25098040699958801" green="0.50196081399917603" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -144,15 +158,19 @@
                                         <constraint firstItem="tki-X6-UjG" firstAttribute="leading" secondItem="1ev-2i-63r" secondAttribute="leadingMargin" id="1RW-FQ-ddu"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="firstBaseline" secondItem="aFS-1e-VxV" secondAttribute="baseline" id="5uR-OT-gVF"/>
                                         <constraint firstAttribute="trailing" secondItem="QAy-b3-o6S" secondAttribute="trailing" constant="88" id="A6V-DS-2fN"/>
+                                        <constraint firstItem="BlU-wB-ehs" firstAttribute="leading" secondItem="aFS-1e-VxV" secondAttribute="trailing" id="Brh-tq-dWf"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" id="JwJ-zX-ICd"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="aFS-1e-VxV" secondAttribute="bottom" constant="-8" id="PSC-Lu-58p"/>
+                                        <constraint firstItem="BlU-wB-ehs" firstAttribute="top" secondItem="1ev-2i-63r" secondAttribute="topMargin" constant="-8" id="Pyc-Ra-bs9"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="leading" secondItem="1ev-2i-63r" secondAttribute="leadingMargin" constant="424" id="S30-hP-wOc"/>
-                                        <constraint firstItem="aFS-1e-VxV" firstAttribute="trailing" secondItem="1ev-2i-63r" secondAttribute="trailingMargin" id="YPD-F1-3Fm"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="BlU-wB-ehs" secondAttribute="bottom" constant="-8" id="Tn0-Fv-Zet"/>
+                                        <constraint firstItem="aFS-1e-VxV" firstAttribute="trailing" secondItem="1ev-2i-63r" secondAttribute="trailingMargin" constant="-80" id="YPD-F1-3Fm"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="tki-X6-UjG" secondAttribute="bottom" constant="-8" id="b36-TV-j8I"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="baseline" secondItem="aFS-1e-VxV" secondAttribute="firstBaseline" id="bCA-rs-ZJZ"/>
                                         <constraint firstItem="aFS-1e-VxV" firstAttribute="top" secondItem="1ev-2i-63r" secondAttribute="topMargin" constant="-8" id="dfq-Yn-hdv"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" id="dgp-BX-UWC"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="bottom" secondItem="tki-X6-UjG" secondAttribute="bottom" id="e4z-hP-IaB"/>
+                                        <constraint firstItem="BlU-wB-ehs" firstAttribute="trailing" secondItem="1ev-2i-63r" secondAttribute="trailingMargin" id="ivb-as-mdD"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="top" secondItem="aFS-1e-VxV" secondAttribute="top" id="nKh-pN-9hn"/>
                                         <constraint firstItem="QAy-b3-o6S" firstAttribute="bottom" secondItem="tki-X6-UjG" secondAttribute="bottom" id="rFC-2C-g2U"/>
                                         <constraint firstItem="aFS-1e-VxV" firstAttribute="leading" secondItem="QAy-b3-o6S" secondAttribute="trailing" id="rlF-GX-QtC"/>
@@ -171,6 +189,7 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="button0" destination="BlU-wB-ehs" id="FgU-3F-Cn3"/>
                                     <outlet property="button1" destination="aFS-1e-VxV" id="IBe-h6-UgJ"/>
                                     <outlet property="button2" destination="QAy-b3-o6S" id="ua8-Ce-wNf"/>
                                     <outlet property="contentViewLeftConstraint" destination="1RW-FQ-ddu" id="NOd-kr-eih"/>

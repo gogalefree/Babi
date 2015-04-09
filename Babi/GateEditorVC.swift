@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 enum GateEditorState {
     case NewGate
@@ -22,7 +23,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     var visibleSections: [Bool] = [false, false, false, false]
     var headers = [GateEditorTVCHeaderView]()
-    let automaticHeaderTitles = ["Manual" , "Automatic"]
     
     var gate: Gate!
     var state: GateEditorState! {
@@ -35,8 +35,20 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = 66
+        
+        var error: NSError? = nil
+        let results = Model.shared.gates()
+        if error != nil  || results?.count == 0 {
+            println("error fetching or no results")
+        }
+        else {
+            println("count of results \(results?.count)")
+        }
+
+        
     }
     
+   
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         /*
         //0 gate name
@@ -124,6 +136,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         headerView.section = section
         headerView.headerRoll = GateEditorTVCHeaderView.Roll(rawValue: section)
         headerView.delegate = self
+        if self.state == .EditGate {
+            headerView.gate = gate
+        }
         headers.append(headerView)
         return headerView
     }
@@ -199,7 +214,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
         
         let locationHeader = headers[2]
-        locationHeader.animateNewText("Defined")
+        locationHeader.animateNewText(locationHeaderTitles[1])
         headerTapped(locationHeader)
     }
 
@@ -208,7 +223,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func didChangeGateAutomaticMode(isAutomatic: Bool) {
         gate.automatic = isAutomatic
         let header = headers[3]
-        let c = headers[isAutomatic.hashValue]
         header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])
     }
 

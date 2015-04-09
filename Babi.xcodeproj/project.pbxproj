@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */; };
+		E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */; };
 		E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4B1AC6875400A3D669 /* Gate.swift */; };
 		E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */; };
 		E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationNotifications.swift; sourceTree = "<group>"; };
+		E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneDialer.swift; sourceTree = "<group>"; };
 		E4375B4B1AC6875400A3D669 /* Gate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
 		E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTableViewController.swift; sourceTree = "<group>"; };
 		E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTVCell.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				E4375B511AC6D6A000A3D669 /* Model.swift */,
 				E4375B4B1AC6875400A3D669 /* Gate.swift */,
 				E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */,
+				E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */,
 				E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */,
 			);
 			name = Model;
@@ -306,6 +309,7 @@
 				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
+				E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */,
 				E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */,
 				E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */,
 				E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */,

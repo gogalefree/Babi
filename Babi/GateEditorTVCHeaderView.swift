@@ -12,7 +12,12 @@ protocol GateEditorHeaderViewDelegate: NSObjectProtocol {
     func headerTapped(headerView: GateEditorTVCHeaderView)
 }
 
-var initialTitles = ["Gate Name" , "Gate Phone Number" , "Gate Location: Current Location" , "Automatic"]
+let initialTitles = ["Gate Name" , "Gate Phone Number" , "Gate Location: Current Location" , "Automatic"]
+
+let locationHeaderTitles = ["Location: Current Location" , "Location: Defined"]
+
+let automaticHeaderTitles = ["Manual" , "Automatic"]
+
 
 class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
 
@@ -37,6 +42,14 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
+    var gate: Gate? {
+        didSet {
+            if let gate = gate {
+                setGateTitles(gate)
+            }
+        }
+    }
+    
     func setInitialTitles() {
         
         titleLabel.textColor = UIColor.grayColor()
@@ -53,8 +66,26 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
             break
 
         }
-        
     }
+    
+    func setGateTitles(gate: Gate) {
+        
+        titleLabel.textColor = UIColor.blackColor()
+        var color = UIColor.greenColor().colorWithAlphaComponent(0.1)
+        self.backgroundColor = color
+        
+        switch headerRoll as Roll {
+        case .GateName:
+            titleLabel.text = gate.name
+        case .GatePhoneNumber:
+            titleLabel.text = gate.phoneNumber
+        case .GateLocation:
+            titleLabel.text = locationHeaderTitles[1]
+        case .GateMode:
+            titleLabel.text = automaticHeaderTitles[gate.automatic.hashValue]
+        }
+    }
+
     
     func headerTapped(recognizer: UITapGestureRecognizer) {
         self.delegate.headerTapped(self)
@@ -62,7 +93,6 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     
     func animateNewText(text: String?) {
         
-       // titleLabel.animateToAlphaWithSpring(0.4, alpha: 0)
       
         if text == nil || text == "" {
             setInitialTitles()
@@ -73,8 +103,6 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
             var color = UIColor.greenColor().colorWithAlphaComponent(0.1)
             self.backgroundColor = color
         }
-
-//        titleLabel.animateToAlphaWithSpring(0.4, alpha: 1)
     }
     
     override func awakeFromNib() {

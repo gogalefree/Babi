@@ -11,6 +11,9 @@ import CoreData
 import UIKit
 import CoreLocation
 
+let kCallActionIdentifier = "CALL_IDENTIFIER"
+let kDissmissActionIdentifier = "DISSMISS_IDENTIFIER"
+
 class Model: NSObject, CLLocationManagerDelegate {
 
     let kDistanceFilter = 5.0
@@ -27,27 +30,31 @@ class Model: NSObject, CLLocationManagerDelegate {
             self.setupLocationManager()
         }
         
+        let callAction = UIMutableUserNotificationAction()
+        callAction.identifier = kCallActionIdentifier
+        callAction.title = "Open Gate"
+        callAction.activationMode = UIUserNotificationActivationMode.Foreground
+        callAction.destructive = false
+        callAction.authenticationRequired = true
+        
+        let cancelAction = UIMutableUserNotificationAction()
+        cancelAction.identifier = kDissmissActionIdentifier
+        cancelAction.title = "Cancel"
+        cancelAction.activationMode = UIUserNotificationActivationMode.Background
+        cancelAction.destructive = false
+        cancelAction.authenticationRequired = false
+        
+        
+        let arrivedToGateCategory = UIMutableUserNotificationCategory()
+        
+        // Identifier to include in your push payload and local notification
+        arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
+        arrivedToGateCategory.setActions([callAction, cancelAction], forContext: UIUserNotificationActionContext.Default)
+        
+        let categoriesSet = NSSet(object: arrivedToGateCategory)
         let types = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound;
-        let settings = UIUserNotificationSettings(forTypes: types, categories: nil);
+        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet);
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        
-        
-//        let gate1 = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
-//        
-//        var error: NSError?
-//        let request = NSFetchRequest(entityName: "Gate")
-//        let results = context!.executeFetchRequest(request, error: &error)
-//        
-//        if results == nil || error != nil{
-//            println("error fetching: \(error)")
-//        }
-//        else if results?.count > 0 {
-//            let gate = results?.last as Gate
-//            println("curent gate is: \(gate.name) count is \(results?.count) ")
-//        }
-//        else {
-//            println("results count is 0")
-//        }
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -79,18 +86,21 @@ class Model: NSObject, CLLocationManagerDelegate {
         let request = NSFetchRequest(entityName: "Gate")
         request.returnsObjectsAsFaults = false
 
-        var error: NSError? = NSError()
+        var error: NSError? = nil
         let results = context?.executeFetchRequest(request, error: &error)
         
         if error != nil  || results?.count == 0 {
             println("error fetching or no results")
             return nil
         }
-        
+        println("model fetched with count \(results?.count)")
         return results as? [Gate]
     }
     
-    
+    func deleteGate(gate: Gate) {
+        context?.deleteObject(gate)
+        context?.save(nil)
+    }
 }
 
 extension Model {

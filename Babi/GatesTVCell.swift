@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SwipeableCellDelegate{
-    
+    func buttonZeroAction(cell: SwipeableCellTableViewCell)
     func buttonOneAction(cell: SwipeableCellTableViewCell)
     func buttonTwoAction(cell: SwipeableCellTableViewCell)
     func cellDidOpen(cell: UITableViewCell)
@@ -19,7 +19,7 @@ protocol SwipeableCellDelegate{
 class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     
     
-    
+    @IBOutlet weak var button0: UIButton!
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
     @IBOutlet weak var myContentView: UIView!
@@ -48,7 +48,10 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         
         if let delegate = self.delegate {
             
-            if sender == self.button1 {
+            if sender == self.button0 {
+                delegate.buttonZeroAction(self)
+            }
+            else if sender == self.button1 {
                 delegate.buttonOneAction(self)
                 
             }
@@ -237,6 +240,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
             self.delegate?.cellDidOpen(self)
         }
         
+       
         if (self.startingRightLayoutConstraintConstant == self.buttonTotalWidth() &&
             self.contentViewRightConstraint.constant == self.buttonTotalWidth()) {
                 return;
@@ -276,6 +280,18 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         self.panRecognizer = UIPanGestureRecognizer(target: self, action: "panThisCell:")
         self.panRecognizer.delegate = self;
         self.myContentView.addGestureRecognizer(self.panRecognizer)
+    }
+    
+    func setAutomaticButtonTitle(automatic: Bool) {
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.button2.setTitle(automaticHeaderTitles[automatic.hashValue], forState: UIControlState.Normal)
+            if automatic {
+                self.button2.setTitleColor(UIColor.greenColor(), forState: .Normal)
+            }
+            else {
+                self.button2.setTitleColor(UIColor.redColor(), forState: .Normal)
+            }
+        })
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

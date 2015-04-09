@@ -50,7 +50,7 @@ class MainContainerController: UIViewController {
     }
     
     func removeNoGatesMessageIfNeeded() {
-        println("removed")
+        println("no gates message removed")
         if presentingNoGatesMessage {
             noGatesMessageVC.view.removeFromSuperview()
             noGatesMessageVC.removeFromParentViewController()

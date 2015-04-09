@@ -24,9 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         
-        Model.shared.locationNotifications.didRecieveLocalNotification(notification)
-        
-        
+        if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
+            Model.shared.locationNotifications.didRecieveLocalNotification(notification)
+        }
+    }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
+        if let id = identifier {
+            if id == kCallActionIdentifier {
+                let userInfo = notification.userInfo as [NSObject: AnyObject]?
+                
+                if let userInfo = userInfo{
+                    
+                    let phoneNumber = userInfo["phoneNumber"] as String
+                    let phoneDialer = PhoneDialer()
+                    phoneDialer.callGate(phoneNumber)
+                }
+            }
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -50,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+       // UIApplication.sharedApplication().cancelAllLocalNotifications()
         self.saveContext()
     }
 

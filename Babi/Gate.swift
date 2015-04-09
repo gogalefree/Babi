@@ -15,7 +15,7 @@ let kGateLongitudeDefaultValue = 0.0
 let kGateModeDefaultValue = true
 let kGateDistanceToCallDefaultValue = 5
 
-@objc(Gate)
+//@objc(Gate)
 class Gate: NSManagedObject {
     
 
@@ -70,7 +70,11 @@ class Gate: NSManagedObject {
         
         let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
         
-        var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
+        let entity = NSEntityDescription.entityForName("Gate", inManagedObjectContext: context!)
+        
+        var newGate = Gate(entity: entity!, insertIntoManagedObjectContext: context!) as Gate!
+        
+      //  var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
         
         return newGate
 
