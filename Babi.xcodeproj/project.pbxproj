@@ -24,6 +24,7 @@
 		E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A81AC6862C00707BA8 /* Images.xcassets */; };
 		E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */; };
 		E453B3B81AC6862C00707BA8 /* BabiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3B71AC6862C00707BA8 /* BabiTests.swift */; };
+		E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */; };
 		E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */; };
 		E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */; };
 		E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */; };
@@ -63,6 +64,7 @@
 		E453B3B11AC6862C00707BA8 /* BabiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B3B61AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B3B71AC6862C00707BA8 /* BabiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabiTests.swift; sourceTree = "<group>"; };
+		E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorDistanceCell.swift; sourceTree = "<group>"; };
 		E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gateEditorTextFieldCell.swift; sourceTree = "<group>"; };
 		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
 		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */,
 				E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */,
 				E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */,
+				E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */,
 				E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */,
 			);
 			name = "Gate Editor";
@@ -308,6 +311,7 @@
 				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
 				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
+				E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
 				E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */,
 				E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */,

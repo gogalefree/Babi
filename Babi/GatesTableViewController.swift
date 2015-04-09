@@ -87,7 +87,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     func buttonZeroAction(cell: SwipeableCellTableViewCell) {
-        
+        //delete gate
         let indexPath = tableView.indexPathForCell(cell)!
         let gate = gates![indexPath.row]
         gates!.removeAtIndex(indexPath.row)

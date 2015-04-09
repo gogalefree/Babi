@@ -17,8 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
         Model.shared.setUp()
+        
+        
+        if let option = launchOptions{
+            
+            
+            if option[UIApplicationLaunchOptionsLocalNotificationKey] != nil {
+               
+                let not = option[UIApplicationLaunchOptionsLocalNotificationKey] as UILocalNotification
+                Model.shared.locationNotifications.didRecieveLocalNotification(not)
+            }
+        }
+
         return true
     }
 
@@ -65,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-       // UIApplication.sharedApplication().cancelAllLocalNotifications()
         self.saveContext()
     }
 

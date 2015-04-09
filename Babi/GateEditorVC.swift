@@ -82,7 +82,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         case 2:
             return 1 //location
         case 3:
-            return 1 //mode
+            return 2 //mode (automatic + distance to fire)
         default:
             return 0
         }
@@ -113,10 +113,18 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             return cell
             
         case 3:
-            var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as GateEditorAutomaticCell
-            cell.automatic = gate.automatic
-            cell.delegate = self
-            return cell
+            if indexPath.row == 0 {
+                //automatic cell
+                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as GateEditorAutomaticCell
+                cell.automatic = gate.automatic
+                cell.delegate = self
+                return cell
+            }
+            else {
+                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorDistanceToCallCell", forIndexPath: indexPath) as GateEditorDistanceCell
+                cell.gate = gate
+                return cell
+            }
             
         default:
             var cell = UITableViewCell()

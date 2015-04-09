@@ -23,13 +23,8 @@ class LocationNotifications: NSObject {
             if registeredGates.containsObject(gate) {return}
             
             UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-            
             registeredGates.addObject(gate)
         }
-//        else {
-//        
-//            cancelLocalNotification(gate)
-//        }
     }
     
     func cancelLocalNotification(gate: Gate) {
