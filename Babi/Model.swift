@@ -25,6 +25,8 @@ class Model: NSObject, CLLocationManagerDelegate {
         return LocationNotifications()
     }()
     
+    var gateInRegion: Gate?
+    
     func setUp() {
     
         if CLLocationManager.locationServicesEnabled() {
@@ -85,16 +87,41 @@ class Model: NSObject, CLLocationManagerDelegate {
     }
     
     private func isInRegion() {
-        let gates = self.gates()!
-        for gate in gates{
-            let gateCoords = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
-            let region = CLCircularRegion(center: gateCoords, radius: gate.distanceFromUserLocation, identifier: "\(gate.name)")
-            if region.containsCoordinate(self.userLocation.coordinate){
-                println("\(gate.name) is in your region********")
+      
+        let gates = self.gates()
+        
+        if let gates = gates {
+            
+            for gate in gates{
+                
+                if gate.distanceFromUserLocation < Double(gate.fireDistanceFromGate) {
+            
+                    gate.userInRegion = true
+                }
+                else {
+                    
+                    gate.userInRegion = false
+                }
             }
+            //
+//                let gateCoords = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
+//            
+//            
+//                let region = CLCircularRegion(center: gateCoords, radius: Double(gate.fireDistanceFromGate), identifier: "\(gate.name)")
+//            
+//            
+//                if region.containsCoordinate(self.userLocation.coordinate){
+//
+//                    gate.userInRegion = true
+//                
+//                }
+//                    
+//                else {
+//                    gate.userInRegion = false
+//                }
         }
     }
-
+    
     func gates() -> [Gate]? {
         
         let request = NSFetchRequest(entityName: "Gate")

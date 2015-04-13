@@ -30,9 +30,9 @@ class MainContainerController: UIViewController {
         self.view.addSubview(gatesTVC.view)
         
         noGatesMessageIfNeeded()
-
+        
     }
-
+    
     func noGatesMessageIfNeeded() {
         
         let gates = Model.shared.gates()

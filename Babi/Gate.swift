@@ -14,9 +14,8 @@ let kGatePhoneNumberDefaultValue = "phoneNumber"
 let kGateLatitudeDefaultValue = 0.0
 let kGateLongitudeDefaultValue = 0.0
 let kGateModeDefaultValue = true
-let kGateDistanceToCallDefaultValue = 5
+let kGateDistanceToCallDefaultValue = 50
 
-//@objc(Gate)
 class Gate: NSManagedObject {
     
 
@@ -27,11 +26,43 @@ class Gate: NSManagedObject {
     @NSManaged var phoneNumber: String
     @NSManaged var fireDistanceFromGate: Int
     
+    var shouldCall = true
+    var userInRegion = false {
+        didSet {
+            if  userInRegion == true {
+                
+                callGateIfNeeded()
+            }
+            else {
+                shouldCall = true
+            }
+        }
+    }
+    
     var distanceFromUserLocation: CLLocationDistance {
      
         var gateCords = CLLocation(latitude: latitude, longitude: longitude)
         var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
         return distance
+    }
+    
+//    func didUpdateLocation() {
+//      
+//        if self.distanceFromUserLocation < Double(self.fireDistanceFromGate) {
+//            userInRegion = true
+//        }
+//        else {
+//            userInRegion = false
+//        }
+//    }
+    
+    func callGateIfNeeded () {
+        
+        if self.automatic && self.shouldCall {
+            var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
+            UIApplication.sharedApplication().openURL(url)
+            shouldCall = false
+        }
     }
     
     class func instansiate(

@@ -20,23 +20,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Model.shared.setUp()
         
         
-        if let option = launchOptions{
-            
-            
-            if option[UIApplicationLaunchOptionsLocalNotificationKey] != nil {
-               
-                let notification = option[UIApplicationLaunchOptionsLocalNotificationKey] as! UILocalNotification
-
-                let userInfo = notification.userInfo as [NSObject: AnyObject]?
-                
-                if let userInfo = userInfo{
-                    
-                    let phoneNumber = userInfo["phoneNumber"] as! String
-                    var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
-                    UIApplication.sharedApplication().openURL(url)
-                }
-            }
-        }
+//        if let option = launchOptions{
+//            
+//            
+//            if option[UIApplicationLaunchOptionsLocalNotificationKey] != nil {
+//               
+//                let notification = option[UIApplicationLaunchOptionsLocalNotificationKey] as! UILocalNotification
+//
+//                let userInfo = notification.userInfo as [NSObject: AnyObject]?
+//                
+//                if let userInfo = userInfo{
+//                    
+//                    let phoneNumber = userInfo["phoneNumber"] as! String
+//                    var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
+//                    UIApplication.sharedApplication().openURL(url)
+//                }
+//            }
+//        }
 
         UINavigationBar.appearance().barTintColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
       //  UINavigationBar.appearance().barTintColor = UIColor(red: 178.0/255.0, green: 255.0/255.0, blue: 0.0/255.0, alpha: 0.05)
@@ -48,9 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         
-        if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-            Model.shared.locationNotifications.didRecieveLocalNotification(notification)
-        }
+//        if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
+//         //   Model.shared.locationNotifications.didRecieveLocalNotification(notification)
+//        }
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
@@ -61,8 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let userInfo = userInfo{
                     
                     let phoneNumber = userInfo["phoneNumber"] as! String
-                    let phoneDialer = PhoneDialer()
-                    phoneDialer.callGate(phoneNumber)
+                    PhoneDialer.callGate(phoneNumber)
                 }
             }
         }

@@ -10,7 +10,7 @@ import UIKit
 
 class PhoneDialer: NSObject {
     
-    func callGate(phoneNumber: String) {
+    class func callGate(phoneNumber: String) {
         var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
         UIApplication.sharedApplication().openURL(url)
     }
