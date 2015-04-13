@@ -15,10 +15,13 @@ enum GateEditorState {
     case EditGate
 }
 
-class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte, GateEditorLocationCellDelegate, GateAutomaticCellDelegate{
+class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte, GateEditorLocationCellDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    
+    private let kTableViewHeaderHeight: CGFloat = 160.0
+    var headerView: GateEditorTableMainHeader!
 
     
     var visibleSections: [Bool] = [false, false, false, false]
@@ -45,9 +48,35 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             println("count of results \(results?.count)")
         }
 
+        configureHeaderView()
+    }
+    
+    func configureHeaderView() {
+        
+        headerView = self.tableView.tableHeaderView as! GateEditorTableMainHeader
+        self.tableView.tableHeaderView = nil
+        tableView.addSubview(headerView)
+        
+        self.tableView.contentInset = UIEdgeInsets(top: kTableViewHeaderHeight, left: 0, bottom: 100, right: 0)
+        self.tableView.contentOffset = CGPointMake(0, -kTableViewHeaderHeight)
+        updateHeaderView()
         
     }
     
+    func updateHeaderView() {
+        
+        var headerRect = CGRect(x: 0, y: -kTableViewHeaderHeight, width: self.tableView.bounds.width, height: kTableViewHeaderHeight)
+        if self.tableView.contentOffset.y < -kTableViewHeaderHeight {
+            headerRect.origin.y = tableView.contentOffset.y
+            headerRect.size.height = -tableView.contentOffset.y
+        }
+        self.headerView.frame = headerRect
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        updateHeaderView()
+    }
+
    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         /*
@@ -93,7 +122,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         switch indexPath.section {
         case 0:
-            var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as gateEditorTextFieldCell
+            var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as! gateEditorTextFieldCell
             cell.delegate = self
             cell.indexPath = indexPath
             cell.textField.keyboardType = .Default
@@ -101,7 +130,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             return cell
         
         case 1:
-            var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as gateEditorTextFieldCell
+            var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as! gateEditorTextFieldCell
             cell.delegate = self
             cell.indexPath = indexPath
             cell.textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
@@ -109,19 +138,19 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             return cell
             
         case 2:
-            var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorLocationCell", forIndexPath: indexPath) as GateEditorLocationCell
+            var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorLocationCell", forIndexPath: indexPath) as! GateEditorLocationCell
             return cell
             
         case 3:
             if indexPath.row == 0 {
                 //automatic cell
-                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as GateEditorAutomaticCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as! GateEditorAutomaticCell
                 cell.automatic = gate.automatic
                 cell.delegate = self
                 return cell
             }
             else {
-                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorDistanceToCallCell", forIndexPath: indexPath) as GateEditorDistanceCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorDistanceToCallCell", forIndexPath: indexPath) as! GateEditorDistanceCell
                 cell.gate = gate
                 return cell
             }
@@ -140,7 +169,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             return headers[section]
         }
         
-        let headerView = UIView.loadFromNibNamed("GateEditorTVCHeaderView") as GateEditorTVCHeaderView
+        let headerView = UIView.loadFromNibNamed("GateEditorTVCHeaderView") as! GateEditorTVCHeaderView
         headerView.section = section
         headerView.headerRoll = GateEditorTVCHeaderView.Roll(rawValue: section)
         headerView.delegate = self
@@ -166,7 +195,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         if visible && section < 2 {
         
             saveNewText(headerView.titleLabel.text!, section: section)
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section)) as gateEditorTextFieldCell
+            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section)) as! gateEditorTextFieldCell
             cell.textField.resignFirstResponder()
             let gateState = authenticateGate()
             if gateState.authenticated {showDoneButton()}
@@ -175,6 +204,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         visibleSections[section] = !visible
         tableView.reloadSections(NSIndexSet(index:section), withRowAnimation: .Automatic)
+        
+        if !visible {
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section), atScrollPosition: .Top, animated: true)
+        }
+
     }
     
     func saveNewText(text: String, section: Int) {
@@ -214,7 +248,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     @IBAction func unwindFromMapViewVC(segue: UIStoryboardSegue) {
         
         println("unwind from map view")
-        let mapVC = segue.sourceViewController as MapViewVC
+        let mapVC = segue.sourceViewController as! MapViewVC
         let mapAnnotation = mapVC.gateAnnotation
         if let mapAnnotation = mapAnnotation {
             gate.latitude = mapAnnotation.coordinate.latitude
@@ -311,8 +345,8 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             if gate.longitude != 0.0 && gate.latitude != 0.0 {
             
-                let mapNavController = segue.destinationViewController as UINavigationController
-                let mapVC = mapNavController.viewControllers[0] as MapViewVC
+                let mapNavController = segue.destinationViewController as! UINavigationController
+                let mapVC = mapNavController.viewControllers[0] as! MapViewVC
                 let gateAnnotation = MKPointAnnotation()
                 gateAnnotation.coordinate = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
                 mapVC.gateAnnotation = gateAnnotation

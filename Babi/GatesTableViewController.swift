@@ -22,7 +22,6 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         if gates == nil {
             gates = [Gate]()
         }
-
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -31,11 +30,12 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as SwipeableCellTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SwipeableCellTableViewCell
+        cell.gate = gates![indexPath.row]
         cell.indexPath = indexPath
         cell.delegate = self
         let gate = gates![indexPath.row] as Gate
-        let title = gate.name
+        let title = gate.name + "\n\(floor(gate.distanceFromUserLocation / 1000))"
         cell.itemText = title
         
         
@@ -93,7 +93,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         gates!.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         Model.shared.deleteGate(gate)
-        let container = self.navigationController?.parentViewController as MainContainerController
+        let container = self.navigationController?.parentViewController as!MainContainerController
         container.noGatesMessageIfNeeded()
     }
     
@@ -102,9 +102,9 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         let indexPath = tableView.indexPathForCell(cell)!
         self.selectedIndexPath = indexPath
         let gate = gates![indexPath.row]
-        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as UINavigationController
+        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as! UINavigationController
         gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        let gateEditor = gateEditorNavController.viewControllers[0] as GateEditorVC
+        let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
         gateEditor.gate = gate
         gateEditor.state = .EditGate
         self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
@@ -132,16 +132,16 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     
     @IBAction func presentGateEditor(sender: AnyObject) {
         //for creating a new gate
-        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as UINavigationController
+        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as! UINavigationController
         gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        let gateEditor = gateEditorNavController.viewControllers[0] as GateEditorVC
+        let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
         gateEditor.state = .NewGate
         self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
     }
     
     @IBAction func unwindFromGateEditorVC(segue: UIStoryboardSegue) {
        
-        let gateEditor = segue.sourceViewController as GateEditorVC
+        let gateEditor = segue.sourceViewController as! GateEditorVC
         let gate = gateEditor.gate
         var error: NSError? = nil
         gate.toString()
@@ -164,7 +164,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         }
         
         //notify container to remove no gates message
-        let container = self.navigationController?.parentViewController as MainContainerController
+        let container = self.navigationController?.parentViewController as! MainContainerController
         container.removeNoGatesMessageIfNeeded()
        
         tableView.beginUpdates()

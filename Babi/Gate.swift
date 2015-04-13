@@ -7,6 +7,7 @@
 //
 import CoreData
 import UIKit
+import CoreLocation
 
 let kGateNameDefaultValue = "Gate"
 let kGatePhoneNumberDefaultValue = "phoneNumber"
@@ -26,6 +27,13 @@ class Gate: NSManagedObject {
     @NSManaged var phoneNumber: String
     @NSManaged var fireDistanceFromGate: Int
     
+    var distanceFromUserLocation: CLLocationDistance {
+     
+        var gateCords = CLLocation(latitude: latitude, longitude: longitude)
+        var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
+        return distance
+    }
+    
     class func instansiate(
         name: String,
         latitude: Double,
@@ -36,7 +44,7 @@ class Gate: NSManagedObject {
             
             var gate: Gate?
             
-            let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+            let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
             
             let request = NSFetchRequest(entityName: "Gate")
             request.predicate = NSPredicate(format: "name == %@", name)
@@ -52,7 +60,7 @@ class Gate: NSManagedObject {
             }
             else {
                 //create new gate
-                var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
+                var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as! Gate
                 newGate.name = name
                 newGate.latitude = latitude
                 newGate.longitude = longitude
@@ -68,7 +76,7 @@ class Gate: NSManagedObject {
     
     class func instansiateWithZero() -> Gate {
         
-        let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
         let entity = NSEntityDescription.entityForName("Gate", inManagedObjectContext: context!)
         
@@ -80,7 +88,7 @@ class Gate: NSManagedObject {
 
     }
     
-    func gateDictionary(gate: Gate) -> [NSObject : AnyObject] {
+    class func gateDictionary(gate: Gate) -> [NSObject : AnyObject] {
         
         let keys = gate.entity.attributesByName.keys.array
         let dict = gate.dictionaryWithValuesForKeys(keys)

@@ -28,8 +28,9 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subTitleLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
-    
+    var expanded = false
     
     
     var section: Int!
@@ -89,6 +90,21 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     
     func headerTapped(recognizer: UITapGestureRecognizer) {
         self.delegate.headerTapped(self)
+        expanded = !expanded
+        if expanded {
+            
+            UIView.animateWithDuration(0.4, animations: {
+            
+            self.iconImageView.transform =  CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
+            })
+        }
+        else {
+            
+            UIView.animateWithDuration(0.4, animations: {
+                
+                self.iconImageView.transform =  CGAffineTransformIdentity
+            })
+        }
     }
     
     func animateNewText(text: String?) {
@@ -109,6 +125,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
         super.awakeFromNib()
         self.tapGestureRecognizer.addTarget(self, action: "headerTapped:")
         self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 66))
+        
+        self.layer.cornerRadius = 8
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightGrayColor().CGColor
         }
     
 }

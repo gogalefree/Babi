@@ -13,11 +13,12 @@ import CoreLocation
 
 let kCallActionIdentifier = "CALL_IDENTIFIER"
 let kDissmissActionIdentifier = "DISSMISS_IDENTIFIER"
+let kLocationUpdateNotification = "kLocationUpdateNotification"
 
 class Model: NSObject, CLLocationManagerDelegate {
 
-    let kDistanceFilter = 5.0
-    let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let kDistanceFilter = 3.0
+    let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     let locationManager = CLLocationManager()
     var userLocation = CLLocation()
     lazy var locationNotifications: LocationNotifications = {
@@ -53,7 +54,7 @@ class Model: NSObject, CLLocationManagerDelegate {
         
         let categoriesSet = NSSet(object: arrivedToGateCategory)
         let types = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound;
-        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet);
+        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet as Set<NSObject>);
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
@@ -77,9 +78,22 @@ class Model: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!){
-        userLocation = locations.first as CLLocation
+        userLocation = locations.last as! CLLocation
+        NSNotificationCenter.defaultCenter().postNotificationName(kLocationUpdateNotification, object: nil)
+        isInRegion()
+        
     }
     
+    private func isInRegion() {
+        let gates = self.gates()!
+        for gate in gates{
+            let gateCoords = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
+            let region = CLCircularRegion(center: gateCoords, radius: gate.distanceFromUserLocation, identifier: "\(gate.name)")
+            if region.containsCoordinate(self.userLocation.coordinate){
+                println("\(gate.name) is in your region********")
+            }
+        }
+    }
 
     func gates() -> [Gate]? {
         
@@ -98,6 +112,7 @@ class Model: NSObject, CLLocationManagerDelegate {
     }
     
     func deleteGate(gate: Gate) {
+        self.locationNotifications.cancelLocalNotification(gate)
         context?.deleteObject(gate)
         context?.save(nil)
     }

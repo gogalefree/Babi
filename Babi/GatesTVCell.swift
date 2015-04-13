@@ -26,12 +26,20 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var myTextLable: UILabel!
     @IBOutlet weak var contentViewRightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var arrowImageView: UIImageView!
     
     
     var panRecognizer: UIPanGestureRecognizer!
     var panStartPoint: CGPoint!
-    var startingRightLayoutConstraintConstant: CGFloat!
+    var startingRightLayoutConstraintConstant: CGFloat! = 0
     let kBounceValue: CGFloat = 20.0
+    var isOpen: Bool = false {
+        didSet{
+            println("gate open: \(isOpen)")
+        }
+    }
+    
+    var gate: Gate!
     
     var delegate: SwipeableCellDelegate?
     var indexPath: NSIndexPath!
@@ -85,8 +93,9 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
             }
             
             if self.startingRightLayoutConstraintConstant == 0 { //true if the cell is closed
-                
                 if !panningLeft {
+                    println("paning right when the cell is closed")
+
                     
                     let constant = max(-deltaX, 0)
                     
@@ -98,6 +107,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                     }
                 }
                 else {
+                    println("paning left when the cell is closed \(-deltaX)")
+
                     let constant = min(-deltaX, self.buttonTotalWidth())
                     
                     if constant == self.buttonTotalWidth() {
@@ -113,6 +124,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                 let adjustment = self.startingRightLayoutConstraintConstant - deltaX; //1
                 
                 if (!panningLeft) {
+                    println("paning right when the cell is open \(deltaX)")
+
                     
                     let constant = max(adjustment, 0)
                     
@@ -126,7 +139,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                     }
                 }
                 else {
-                    
+                    println("paning left when the cell is open")
+
                     
                     let constant = min(adjustment, self.buttonTotalWidth()) //5
                     
@@ -151,6 +165,10 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                 
                 let halfOfButtonOne:CGFloat  = CGRectGetWidth(self.button1.frame) / 2;
                 
+                //added
+                animateIconCellOpen()
+                //ended
+                
                 if (self.contentViewRightConstraint.constant >= halfOfButtonOne) {
                     
                     //Open all the way
@@ -159,19 +177,26 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                 else {
                     //Re-close
                     self.resetConstraintContstantsToZero(true ,notifyDelegateDidClose:true);
+                    animateIconCellCloased()
                 }
             }
             else {
                 
                 //Cell was closing
                 let buttonOnePlusHalfOfButton2:CGFloat = CGRectGetWidth(self.button1.frame) + (CGRectGetWidth(self.button2.frame) / 2);
+                
+                //added
+                animateIconCellCloased()
+                //ended
                 if (self.contentViewRightConstraint.constant >= buttonOnePlusHalfOfButton2) {
                     //Re-open all the way
                     self.setConstraintsToShowAllButtons(true ,notifyDelegateDidOpen:true)
+                    animateIconCellOpen()
                 }
                 else {
                     //Close
                     self.resetConstraintContstantsToZero(true ,notifyDelegateDidClose:true)
+                    animateIconCellCloased()
                 }
             }
             
@@ -180,10 +205,12 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
             if (self.startingRightLayoutConstraintConstant == 0) {
                 //Cell was closed - reset everything to 0
                 self.resetConstraintContstantsToZero(true ,notifyDelegateDidClose:true)
+                animateIconCellCloased()
             }
             else {
                 //Cell was open - reset to the open state
                 self.setConstraintsToShowAllButtons(true ,notifyDelegateDidOpen:true)
+                animateIconCellOpen()
             }
             
         default:
@@ -211,6 +238,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     
     func resetConstraintContstantsToZero(animated: Bool ,notifyDelegateDidClose endEditing:Bool) {
         
+        isOpen = false
+        
         if (endEditing) {
             self.delegate?.cellDidClose(self);
         }
@@ -235,6 +264,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     }
     
     func setConstraintsToShowAllButtons(animated:Bool ,notifyDelegateDidOpen notifyDelegate:Bool) {
+        
+        self.isOpen = true
         
         if (notifyDelegate) {
             self.delegate?.cellDidOpen(self)
@@ -264,6 +295,19 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         self.setConstraintsToShowAllButtons(false ,notifyDelegateDidOpen:false);
     }
     
+    func animateIconCellOpen() {
+        UIView.animateWithDuration(0.8, animations: {
+            self.arrowImageView.transform = CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
+        })
+    }
+    
+    func animateIconCellCloased() {
+        UIView.animateWithDuration(0.8, animations: {
+            self.arrowImageView.transform = CGAffineTransformMakeRotation(0)
+        })
+        
+    }
+    
     
     override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -280,6 +324,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         self.panRecognizer = UIPanGestureRecognizer(target: self, action: "panThisCell:")
         self.panRecognizer.delegate = self;
         self.myContentView.addGestureRecognizer(self.panRecognizer)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationUpdated", name: kLocationUpdateNotification, object: nil)
+
     }
     
     func setAutomaticButtonTitle(automatic: Bool) {
@@ -293,6 +339,49 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
             }
         })
     }
+    
+    func locationUpdated() {
+        let title = gate.name + "\n\(ceil(gate.distanceFromUserLocation)) m"
+        itemText = title
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        
+        let touch = touches.first as! UITouch
+        let touchPoint = touch.locationInView(self)
+        let callRect = CGRectMake(0,0,
+            CGRectGetMinX(self.arrowImageView.frame) - 10 ,
+            CGRectGetHeight(self.frame))
+        
+        let closeCellRect = CGRectMake(0,0,
+            CGRectGetMaxX(arrowImageView.frame),
+            CGRectGetHeight(self.frame))
+        
+        let shouldCall = CGRectContainsPoint(callRect, touchPoint)
+        let shouldCloseCell = CGRectContainsPoint(closeCellRect, touchPoint)
+        
+        if !shouldCall && !isOpen {
+            //open cell
+            println("Arrow touched")
+            self.setConstraintsToShowAllButtons(true ,notifyDelegateDidOpen:true);
+            animateIconCellOpen()
+        }
+        else if shouldCloseCell && isOpen {
+            //close the cell
+            print("Arrow touched to close")
+            self.resetConstraintContstantsToZero(true, notifyDelegateDidClose: true)
+            animateIconCellCloased()
+        }
+        else {
+            //call gate phone number
+            super.touchesBegan(touches, withEvent: event)
+        }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

@@ -39,16 +39,17 @@ class LocationNotifications: NSObject {
         
         if let userInfo = userInfo{
         
-            let phoneNumber = userInfo["phoneNumber"] as String
+            let phoneNumber = userInfo["phoneNumber"] as! String
             let phoneDialer = PhoneDialer()
             phoneDialer.callGate(phoneNumber)
+            
         }
     }
     
     func generateLocalNotification(gate: Gate) -> UILocalNotification{
         
         let localNotification = UILocalNotification()
-        localNotification.userInfo = gate.gateDictionary(gate)
+        localNotification.userInfo = Gate.gateDictionary(gate)
         localNotification.alertBody = gate.name
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.regionTriggersOnce = false
@@ -56,7 +57,7 @@ class LocationNotifications: NSObject {
         localNotification.region = CLCircularRegion(
             center: CLLocationCoordinate2DMake(gate.latitude, gate.longitude),
             radius: CLLocationDistance(gate.fireDistanceFromGate),
-            identifier: "\(gate.name)\(gate.phoneNumber)")
+            identifier: "\(gate.name)\(gate.latitude)")
         localNotification.region.notifyOnEntry = true
         localNotification.region.notifyOnExit = false
         return localNotification

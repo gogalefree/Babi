@@ -25,11 +25,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if option[UIApplicationLaunchOptionsLocalNotificationKey] != nil {
                
-                let not = option[UIApplicationLaunchOptionsLocalNotificationKey] as UILocalNotification
-                Model.shared.locationNotifications.didRecieveLocalNotification(not)
+                let notification = option[UIApplicationLaunchOptionsLocalNotificationKey] as! UILocalNotification
+
+                let userInfo = notification.userInfo as [NSObject: AnyObject]?
+                
+                if let userInfo = userInfo{
+                    
+                    let phoneNumber = userInfo["phoneNumber"] as! String
+                    var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
+                    UIApplication.sharedApplication().openURL(url)
+                }
             }
         }
 
+        UINavigationBar.appearance().barTintColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
+      //  UINavigationBar.appearance().barTintColor = UIColor(red: 178.0/255.0, green: 255.0/255.0, blue: 0.0/255.0, alpha: 0.05)
+
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         return true
     }
 
@@ -47,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if let userInfo = userInfo{
                     
-                    let phoneNumber = userInfo["phoneNumber"] as String
+                    let phoneNumber = userInfo["phoneNumber"] as! String
                     let phoneDialer = PhoneDialer()
                     phoneDialer.callGate(phoneNumber)
                 }
@@ -84,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.gogalefree.Babi" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {

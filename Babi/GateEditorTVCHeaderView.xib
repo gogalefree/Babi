@@ -10,55 +10,65 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="babi_gateEditorHeaderBackground.001.png" translatesAutoresizingMaskIntoConstraints="NO" id="61A-m5-Bn1">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
+                </imageView>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0zH-rc-uDe">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="lhW-Ze-ijl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S9Q-du-2lL">
-                                <rect key="frame" x="8" y="8" width="584" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S9Q-du-2lL">
+                                <rect key="frame" x="8" y="8" width="524" height="24"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="cgV-QQ-bNo"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="cgV-QQ-bNo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m28-w4-lxO">
-                                <rect key="frame" x="8" y="36" width="584" height="18"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_down002.png" translatesAutoresizingMaskIntoConstraints="NO" id="LrH-Bj-8FF">
+                                <rect key="frame" x="552" y="20" width="25" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="wTi-cS-wSy"/>
+                                    <constraint firstAttribute="width" constant="25" id="jky-76-jcs"/>
+                                    <constraint firstAttribute="height" constant="25" id="kyn-j1-3M9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="m28-w4-lxO" firstAttribute="top" secondItem="S9Q-du-2lL" secondAttribute="bottom" constant="4" id="ACB-Rm-GHA"/>
-                            <constraint firstAttribute="trailing" secondItem="m28-w4-lxO" secondAttribute="trailing" constant="8" id="BwX-mz-Y7T"/>
                             <constraint firstAttribute="trailing" secondItem="S9Q-du-2lL" secondAttribute="trailing" constant="8" id="HUj-GV-VKY"/>
-                            <constraint firstItem="m28-w4-lxO" firstAttribute="leading" secondItem="lhW-Ze-ijl" secondAttribute="leading" constant="8" id="XZQ-Ik-fC8"/>
+                            <constraint firstAttribute="trailing" secondItem="LrH-Bj-8FF" secondAttribute="trailing" constant="23" id="I7Z-Jr-AaM"/>
+                            <constraint firstItem="LrH-Bj-8FF" firstAttribute="top" secondItem="lhW-Ze-ijl" secondAttribute="top" constant="20" id="ab2-mV-tPe"/>
                             <constraint firstItem="S9Q-du-2lL" firstAttribute="top" secondItem="lhW-Ze-ijl" secondAttribute="top" constant="8" id="bGq-Mi-X3m"/>
+                            <constraint firstItem="LrH-Bj-8FF" firstAttribute="leading" secondItem="S9Q-du-2lL" secondAttribute="trailing" constant="20" id="hB8-Pr-IEp"/>
                             <constraint firstItem="S9Q-du-2lL" firstAttribute="leading" secondItem="lhW-Ze-ijl" secondAttribute="leading" constant="8" id="uUK-Pj-gmV"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="HUj-GV-VKY"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <blurEffect style="light"/>
+                    <blurEffect style="extraLight"/>
                 </visualEffectView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="61A-m5-Bn1" secondAttribute="trailing" id="38Q-tV-AkH"/>
+                <constraint firstItem="61A-m5-Bn1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FlT-hg-n00"/>
                 <constraint firstAttribute="bottom" secondItem="0zH-rc-uDe" secondAttribute="bottom" id="KdV-O6-nKm"/>
                 <constraint firstAttribute="trailing" secondItem="0zH-rc-uDe" secondAttribute="trailing" id="OhJ-8k-VxG"/>
                 <constraint firstItem="0zH-rc-uDe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Pke-vb-VcY"/>
+                <constraint firstItem="61A-m5-Bn1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Z0x-9s-6Z0"/>
                 <constraint firstItem="0zH-rc-uDe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j0l-ph-1wW"/>
+                <constraint firstAttribute="bottom" secondItem="61A-m5-Bn1" secondAttribute="bottom" id="lwF-Tg-KTw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="subTitleLabel" destination="m28-w4-lxO" id="YEJ-Yu-eFe"/>
+                <outlet property="iconImageView" destination="LrH-Bj-8FF" id="5FD-8L-GtI"/>
                 <outlet property="tapGestureRecognizer" destination="YIg-Gd-ZLb" id="4fa-UV-qai"/>
                 <outlet property="titleLabel" destination="S9Q-du-2lL" id="07c-IH-jAH"/>
                 <outletCollection property="gestureRecognizers" destination="YIg-Gd-ZLb" appends="YES" id="CNf-SA-h01"/>
@@ -81,4 +91,8 @@
             <point key="canvasLocation" x="162" y="427"/>
         </visualEffectView>
     </objects>
+    <resources>
+        <image name="arrow_down002.png" width="35" height="36"/>
+        <image name="babi_gateEditorHeaderBackground.001.png" width="600" height="66"/>
+    </resources>
 </document>

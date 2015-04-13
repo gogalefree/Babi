@@ -12,7 +12,7 @@ import Foundation
 class MainContainerController: UIViewController {
     
     lazy var noGatesMessageVC : UIViewController!  = {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as UIViewController
+        return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as! UIViewController
         }()
     
     var presentingNoGatesMessage = false
@@ -23,7 +23,7 @@ class MainContainerController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         let gatesTVC = self.storyboard?.instantiateViewControllerWithIdentifier("GatesTVCNavController")
-        as UINavigationController!
+        as! UINavigationController!
         self.addChildViewController(gatesTVC)
         gatesTVC.view.frame = self.view.bounds
         gatesTVC.didMoveToParentViewController(self)

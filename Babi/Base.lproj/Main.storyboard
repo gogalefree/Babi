@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -139,6 +139,12 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="leftArrow.001.jpg" highlightedImage="left_arrow_35.001.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ryw-Lk-dcX">
+                                                    <rect key="frame" x="537" y="32" width="35" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Ryw-Lk-dcX" secondAttribute="height" multiplier="1:1" id="S5p-pW-mac"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -146,6 +152,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="7lb-fB-1sN" secondAttribute="trailing" constant="8" id="9G4-dd-Pi0"/>
                                                 <constraint firstItem="7lb-fB-1sN" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" constant="4" id="NXY-tu-iaW"/>
                                                 <constraint firstItem="7lb-fB-1sN" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" constant="16" id="SYm-zC-ZN0"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ryw-Lk-dcX" secondAttribute="trailing" constant="12" id="bc4-Pp-8vj"/>
+                                                <constraint firstItem="Ryw-Lk-dcX" firstAttribute="top" secondItem="tki-X6-UjG" secondAttribute="top" constant="32" id="mXv-6h-pzP"/>
+                                                <constraint firstAttribute="centerY" secondItem="Ryw-Lk-dcX" secondAttribute="centerY" constant="0.5" id="yMT-PO-NNV"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -190,6 +199,7 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="arrowImageView" destination="Ryw-Lk-dcX" id="DKs-Wh-162"/>
                                     <outlet property="button0" destination="BlU-wB-ehs" id="FgU-3F-Cn3"/>
                                     <outlet property="button1" destination="aFS-1e-VxV" id="IBe-h6-UgJ"/>
                                     <outlet property="button2" destination="QAy-b3-o6S" id="ua8-Ce-wNf"/>
@@ -235,9 +245,25 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="66" sectionHeaderHeight="10" sectionFooterHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="EK5-fm-clW">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="66" sectionHeaderHeight="10" sectionFooterHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="EK5-fm-clW">
                                             <rect key="frame" x="0.0" y="64" width="600" height="600"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                            <view key="tableHeaderView" contentMode="scaleToFill" id="Oag-0G-GjC" customClass="GateEditorTableMainHeader" customModule="Babi" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="64" width="600" height="160"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="koby_header2.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="6SU-rQ-8nn">
+                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="160"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="6SU-rQ-8nn" secondAttribute="bottom" id="FEX-bl-eP8"/>
+                                                    <constraint firstItem="6SU-rQ-8nn" firstAttribute="top" secondItem="Oag-0G-GjC" secondAttribute="top" id="H53-LM-ApM"/>
+                                                    <constraint firstAttribute="trailing" secondItem="6SU-rQ-8nn" secondAttribute="trailing" id="M6z-KO-tTQ"/>
+                                                    <constraint firstItem="6SU-rQ-8nn" firstAttribute="leading" secondItem="Oag-0G-GjC" secondAttribute="leading" id="u86-l3-Zxw"/>
+                                                </constraints>
+                                            </view>
                                             <prototypes>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gateEditorTextFieldCell" id="7un-QD-zku" customClass="gateEditorTextFieldCell" customModule="Babi" customModuleProvider="target">
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -297,6 +323,7 @@
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgC-ee-c2O">
                                                                 <rect key="frame" x="8" y="8" width="584" height="50"/>
                                                                 <state key="normal" title="Chose Location">
+                                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                                 <connections>
@@ -482,7 +509,6 @@
                                 <blurEffect style="light"/>
                             </visualEffectView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="6TK-mM-RGZ" secondAttribute="trailing" constant="-16" id="CPH-pi-4iy"/>
                             <constraint firstItem="6TK-mM-RGZ" firstAttribute="leading" secondItem="lC1-GL-zdZ" secondAttribute="leadingMargin" constant="-16" id="D0q-jH-Cft"/>
@@ -650,6 +676,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="koby_header2.jpeg" width="318" height="120"/>
+        <image name="leftArrow.001.jpg" width="39" height="39"/>
+        <image name="left_arrow_35.001.png" width="1024" height="768"/>
         <image name="settings-64" width="32" height="32"/>
     </resources>
 </document>
