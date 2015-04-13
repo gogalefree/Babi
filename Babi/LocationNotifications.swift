@@ -39,9 +39,8 @@ class LocationNotifications: NSObject {
         
         if let userInfo = userInfo{
         
-            let phoneNumber = userInfo["phoneNumber"] as! String
-            let phoneDialer = PhoneDialer()
-            phoneDialer.callGate(phoneNumber)
+            let phoneNumber = userInfo["phoneNumber"] as? String
+            PhoneDialer.callGate(phoneNumber)
             
         }
     }
@@ -56,7 +55,7 @@ class LocationNotifications: NSObject {
         localNotification.category = "ARRIVED_CATEGORY"
         localNotification.region = CLCircularRegion(
             center: CLLocationCoordinate2DMake(gate.latitude, gate.longitude),
-            radius: CLLocationDistance(gate.fireDistanceFromGate),
+            radius: CLLocationDistance(20),
             identifier: "\(gate.name)\(gate.latitude)")
         localNotification.region.notifyOnEntry = true
         localNotification.region.notifyOnExit = false

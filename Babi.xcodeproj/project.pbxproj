@@ -36,6 +36,7 @@
 		E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */; };
 		E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */; };
 		E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */; };
+		E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */; };
 		E4FDC0E01AD3C5B200E48295 /* IMG_7003.JPG in Resources */ = {isa = PBXBuildFile; fileRef = E4FDC0DF1AD3C5B200E48295 /* IMG_7003.JPG */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorAutomaticCell.swift; sourceTree = "<group>"; };
 		E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koby_header2.jpeg; sourceTree = "<group>"; };
 		E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTableMainHeader.swift; sourceTree = "<group>"; };
+		E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babiMainTVCellImageSkecthGray.001.png; sourceTree = "<group>"; };
 		E4FDC0DF1AD3C5B200E48295 /* IMG_7003.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_7003.JPG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -184,6 +186,7 @@
 				E4375B511AC6D6A000A3D669 /* Model.swift */,
 				E4375B4B1AC6875400A3D669 /* Gate.swift */,
 				E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */,
+				E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */,
 				E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */,
 				E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */,
 			);
@@ -304,6 +307,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */,
 				E45F6C921AD80F0500596A12 /* arrow_down_black_png.001.png in Resources */,
 				E453B3A71AC6862C00707BA8 /* Main.storyboard in Resources */,
 				E45F6C901AD7A22A00596A12 /* leftArrow.001.jpg in Resources */,

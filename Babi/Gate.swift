@@ -59,8 +59,8 @@ class Gate: NSManagedObject {
     func callGateIfNeeded () {
         
         if self.automatic && self.shouldCall {
-            var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
-            UIApplication.sharedApplication().openURL(url)
+
+            PhoneDialer.callGate(phoneNumber)
             shouldCall = false
         }
     }

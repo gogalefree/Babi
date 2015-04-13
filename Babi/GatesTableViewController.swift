@@ -25,7 +25,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 88
+        return 120
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -62,8 +62,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let gate = gates![indexPath.row]
         let phoneNumber = gate.phoneNumber
-        let dialer = PhoneDialer()
-        dialer.callGate(phoneNumber)
+        PhoneDialer.callGate(phoneNumber)
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -101,12 +100,16 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         //present gate editor for editing
         let indexPath = tableView.indexPathForCell(cell)!
         self.selectedIndexPath = indexPath
+        
         let gate = gates![indexPath.row]
+        
         let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as! UINavigationController
         gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        
         let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
         gateEditor.gate = gate
         gateEditor.state = .EditGate
+        
         self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
         
         self.cellsCurrentlyEditing.removeObject(indexPath)
@@ -143,11 +146,10 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
        
         let gateEditor = segue.sourceViewController as! GateEditorVC
         let gate = gateEditor.gate
-        var error: NSError? = nil
-        gate.toString()
         
         //Save Gate
-        //Model.shared.context?.insertObject(gate)
+        var error: NSError? = nil
+        
         if !Model.shared.context!.save(&error) {
             println(error)
         }

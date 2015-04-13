@@ -19,28 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Model.shared.setUp()
         
-        
-//        if let option = launchOptions{
-//            
-//            
-//            if option[UIApplicationLaunchOptionsLocalNotificationKey] != nil {
-//               
-//                let notification = option[UIApplicationLaunchOptionsLocalNotificationKey] as! UILocalNotification
-//
-//                let userInfo = notification.userInfo as [NSObject: AnyObject]?
-//                
-//                if let userInfo = userInfo{
-//                    
-//                    let phoneNumber = userInfo["phoneNumber"] as! String
-//                    var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
-//                    UIApplication.sharedApplication().openURL(url)
-//                }
-//            }
-//        }
 
         UINavigationBar.appearance().barTintColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
-      //  UINavigationBar.appearance().barTintColor = UIColor(red: 178.0/255.0, green: 255.0/255.0, blue: 0.0/255.0, alpha: 0.05)
 
+        
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         return true

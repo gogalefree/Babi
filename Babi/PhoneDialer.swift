@@ -10,9 +10,15 @@ import UIKit
 
 class PhoneDialer: NSObject {
     
-    class func callGate(phoneNumber: String) {
-        var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
-        UIApplication.sharedApplication().openURL(url)
-    }
-   
+    class func callGate(phoneNumber: String?) {
+     
+        if let phoneNumber = phoneNumber {
+            
+            if phoneNumber != "phoneNumber" { //the default value
+            
+                var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+    }   
 }

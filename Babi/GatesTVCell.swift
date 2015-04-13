@@ -28,6 +28,10 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var contentViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var arrowImageView: UIImageView!
     
+    let automaticColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
+    let manualColor = UIColor.blackColor()
+
+    
     
     var panRecognizer: UIPanGestureRecognizer!
     var panStartPoint: CGPoint!
@@ -39,7 +43,11 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         }
     }
     
-    var gate: Gate!
+    var gate: Gate!{
+        didSet{
+            if let gate = gate {setAutomaticButtonTitle(gate.automatic)}
+        }
+    }
     
     var delegate: SwipeableCellDelegate?
     var indexPath: NSIndexPath!
@@ -56,10 +64,10 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         
         if let delegate = self.delegate {
             
-            if sender == self.button0 {
-                delegate.buttonZeroAction(self)
-            }
-            else if sender == self.button1 {
+//            if sender == self.button0 {
+//                delegate.buttonZeroAction(self)
+//            }
+            if sender == self.button1 {
                 delegate.buttonOneAction(self)
                 
             }
@@ -332,16 +340,17 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.button2.setTitle(automaticHeaderTitles[automatic.hashValue], forState: UIControlState.Normal)
             if automatic {
-                self.button2.setTitleColor(UIColor.greenColor(), forState: .Normal)
+                self.button2.setTitleColor(self.automaticColor, forState: .Normal)
             }
             else {
-                self.button2.setTitleColor(UIColor.redColor(), forState: .Normal)
+                self.button2.setTitleColor(self.manualColor, forState: .Normal)
             }
         })
     }
     
     func locationUpdated() {
-        let title = gate.name + "\n\(ceil(gate.distanceFromUserLocation)) m"
+        let distance = Int(ceil(gate.distanceFromUserLocation))
+        let title = gate.name + "\n\(distance) m"
         itemText = title
     }
     
