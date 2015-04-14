@@ -23,14 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().barTintColor = barColor
         UINavigationBar.appearance().backgroundColor = barColor
-        UINavigationBar.appearance().alpha = 0.1
-        UINavigationBar.appearance().translucent = true
-        UINavigationBar.appearance().autoresizingMask = UIViewAutoresizing.FlexibleHeight
-        
-        
-        
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        UIApplication.sharedApplication().idleTimerDisabled = true
+        
         return true
     }
 
