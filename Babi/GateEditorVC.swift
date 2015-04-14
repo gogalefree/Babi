@@ -18,19 +18,22 @@ enum GateEditorState {
 class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte, GateEditorLocationCellDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var doneButton: UIBarButtonItem!
+  
+    var doneButton: UIBarButtonItem!
+    var deleteButton: UIBarButtonItem!
     
     private let kTableViewHeaderHeight: CGFloat = 160.0
     var headerView: GateEditorTableMainHeader!
 
     
-    var visibleSections: [Bool] = [false, false, false, false]
+    var visibleSections: [Bool] = [false, false, false, false, false] //count must be equal to the sections count
+    
     var headers = [GateEditorTVCHeaderView]()
     
     var gate: Gate!
     var state: GateEditorState! {
         didSet{
-            configureWithState(state)
+//            configureWithState(state)
         }
     }
 
@@ -40,6 +43,20 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = 66
         self.tableView.contentInset.top = 68
+        addNavigationBarItems()
+        configureWithState(state)
+
+    }
+    
+    func addNavigationBarItems() {
+                
+        let doneImage = UIImage(named: "tick10.png")
+        self.doneButton = UIBarButtonItem(image: doneImage, style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonClicked:")
+        
+        let deleteImage = UIImage(named: "garbage11.png")
+        self.deleteButton = UIBarButtonItem(image: deleteImage, style: UIBarButtonItemStyle.Plain, target: self, action: "deleteAction")
+        
+        self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton]
     }
     
     /*
@@ -76,9 +93,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         //1 gate phone number
         //2 gate location
         //3 gate mode
-        //4
+        //4 fence header
         */
-        return 4
+        return 5
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -155,8 +172,14 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headersMaxIndex = headers.count - 1
+        if section == 4 {
+            //fence view
+            let fenceView = UIView.loadFromNibNamed("GateEditorFenceHeaderVIew")
+            return fenceView
+        }
         
+        let headersMaxIndex = headers.count - 1
+        //if the headers were already created
         if headersMaxIndex >= section  {
             return headers[section]
         }
@@ -269,25 +292,34 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gate.longitude = Model.shared.userLocation.coordinate.longitude
             gate.latitude = Model.shared.userLocation.coordinate.latitude
             hideDoneButton()
+            hideDeleteButton()
         case .EditGate:
             break
         }
     }
     
     func hideDoneButton() {
-        self.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName:UIColor.clearColor()], forState: UIControlState.Disabled)
-        self.navigationItem.rightBarButtonItem?.enabled = false
+        self.doneButton.enabled = false
     }
     
     func showDoneButton() {
-        self.navigationItem.rightBarButtonItem?.enabled = true
+        self.doneButton.enabled = true
+    }
+    
+    func hideDeleteButton() {
+        self.deleteButton.enabled = false
     }
 
-    @IBAction func doneButtonClicked(sender: AnyObject) {
+    func doneButtonClicked(sender: AnyObject) {
     
+        println("doneButtonClicked")
         let gateAuthenticated = authenticateGate()
         if !gateAuthenticated.authenticated {showAlert(gateAuthenticated.section!)}
         else {self.performSegueWithIdentifier("unwindToGatesTVC", sender:self)}
+    }
+    
+    func deleteAction() {
+        self.performSegueWithIdentifier("unwindwithdeletesegue", sender: self)
     }
     
     func authenticateGate() -> (authenticated: Bool, section: Int?) {

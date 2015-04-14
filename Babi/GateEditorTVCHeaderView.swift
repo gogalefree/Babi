@@ -58,12 +58,9 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
         
         switch headerRoll as Roll {
         case .GateMode , .GateLocation:
-            titleLabel.textColor = UIColor.blackColor()
-            var color = UIColor.greenColor().colorWithAlphaComponent(0.1)
-            self.backgroundColor = color
+            titleLabel.textColor = UIColor.darkGrayColor()
+           
         default:
-            var color = UIColor.orangeColor().colorWithAlphaComponent(0.1)
-            self.backgroundColor = color
             break
 
         }
@@ -71,9 +68,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
     
     func setGateTitles(gate: Gate) {
         
-        titleLabel.textColor = UIColor.blackColor()
-        var color = UIColor.greenColor().colorWithAlphaComponent(0.1)
-        self.backgroundColor = color
+        titleLabel.textColor = UIColor.darkGrayColor()
         
         switch headerRoll as Roll {
         case .GateName:
@@ -114,10 +109,8 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
             setInitialTitles()
         }
         else {
-            titleLabel.textColor = UIColor.blackColor()
+            titleLabel.textColor = UIColor.darkGrayColor()
             titleLabel.text = text
-            var color = UIColor.greenColor().colorWithAlphaComponent(0.1)
-            self.backgroundColor = color
         }
     }
     
@@ -126,9 +119,6 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate {
         self.tapGestureRecognizer.addTarget(self, action: "headerTapped:")
         self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 66))
         
-        self.layer.cornerRadius = 8
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
         }
     
 }

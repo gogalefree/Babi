@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */; };
+		E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */; };
 		E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */; };
 		E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */; };
 		E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4B1AC6875400A3D669 /* Gate.swift */; };
@@ -34,6 +36,15 @@
 		E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */; };
 		E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */; };
 		E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */; };
+		E4981C941ADD953E00F778F5 /* gateEditorHeaderImage.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */; };
+		E4981C961ADD98B900F778F5 /* gateEditorHeaderView2.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */; };
+		E4981C991ADD9AEF00F778F5 /* tick10.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C971ADD9AEF00F778F5 /* tick10.png */; };
+		E4981C9A1ADD9AEF00F778F5 /* plus32.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C981ADD9AEF00F778F5 /* plus32.png */; };
+		E4981C9C1ADD9B7900F778F5 /* leftarrow17.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C9B1ADD9B7900F778F5 /* leftarrow17.png */; };
+		E4981C9E1ADD9C3400F778F5 /* return13.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C9D1ADD9C3400F778F5 /* return13.png */; };
+		E4981CA01ADDA05300F778F5 /* garbage11.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C9F1ADDA05300F778F5 /* garbage11.png */; };
+		E4981CA31ADDB70700F778F5 /* gateEditorFenceImage.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */; };
+		E4981CA51ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */; };
 		E4E2E2491ADCDECF006BD949 /* koby_color_small.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E4E2E2481ADCDECF006BD949 /* koby_color_small.jpeg */; };
 		E4E2E24C1ADCE488006BD949 /* FreeSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4E2E24B1ADCE1F6006BD949 /* FreeSans.ttf */; };
 		E4E2E24D1ADCE48C006BD949 /* shuneet_12_classic_v21.OTF in Resources */ = {isa = PBXBuildFile; fileRef = E4E2E2471ADCDDB3006BD949 /* shuneet_12_classic_v21.OTF */; };
@@ -58,6 +69,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kob_navBar_normal.jpeg; sourceTree = "<group>"; };
+		E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kobi_navBar_Blured.png; sourceTree = "<group>"; };
 		E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationNotifications.swift; sourceTree = "<group>"; };
 		E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneDialer.swift; sourceTree = "<group>"; };
 		E4375B4B1AC6875400A3D669 /* Gate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
@@ -89,6 +102,15 @@
 		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
 		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
 		E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorAutomaticCell.swift; sourceTree = "<group>"; };
+		E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorHeaderImage.001.png; sourceTree = "<group>"; };
+		E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorHeaderView2.001.png; sourceTree = "<group>"; };
+		E4981C971ADD9AEF00F778F5 /* tick10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick10.png; sourceTree = "<group>"; };
+		E4981C981ADD9AEF00F778F5 /* plus32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus32.png; sourceTree = "<group>"; };
+		E4981C9B1ADD9B7900F778F5 /* leftarrow17.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftarrow17.png; sourceTree = "<group>"; };
+		E4981C9D1ADD9C3400F778F5 /* return13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = return13.png; sourceTree = "<group>"; };
+		E4981C9F1ADDA05300F778F5 /* garbage11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = garbage11.png; sourceTree = "<group>"; };
+		E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorFenceImage.001.png; sourceTree = "<group>"; };
+		E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GateEditorFenceHeaderVIew.xib; sourceTree = "<group>"; };
 		E4E2E2471ADCDDB3006BD949 /* shuneet_12_classic_v21.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = shuneet_12_classic_v21.OTF; sourceTree = "<group>"; };
 		E4E2E2481ADCDECF006BD949 /* koby_color_small.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koby_color_small.jpeg; sourceTree = "<group>"; };
 		E4E2E24A1ADCE0BF006BD949 /* shuneet_10_oblique_v21.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = shuneet_10_oblique_v21.OTF; sourceTree = "<group>"; };
@@ -148,6 +170,16 @@
 				E473E3C71ACBABC50098D77A /* Model */,
 				E473E3CA1ACBAC600098D77A /* Functions */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
+				E4981CA11ADDB70700F778F5 /* gateEditorFenceImage */,
+				E4981C9F1ADDA05300F778F5 /* garbage11.png */,
+				E4981C9D1ADD9C3400F778F5 /* return13.png */,
+				E4981C9B1ADD9B7900F778F5 /* leftarrow17.png */,
+				E4981C971ADD9AEF00F778F5 /* tick10.png */,
+				E4981C981ADD9AEF00F778F5 /* plus32.png */,
+				E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */,
+				E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */,
+				E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */,
+				E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */,
 				E4E2E24B1ADCE1F6006BD949 /* FreeSans.ttf */,
 				E4E2E2471ADCDDB3006BD949 /* shuneet_12_classic_v21.OTF */,
 				E4E2E2531ADD07BB006BD949 /* kobi_full.jpg */,
@@ -230,6 +262,7 @@
 				E4375B531ACA756100A3D669 /* GateEditorVC.swift */,
 				E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */,
 				E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */,
+				E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */,
 				E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */,
 				E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */,
 				E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */,
@@ -246,6 +279,14 @@
 				E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */,
 			);
 			name = Functions;
+			sourceTree = "<group>";
+		};
+		E4981CA11ADDB70700F778F5 /* gateEditorFenceImage */ = {
+			isa = PBXGroup;
+			children = (
+				E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */,
+			);
+			path = gateEditorFenceImage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,23 +369,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */,
 				E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */,
 				E45F6C921AD80F0500596A12 /* arrow_down_black_png.001.png in Resources */,
 				E453B3A71AC6862C00707BA8 /* Main.storyboard in Resources */,
 				E4E2E24C1ADCE488006BD949 /* FreeSans.ttf in Resources */,
+				E4981C991ADD9AEF00F778F5 /* tick10.png in Resources */,
+				E4981CA31ADDB70700F778F5 /* gateEditorFenceImage.001.png in Resources */,
+				E4981C9A1ADD9AEF00F778F5 /* plus32.png in Resources */,
 				E45F6C901AD7A22A00596A12 /* leftArrow.001.jpg in Resources */,
 				E4E2E2501ADCE74D006BD949 /* koby_background_cell.jpeg in Resources */,
 				E4E2E2541ADD07BB006BD949 /* kobi_full.jpg in Resources */,
+				E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */,
 				E4E2E24E1ADCE490006BD949 /* shuneet_10_oblique_v21.OTF in Resources */,
 				E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */,
+				E4981C9E1ADD9C3400F778F5 /* return13.png in Resources */,
 				E4E2E24D1ADCE48C006BD949 /* shuneet_12_classic_v21.OTF in Resources */,
 				E4FDC0E01AD3C5B200E48295 /* IMG_7003.JPG in Resources */,
+				E4981C9C1ADD9B7900F778F5 /* leftarrow17.png in Resources */,
 				E4E2E2491ADCDECF006BD949 /* koby_color_small.jpeg in Resources */,
 				E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */,
+				E4981C961ADD98B900F778F5 /* gateEditorHeaderView2.001.png in Resources */,
 				E45F6C941AD8132300596A12 /* arrow_down002.png in Resources */,
 				E45F6C8C1AD7917E00596A12 /* left_arrow_35.001.png in Resources */,
+				E4981C941ADD953E00F778F5 /* gateEditorHeaderImage.001.png in Resources */,
 				E45F6C961AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png in Resources */,
+				E4981CA01ADDA05300F778F5 /* garbage11.png in Resources */,
 				E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */,
+				E4981CA51ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib in Resources */,
 				E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

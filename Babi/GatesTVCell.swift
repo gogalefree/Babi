@@ -349,9 +349,10 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     }
     
     func locationUpdated() {
-        let distance = Int(ceil(gate.distanceFromUserLocation))
-        let title = gate.name + "\n\(distance) m"
-        itemText = title
+            let distance = Int(ceil(gate.distanceFromUserLocation))
+            let title = gate.name + "\n\(distance) m"
+            itemText = title
+
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {

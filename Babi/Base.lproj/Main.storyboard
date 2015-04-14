@@ -9,6 +9,13 @@
         <mutableArray key="shuneet_12_classic_v21.OTF">
             <string>ShuneetClassic</string>
             <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -266,7 +273,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="L05-XP-I6C">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ObY-Zp-qW1">
+                        <barButtonItem key="rightBarButtonItem" image="plus32.png" id="ObY-Zp-qW1">
                             <connections>
                                 <action selector="presentGateEditor:" destination="Qeh-ps-Ved" id="bOC-bz-55h"/>
                             </connections>
@@ -297,7 +304,9 @@
                                     <subviews>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="66" sectionHeaderHeight="20" sectionFooterHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="EK5-fm-clW">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                            <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <prototypes>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gateEditorTextFieldCell" id="7un-QD-zku" customClass="gateEditorTextFieldCell" customModule="Babi" customModuleProvider="target">
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -305,19 +314,19 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ff" borderStyle="roundedRect" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="x4T-P7-eLT">
-                                                                <rect key="frame" x="8" y="31" width="584" height="30"/>
+                                                                <rect key="frame" x="8" y="33" width="584" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="aOn-vO-3Zo"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="20"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fad" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTj-YP-Rd8">
-                                                                <rect key="frame" x="8" y="8" width="584" height="18"/>
+                                                                <rect key="frame" x="8" y="8" width="584" height="20"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="Pwm-lJ-mF7"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="20"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="default">
@@ -356,6 +365,7 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgC-ee-c2O">
                                                                 <rect key="frame" x="8" y="8" width="584" height="50"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="20"/>
                                                                 <state key="normal" title="Chose Location">
                                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -386,11 +396,11 @@
                                                                 <rect key="frame" x="501" y="17" width="51" height="31"/>
                                                             </switch>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xvl-qU-Mfr">
-                                                                <rect key="frame" x="8" y="8" width="463" height="18"/>
+                                                                <rect key="frame" x="8" y="8" width="463" height="20"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="424" id="s0s-bT-t5k"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="20"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="default">
@@ -425,7 +435,7 @@
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="424" id="BV3-Gr-AFJ"/>
                                                                     <constraint firstAttribute="height" constant="18" id="RHg-Hw-Nkf"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="20"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="default">
@@ -435,8 +445,8 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e0K-v7-M4a">
-                                                                <rect key="frame" x="507" y="20" width="30" height="26"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                                <rect key="frame" x="507" y="20" width="30" height="27"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="27"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -445,7 +455,7 @@
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="21" id="dUK-sN-S2q"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="19"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -533,6 +543,8 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="EK5-fm-clW" secondAttribute="bottom" constant="-64" id="4kF-aX-l3j">
                                             <variation key="heightClass=compact" constant="0.0"/>
@@ -544,9 +556,11 @@
                                         <constraint firstItem="EK5-fm-clW" firstAttribute="leading" secondItem="Fnf-DK-P3A" secondAttribute="leading" id="jcI-RK-WeE"/>
                                     </constraints>
                                 </view>
-                                <blurEffect style="light"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <blurEffect style="extraLight"/>
                             </visualEffectView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="6TK-mM-RGZ" secondAttribute="trailing" constant="-16" id="CPH-pi-4iy"/>
                             <constraint firstItem="6TK-mM-RGZ" firstAttribute="leading" secondItem="lC1-GL-zdZ" secondAttribute="leadingMargin" constant="-16" id="D0q-jH-Cft"/>
@@ -561,21 +575,16 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="TW7-eg-reC">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="20T-ON-DOz">
+                        <barButtonItem key="leftBarButtonItem" image="return13.png" id="20T-ON-DOz">
                             <connections>
                                 <segue destination="YwA-df-DB4" kind="unwind" identifier="cancelButtonSegue" unwindAction="unwindeWithCancelButtonFromGateEditor:" id="tzi-R6-Xnl"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="9Jg-vs-syE">
-                            <connections>
-                                <action selector="doneButtonClicked:" destination="H3d-ms-Sox" id="PHC-rQ-lZr"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="doneButton" destination="9Jg-vs-syE" id="IAi-Eh-Ool"/>
                         <outlet property="tableView" destination="EK5-fm-clW" id="2V8-JB-Cyg"/>
                         <segue destination="YwA-df-DB4" kind="unwind" identifier="unwindToGatesTVC" unwindAction="unwindFromGateEditorVC:" id="gZ8-i6-LP2"/>
+                        <segue destination="YwA-df-DB4" kind="unwind" identifier="unwindwithdeletesegue" unwindAction="unwindWithDeleteButtonFromEditorVC:" id="dnT-VX-QyT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NSg-za-WmZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -725,6 +734,8 @@
         <image name="koby_background_cell.jpeg" width="600" height="185"/>
         <image name="leftArrow.001.jpg" width="39" height="39"/>
         <image name="left_arrow_35.001.png" width="1024" height="768"/>
+        <image name="plus32.png" width="24" height="24"/>
+        <image name="return13.png" width="24" height="24"/>
         <image name="settings-64" width="32" height="32"/>
     </resources>
 </document>

@@ -86,14 +86,14 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     func buttonZeroAction(cell: SwipeableCellTableViewCell) {
-        //delete gate
-        let indexPath = tableView.indexPathForCell(cell)!
-        let gate = gates![indexPath.row]
-        gates!.removeAtIndex(indexPath.row)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-        Model.shared.deleteGate(gate)
-        let container = self.navigationController?.parentViewController as!MainContainerController
-        container.noGatesMessageIfNeeded()
+//        //delete gate
+//        let indexPath = tableView.indexPathForCell(cell)!
+//        let gate = gates![indexPath.row]
+//        gates!.removeAtIndex(indexPath.row)
+//        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//        Model.shared.deleteGate(gate)
+//        let container = self.navigationController?.parentViewController as!MainContainerController
+//        container.noGatesMessageIfNeeded()
     }
     
     func buttonOneAction(cell: SwipeableCellTableViewCell){
@@ -143,7 +143,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     @IBAction func unwindFromGateEditorVC(segue: UIStoryboardSegue) {
-       
+       //created new gate or finished editing
         let gateEditor = segue.sourceViewController as! GateEditorVC
         let gate = gateEditor.gate
         
@@ -174,6 +174,18 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         gates?.insert(gate, atIndex: 0)
         tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
         tableView.endUpdates()
+    }
+    
+    @IBAction func unwindWithDeleteButtonFromEditorVC(segue: UIStoryboardSegue) {
+        //delete gate
+        let indexPath = self.selectedIndexPath
+        let gate = gates![indexPath.row]
+        println("deleted \(gate.name)")
+        gates!.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        Model.shared.deleteGate(gate)
+        let container = self.navigationController?.parentViewController as!MainContainerController
+        container.noGatesMessageIfNeeded()
     }
     
     @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {

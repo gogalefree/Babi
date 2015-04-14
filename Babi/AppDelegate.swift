@@ -21,11 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let barColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
         
-        UINavigationBar.appearance().barTintColor = barColor
-        UINavigationBar.appearance().backgroundColor = barColor
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+//        UINavigationBar.appearance().barTintColor = barColor
+//        UINavigationBar.appearance().backgroundColor = barColor
+        UINavigationBar.appearance().tintColor = UIColor.blackColor()
+//        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+//        
         
+        UINavigationBar.appearance().translucent = true
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), forBarMetrics: .Default)
+        //UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
+        // UINavigationBar.appearance().shadowImage = UIImage()
+
         UIApplication.sharedApplication().idleTimerDisabled = true
         
         return true
