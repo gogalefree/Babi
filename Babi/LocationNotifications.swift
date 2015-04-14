@@ -55,8 +55,8 @@ class LocationNotifications: NSObject {
         localNotification.category = "ARRIVED_CATEGORY"
         localNotification.region = CLCircularRegion(
             center: CLLocationCoordinate2DMake(gate.latitude, gate.longitude),
-            radius: CLLocationDistance(20),
-            identifier: "\(gate.name)\(gate.latitude)")
+            radius: CLLocationDistance(10),
+            identifier: "\(gate.longitude)\(gate.latitude)")
         localNotification.region.notifyOnEntry = true
         localNotification.region.notifyOnExit = false
         return localNotification

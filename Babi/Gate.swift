@@ -26,7 +26,7 @@ class Gate: NSManagedObject {
     @NSManaged var phoneNumber: String
     @NSManaged var fireDistanceFromGate: Int
     
-    var shouldCall = true
+    var shouldCall = false
     var userInRegion = false {
         didSet {
             if  userInRegion == true {

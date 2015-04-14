@@ -148,11 +148,12 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         let gate = gateEditor.gate
         
         //Save Gate
-        var error: NSError? = nil
+        //the should call inits with false so calls are'nt initiated till the gate is completly configured
+
+        gate.shouldCall = true
         
-        if !Model.shared.context!.save(&error) {
-            println(error)
-        }
+        var error: NSError? = nil
+        if !Model.shared.context!.save(&error) {println(error)}
         
         //register notification if needed
         Model.shared.locationNotifications.registerGateForLocationNotification(gate)

@@ -12,7 +12,7 @@ import Foundation
 class MainContainerController: UIViewController {
     
     lazy var noGatesMessageVC : UIViewController!  = {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as! UIViewController
+        return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as! NoGatesVC
         }()
     
     var presentingNoGatesMessage = false
@@ -39,7 +39,7 @@ class MainContainerController: UIViewController {
         
         if gates == nil || gates?.count == 0 {
             
-            var frame = CGRectMake(0,64, self.view.bounds.width, self.view.bounds.height)
+            var frame = CGRectMake(0,56, self.view.bounds.width, self.view.bounds.height)
             noGatesMessageVC.view.frame = frame
             self.addChildViewController(noGatesMessageVC)
             self.view.addSubview(noGatesMessageVC.view)

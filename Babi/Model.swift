@@ -94,6 +94,10 @@ class Model: NSObject, CLLocationManagerDelegate {
             
             for gate in gates{
                 
+                println("gate distance from user: \(gate.distanceFromUserLocation)")
+                println("gate fire Distance: \(gate.fireDistanceFromGate)")
+                
+                
                 if gate.distanceFromUserLocation < Double(gate.fireDistanceFromGate) {
             
                     gate.userInRegion = true

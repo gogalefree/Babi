@@ -35,22 +35,14 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = 66
-        
-        var error: NSError? = nil
-        let results = Model.shared.gates()
-        if error != nil  || results?.count == 0 {
-            println("error fetching or no results")
-        }
-        else {
-            println("count of results \(results?.count)")
-        }
-
-        configureHeaderView()
+        self.tableView.contentInset.top = 68
     }
     
+    /*
     func configureHeaderView() {
         
         headerView = self.tableView.tableHeaderView as! GateEditorTableMainHeader
@@ -72,9 +64,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
         self.headerView.frame = headerRect
     }
+*/
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        updateHeaderView()
     }
 
    
@@ -353,8 +345,16 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             }
         }
         
-        else {println("back to tvc: \(segue.identifier)")}
+        else if segue.identifier == "cancelButtonSegue" {
+            //if state is .NewGate and the user has canceled
+            //we need to delete the new gate from the context
+            if self.state == .NewGate {
+                let context = Model.shared.context
+                if let context = context {
+                    context.deleteObject(gate)
+                    context.save(nil)
+                }
+            }
+        }
     }
-    
-
 }
