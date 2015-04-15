@@ -8,15 +8,15 @@
 
 import UIKit
 
-protocol GateEditorLocationCellDelegate: NSObjectProtocol {
-    func didRequestMapView()
-}
+//protocol GateEditorLocationCellDelegate: NSObjectProtocol {
+//    func didRequestMapView()
+//}
 
 class GateEditorLocationCell: UITableViewCell {
 
     @IBOutlet weak var mapViewButton: UIButton!
     
-    weak var delegate: GateEditorLocationCellDelegate!
+//    weak var delegate: GateEditorLocationCellDelegate!
     
     var initialTitle = String.localizedStringWithFormat("Choose a different location", "tells the user to chose a different location")
     
@@ -33,8 +33,8 @@ class GateEditorLocationCell: UITableViewCell {
     }
 
     @IBAction func buttonTapped() {
-        if let delegate = delegate {
-            delegate.didRequestMapView()
-        }
+//        if let delegate = delegate {
+//            delegate.didRequestMapView()
+//        }
     }
 }

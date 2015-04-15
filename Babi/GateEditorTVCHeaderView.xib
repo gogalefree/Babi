@@ -6,6 +6,7 @@
     <customFonts key="customFonts">
         <mutableArray key="shuneet_12_classic_v21.OTF">
             <string>ShuneetClassic</string>
+            <string>ShuneetClassic</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -42,21 +43,30 @@
                         </mask>
                     </variation>
                 </imageView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="kZZ-2T-oTH">
+                    <rect key="frame" x="20" y="8" width="485" height="30"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="25"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="S9Q-du-2lL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="23X-g2-Jrr"/>
                 <constraint firstAttribute="trailing" secondItem="61A-m5-Bn1" secondAttribute="trailing" id="38Q-tV-AkH"/>
+                <constraint firstItem="kZZ-2T-oTH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="3dE-27-WkV"/>
                 <constraint firstItem="61A-m5-Bn1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FlT-hg-n00"/>
                 <constraint firstItem="LrH-Bj-8FF" firstAttribute="leading" secondItem="S9Q-du-2lL" secondAttribute="trailing" constant="39" id="O6e-e4-rBz"/>
                 <constraint firstItem="61A-m5-Bn1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Z0x-9s-6Z0"/>
                 <constraint firstItem="S9Q-du-2lL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="ZAy-Ke-kQo"/>
+                <constraint firstItem="kZZ-2T-oTH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="eHk-KH-Jsc"/>
                 <constraint firstItem="61A-m5-Bn1" firstAttribute="top" secondItem="LrH-Bj-8FF" secondAttribute="bottom" constant="-45" id="ey0-LL-3xu"/>
                 <constraint firstAttribute="trailing" secondItem="LrH-Bj-8FF" secondAttribute="trailing" constant="31" id="jM1-sw-7rf"/>
                 <constraint firstAttribute="bottom" secondItem="61A-m5-Bn1" secondAttribute="bottom" id="lwF-Tg-KTw"/>
                 <constraint firstItem="S9Q-du-2lL" firstAttribute="centerY" secondItem="LrH-Bj-8FF" secondAttribute="centerY" constant="1" id="thU-3h-eoc"/>
                 <constraint firstItem="LrH-Bj-8FF" firstAttribute="centerX" secondItem="61A-m5-Bn1" secondAttribute="centerX" constant="256.5" id="umi-r3-86w"/>
+                <constraint firstItem="LrH-Bj-8FF" firstAttribute="leading" secondItem="kZZ-2T-oTH" secondAttribute="trailing" constant="39" id="zp3-d0-MlA"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -69,6 +79,7 @@
             <connections>
                 <outlet property="iconImageView" destination="LrH-Bj-8FF" id="5FD-8L-GtI"/>
                 <outlet property="tapGestureRecognizer" destination="YIg-Gd-ZLb" id="4fa-UV-qai"/>
+                <outlet property="textField" destination="kZZ-2T-oTH" id="3DT-KW-irU"/>
                 <outlet property="titleLabel" destination="S9Q-du-2lL" id="07c-IH-jAH"/>
                 <outletCollection property="gestureRecognizers" destination="YIg-Gd-ZLb" appends="YES" id="CNf-SA-h01"/>
             </connections>

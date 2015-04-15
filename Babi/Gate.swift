@@ -138,5 +138,8 @@ class Gate: NSManagedObject {
         println("***************")
     }
 
-   
+    override func awakeFromFetch() {
+        super.awakeFromFetch()
+        shouldCall = true
+    }
 }

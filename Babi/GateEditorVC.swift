@@ -15,7 +15,7 @@ enum GateEditorState {
     case EditGate
 }
 
-class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateEditorTextFieldCellDeleagte, GateEditorLocationCellDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate{
+class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
   
@@ -23,20 +23,18 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var deleteButton: UIBarButtonItem!
     
     private let kTableViewHeaderHeight: CGFloat = 160.0
-    var headerView: GateEditorTableMainHeader!
 
     
     var visibleSections: [Bool] = [false, false, false, false, false] //count must be equal to the sections count
     
+    var selectedSection: Int!
+    
     var headers = [GateEditorTVCHeaderView]()
+    var didCreateHeaders = false
     
     var gate: Gate!
-    var state: GateEditorState! {
-        didSet{
-//            configureWithState(state)
-        }
-    }
-
+    var state: GateEditorState!
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -59,33 +57,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton]
     }
     
-    /*
-    func configureHeaderView() {
-        
-        headerView = self.tableView.tableHeaderView as! GateEditorTableMainHeader
-        self.tableView.tableHeaderView = nil
-        tableView.addSubview(headerView)
-        
-        self.tableView.contentInset = UIEdgeInsets(top: kTableViewHeaderHeight, left: 0, bottom: 100, right: 0)
-        self.tableView.contentOffset = CGPointMake(0, -kTableViewHeaderHeight)
-        updateHeaderView()
-        
-    }
-    
-    func updateHeaderView() {
-        
-        var headerRect = CGRect(x: 0, y: -kTableViewHeaderHeight, width: self.tableView.bounds.width, height: kTableViewHeaderHeight)
-        if self.tableView.contentOffset.y < -kTableViewHeaderHeight {
-            headerRect.origin.y = tableView.contentOffset.y
-            headerRect.size.height = -tableView.contentOffset.y
-        }
-        self.headerView.frame = headerRect
-    }
-*/
-    
+   
     func scrollViewDidScroll(scrollView: UIScrollView) {
+    
     }
-
    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         /*
@@ -109,14 +84,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         let sectionIsVisible = visibleSections[section]
-        println("section visible \(sectionIsVisible)")
         if !sectionIsVisible {return 0}
         
         switch section {
-        case 0:
-            return 1 //textViewCell
-        case 1:
-            return 1 //textViewCell
         case 2:
             return 1 //location
         case 3:
@@ -130,21 +100,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         
         switch indexPath.section {
-        case 0:
-            var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as! gateEditorTextFieldCell
-            cell.delegate = self
-            cell.indexPath = indexPath
-            cell.textField.keyboardType = .Default
-            cell.textField.becomeFirstResponder()
-            return cell
-        
-        case 1:
-            var cell = tableView.dequeueReusableCellWithIdentifier("gateEditorTextFieldCell", forIndexPath: indexPath) as! gateEditorTextFieldCell
-            cell.delegate = self
-            cell.indexPath = indexPath
-            cell.textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
-            cell.textField.becomeFirstResponder()
-            return cell
             
         case 2:
             var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorLocationCell", forIndexPath: indexPath) as! GateEditorLocationCell
@@ -174,91 +129,85 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         if section == 4 {
             //fence view
+            didCreateHeaders = true
             let fenceView = UIView.loadFromNibNamed("GateEditorFenceHeaderVIew")
             return fenceView
         }
         
-        let headersMaxIndex = headers.count - 1
-        //if the headers were already created
-        if headersMaxIndex >= section  {
-            return headers[section]
+        if !didCreateHeaders {
+            
+            let headerView = UIView.loadFromNibNamed("GateEditorTVCHeaderView") as! GateEditorTVCHeaderView
+            headerView.section = section
+            headerView.headerRoll = GateEditorTVCHeaderView.Roll(rawValue: section)
+            headerView.gate = gate
+            headerView.delegate = self
+            if self.state == .EditGate {
+                headerView.setGateTitles(gate)
+            }
+            headers.append(headerView)
+            return headerView
         }
         
-        let headerView = UIView.loadFromNibNamed("GateEditorTVCHeaderView") as! GateEditorTVCHeaderView
-        headerView.section = section
-        headerView.headerRoll = GateEditorTVCHeaderView.Roll(rawValue: section)
-        headerView.delegate = self
-        if self.state == .EditGate {
-            headerView.gate = gate
-        }
-        headers.append(headerView)
-        return headerView
+        else{ return headers[section]}
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        }
-    
+  
     // MARK: - Headers Delegate
     
     func headerTapped(headerView: GateEditorTVCHeaderView) {
         println("gates tvc header tappd: \(headerView.headerRoll.rawValue)")
         
-        let section = headerView.headerRoll.rawValue
+        let section = headerView.section
         let visible = visibleSections[section]
 
-        if visible && section < 2 {
+        if visible && section < 3 {
         
-            saveNewText(headerView.titleLabel.text!, section: section)
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section)) as! gateEditorTextFieldCell
-            cell.textField.resignFirstResponder()
             let gateState = authenticateGate()
             if gateState.authenticated {showDoneButton()}
             else {hideDoneButton()}
         }
         
         visibleSections[section] = !visible
-        tableView.reloadSections(NSIndexSet(index:section), withRowAnimation: .Automatic)
         
-        if !visible {
-            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section), atScrollPosition: .Top, animated: true)
+        //reload location or mode sections
+        if section > 1 {
+            tableView.reloadSections(NSIndexSet(index:section), withRowAnimation: .Automatic)
         }
-
-    }
-    
-    func saveNewText(text: String, section: Int) {
-        switch section {
-        case 0:
-            gate.name = text
-        case 1:
-            gate.phoneNumber = text
-        default:
-            break
+        
+        //if a header becomes selected - hide all other headers
+        if headerView.selected {
+            hideHeaders(section)
         }
-
-        println("saved " + text)
-    }
-
-    
-    //MARK: - TextFieldCell Delegate
-    
-    func editingText(text: String, indexpath: NSIndexPath){
-        let header = headers[indexpath.section]
-        header.animateNewText(text)
-        saveNewText(text, section: indexpath.section)
-    }
-
-    func didFinishEditingText(text: String?, indexpath: NSIndexPath) {
-    
-        let header = headers[indexpath.section]
-        self.headerTapped(header)
-    }
-    
-    //MARK: - LocationCell Delegate
-    
-    func didRequestMapView() {
         
     }
+    
+    func hideHeaders(visibleSection: Int?) {
+        
+        for index in 0...3 {
+            
+            //skip hiding the visible section
+            if let visibleSection = visibleSection {
+                if visibleSection == index {continue}
+            }
+            
+            let sectionVisible = visibleSections[index]
+            if sectionVisible {
+                
+                visibleSections[index] = false
+                let header = headers[index]
+                header.selected = false
+                header.setIdeleState()
+
+                switch index {
+                case 2, 3:
+                    tableView.reloadSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
 
     @IBAction func unwindFromMapViewVC(segue: UIStoryboardSegue) {
         
@@ -271,6 +220,8 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
         
         let locationHeader = headers[2]
+        locationHeader.selected = false
+        locationHeader.setIdeleState()
         locationHeader.animateNewText(locationHeaderTitles[1])
         headerTapped(locationHeader)
     }
@@ -289,10 +240,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         case .NewGate:
 
             gate = Gate.instansiateWithZero()
-            gate.longitude = Model.shared.userLocation.coordinate.longitude
-            gate.latitude = Model.shared.userLocation.coordinate.latitude
             hideDoneButton()
             hideDeleteButton()
+      
         case .EditGate:
             break
         }
@@ -312,7 +262,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
     func doneButtonClicked(sender: AnyObject) {
     
-        println("doneButtonClicked")
         let gateAuthenticated = authenticateGate()
         if !gateAuthenticated.authenticated {showAlert(gateAuthenticated.section!)}
         else {self.performSegueWithIdentifier("unwindToGatesTVC", sender:self)}
@@ -360,12 +309,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
+ 
     
     // MARK: - Navigation
 
