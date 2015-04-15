@@ -16,6 +16,6 @@ class NoGatesVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.messageLable.text = ""//message
+        self.messageLable.text = message
     }
  }

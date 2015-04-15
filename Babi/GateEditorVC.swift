@@ -319,7 +319,14 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func deleteAction() {
-        self.performSegueWithIdentifier("unwindwithdeletesegue", sender: self)
+        let alert = UIAlertController(title: "Sure you want to delete?", message: "\(gate.name)", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .Default, handler: { (action) -> Void in
+            
+            self.performSegueWithIdentifier("unwindwithdeletesegue", sender: self)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func authenticateGate() -> (authenticated: Bool, section: Int?) {

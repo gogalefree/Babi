@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */; };
 		E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */; };
+		E41790721ADE96B5002E68D1 /* BabiCallCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */; };
 		E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */; };
 		E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */; };
 		E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4B1AC6875400A3D669 /* Gate.swift */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kob_navBar_normal.jpeg; sourceTree = "<group>"; };
 		E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kobi_navBar_Blured.png; sourceTree = "<group>"; };
+		E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabiCallCenter.swift; sourceTree = "<group>"; };
 		E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationNotifications.swift; sourceTree = "<group>"; };
 		E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneDialer.swift; sourceTree = "<group>"; };
 		E4375B4B1AC6875400A3D669 /* Gate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				E4375B511AC6D6A000A3D669 /* Model.swift */,
 				E4375B4B1AC6875400A3D669 /* Gate.swift */,
 				E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */,
+				E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */,
 				E4E2E24F1ADCE74D006BD949 /* koby_background_cell.jpeg */,
 				E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */,
 				E4E2E2481ADCDECF006BD949 /* koby_color_small.jpeg */,
@@ -417,6 +420,7 @@
 			files = (
 				E4375B521AC6D6A000A3D669 /* Model.swift in Sources */,
 				E4375B581ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift in Sources */,
+				E41790721ADE96B5002E68D1 /* BabiCallCenter.swift in Sources */,
 				E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */,
 				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
 				E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */,

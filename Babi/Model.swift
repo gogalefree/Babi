@@ -25,6 +25,8 @@ class Model: NSObject, CLLocationManagerDelegate {
         return LocationNotifications()
     }()
     
+    let callCenter = BabiCallCenter()
+    
     var gateInRegion: Gate?
     
     func setUp() {
@@ -32,6 +34,7 @@ class Model: NSObject, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             self.setupLocationManager()
         }
+        
         
         let callAction = UIMutableUserNotificationAction()
         callAction.identifier = kCallActionIdentifier
