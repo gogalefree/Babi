@@ -166,10 +166,10 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
             return
         }
         
-        //notify container to remove no gates message
-        let container = self.navigationController?.parentViewController as! MainContainerController
-        container.removeNoGatesMessageIfNeeded()
-       
+//        //notify container to remove no gates message
+//        let container = self.navigationController?.parentViewController as! MainContainerController
+//        container.removeNoGatesMessageIfNeeded()
+//       
         tableView.beginUpdates()
         gates?.insert(gate, atIndex: 0)
         tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
@@ -185,7 +185,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         Model.shared.deleteGate(gate)
         let container = self.navigationController?.parentViewController as!MainContainerController
-        container.noGatesMessageIfNeeded()
+        container.removeGatesTVCIfNeeded()
     }
     
     @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {

@@ -56,6 +56,13 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         if self.headerRoll == .GateMode {
             titleLabel.textColor = UIColor.darkGrayColor()
         }
+        else if self.headerRoll == .GateName || self.headerRoll == .GatePhoneNumber {
+
+            iconImageView.image = UIImage(named: "pen.png")
+        }
+        else if self.headerRoll == .GateLocation {
+            iconImageView.image = UIImage(named: "facebook30.png")
+        }
     }
     
     func setGateTitles(gate: Gate) {
@@ -176,14 +183,14 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     
     func animateIcon() {
         
-        if selected {
+        if selected && self.headerRoll == .GateMode{
             
             UIView.animateWithDuration(0.4, animations: {
                 
                 self.iconImageView.transform =  CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
             })
         }
-        else {
+        else if self.headerRoll == .GateMode {
             
             UIView.animateWithDuration(0.4, animations: {
                 

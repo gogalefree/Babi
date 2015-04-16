@@ -9,18 +9,21 @@
 import UIKit
 import MapKit
 import CoreData
+import AddressBook
+import AddressBookUI
 
 enum GateEditorState {
     case NewGate
     case EditGate
 }
 
-class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate{
+class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate, ABPeoplePickerNavigationControllerDelegate, MapVCDelegate {
     
     @IBOutlet weak var tableView: UITableView!
   
     var doneButton: UIBarButtonItem!
     var deleteButton: UIBarButtonItem!
+    var addressBookButton: UIBarButtonItem!
     
     private let kTableViewHeaderHeight: CGFloat = 160.0
 
@@ -54,7 +57,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let deleteImage = UIImage(named: "garbage11.png")
         self.deleteButton = UIBarButtonItem(image: deleteImage, style: UIBarButtonItemStyle.Plain, target: self, action: "deleteAction")
         
-        self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton]
+        let addressBookImage = UIImage(named: "address20.png")
+        self.addressBookButton = UIBarButtonItem(image: addressBookImage, style: UIBarButtonItemStyle.Plain, target: self, action: "addressBookAction")
+        
+        self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton, self.addressBookButton]
     }
     
    
@@ -87,10 +93,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         if !sectionIsVisible {return 0}
         
         switch section {
-        case 2:
-            return 1 //location
+        
         case 3:
-            return 2 //mode (automatic + distance to fire)
+            if gate.automatic { return 2 } //mode (automatic + distance to fire)
+            return 1
         default:
             return 0
         }
@@ -109,7 +115,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             if indexPath.row == 0 {
                 //automatic cell
                 var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as! GateEditorAutomaticCell
-                cell.automatic = gate.automatic
+                cell.gate = gate
                 cell.delegate = self
                 return cell
             }
@@ -157,6 +163,12 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func headerTapped(headerView: GateEditorTVCHeaderView) {
         println("gates tvc header tappd: \(headerView.headerRoll.rawValue)")
         
+        //if the header is location header then we show the map vc
+        if headerView.headerRoll == GateEditorTVCHeaderView.Roll.GateLocation {
+            //headerView.selected = false
+            presentMapVC()
+        }
+        
         let section = headerView.section
         let visible = visibleSections[section]
 
@@ -169,8 +181,8 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         visibleSections[section] = !visible
         
-        //reload location or mode sections
-        if section > 1 {
+        //mode section
+        if section == 3 {
             tableView.reloadSections(NSIndexSet(index:section), withRowAnimation: .Automatic)
         }
         
@@ -208,31 +220,43 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    func presentMapVC() {
+    
+        let mapNavigationVC = self.storyboard?.instantiateViewControllerWithIdentifier("mapViewNavController") as! UINavigationController
+        let mapVC = mapNavigationVC.viewControllers[0] as! MapViewVC
+        mapVC.delegate = self
+        mapVC.gate = gate
+        self.navigationController?.presentViewController(mapNavigationVC, animated: true, completion: nil)
+        
+        
+    }
+    
+    //mapVC Delegate
+    func didFinishPickingLocation(gateAnnotation: MKPointAnnotation?) {
 
-    @IBAction func unwindFromMapViewVC(segue: UIStoryboardSegue) {
-        
-        println("unwind from map view")
-        let mapVC = segue.sourceViewController as! MapViewVC
-        let mapAnnotation = mapVC.gateAnnotation
-        if let mapAnnotation = mapAnnotation {
-            gate.latitude = mapAnnotation.coordinate.latitude
-            gate.longitude = mapAnnotation.coordinate.longitude
+        if let gateAnnotation = gateAnnotation {
+            let locationHeader = headers[2]
+            locationHeader.selected = false
+            visibleSections[2] = false
+            locationHeader.animateNewText(locationHeaderTitles[1])
+            let authenticated = authenticateGate()
+            if authenticated.authenticated {
+                showDoneButton()
+            }
         }
-        
-        let locationHeader = headers[2]
-        locationHeader.selected = false
-        locationHeader.setIdeleState()
-        locationHeader.animateNewText(locationHeaderTitles[1])
-        headerTapped(locationHeader)
     }
 
     //MARK: - AutomaticCell Delegate
     
     func didChangeGateAutomaticMode(isAutomatic: Bool) {
-        gate.automatic = isAutomatic
         let header = headers[3]
-        header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])
+        header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])        
+        tableView.reloadSections(NSIndexSet(index: 3), withRowAnimation: .Automatic)
+        gate.toString()
     }
+    
+    //MARK: - Configure State
+
 
     func configureWithState(gateState: GateEditorState) {
         switch gateState {
@@ -248,6 +272,8 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    //MARK: - Hide Sow Done Button
+    
     func hideDoneButton() {
         self.doneButton.enabled = false
     }
@@ -260,6 +286,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.deleteButton.enabled = false
     }
 
+    //MARK: - Button Actions
     func doneButtonClicked(sender: AnyObject) {
     
         let gateAuthenticated = authenticateGate()
@@ -278,6 +305,131 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    //MARK: - Address Book
+    
+    func addressBookAction() {
+        //show address nav controller
+    
+        let addressBookController = ABPeoplePickerNavigationController()
+        addressBookController.peoplePickerDelegate = self
+        self.presentViewController(addressBookController, animated: true, completion: nil)
+    }
+    
+    func peoplePickerNavigationControllerDidCancel(peoplePicker: ABPeoplePickerNavigationController!) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!,
+        didSelectPerson person: ABRecord!) {
+            
+            
+        var gateName = ""
+        var gatePhoneNumber = ""
+        
+        //first name
+        let firstNameTemp = ABRecordCopyValue(person, kABPersonFirstNameProperty)
+        let firstName: NSObject! = Unmanaged<NSObject>.fromOpaque(firstNameTemp.toOpaque()).takeRetainedValue()
+        
+        if let firstName = firstName{
+            gateName = firstName as! String
+            println("firstName: \(firstName)")
+        }
+        else {
+            println("fristName is nil")
+        }
+            
+        
+        //last name
+        let lastNameTemp = ABRecordCopyValue(person, kABPersonLastNameProperty)
+        if let lastNameTemp = lastNameTemp {
+            
+            let lastName: NSObject! = Unmanaged<NSObject>.fromOpaque(lastNameTemp.toOpaque()).takeRetainedValue()
+        
+            if let lastName = lastName {
+                gateName = gateName + " " + (lastName as! String)
+                println("gate name including lastName: \(gateName)")
+            }
+        }
+            
+        else {
+            println("lastName is nil")
+  
+        }
+       
+            var pho: ABMultiValueRef
+            let phoneV : Unmanaged<AnyObject>? = ABRecordCopyValue(person, kABPersonPhoneProperty)
+            
+            if let phonehasv = phoneV {
+                pho = phoneV!.takeUnretainedValue() as ABMultiValueRef
+            
+            //.takeUnretainedValue() as ABMultiValueRef
+        
+            
+            
+        if ABMultiValueGetCount(pho) > 0
+        {
+            var phones: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeUnretainedValue() as ABMultiValueRef
+            
+                for var index = 0; index < ABMultiValueGetCount(phones); ++index{
+                    
+                    let currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phones, index).takeUnretainedValue() as CFStringRef as String
+                    let currentPhoneValue = ABMultiValueCopyValueAtIndex(phones, index).takeUnretainedValue() as! CFStringRef as String
+                    
+                    gatePhoneNumber = currentPhoneValue
+                    println("phone value \(currentPhoneValue)")
+                    println("phone label \(currentPhoneLabel)")
+                    break
+                    
+                }
+            
+        }
+            }
+            println("final name: \(gateName)")
+            println("final phone: \(gatePhoneNumber)")
+            
+            updateGateAndUIFromAddressBook(gateName , gatePhoneNumber: gatePhoneNumber)
+
+    }
+    
+    func updateGateAndUIFromAddressBook(gateName: String , gatePhoneNumber: String){
+        
+        //close headers 
+        //update header labels
+
+        if gateName != "" {
+            let gateNameHeader = headers[0]
+            gateNameHeader.selected = false
+            gateNameHeader.setIdeleState()
+            gateNameHeader.titleLabel.text = gateName
+            gateNameHeader.titleLabel.textColor = UIColor.darkGrayColor()
+            gate.name = gateName
+        }
+
+        if gatePhoneNumber != "" {
+            let gatePhoneHeader = headers[1]
+            gatePhoneHeader.selected = false
+            gatePhoneHeader.setIdeleState()
+            gatePhoneHeader.titleLabel.text = gatePhoneNumber
+            gatePhoneHeader.titleLabel.textColor = UIColor.darkGrayColor()
+            gate.phoneNumber = gatePhoneNumber
+        }
+        
+        gate.toString()
+    }
+
+    
+    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!, shouldContinueAfterSelectingPerson person: ABRecord!, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
+        return false
+    }
+    
+    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!, shouldContinueAfterSelectingPerson person: ABRecord!) -> Bool {
+        
+        
+        return false
+    }
+    
+    // MARK: - Authenticate Gate
+
     func authenticateGate() -> (authenticated: Bool, section: Int?) {
         
         
@@ -313,22 +465,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     
-        if segue.identifier == "presentMapView" {
-            
-            if gate.longitude != 0.0 && gate.latitude != 0.0 {
-            
-                let mapNavController = segue.destinationViewController as! UINavigationController
-                let mapVC = mapNavController.viewControllers[0] as! MapViewVC
-                let gateAnnotation = MKPointAnnotation()
-                gateAnnotation.coordinate = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
-                mapVC.gateAnnotation = gateAnnotation
-            }
-        }
-        
-        else if segue.identifier == "cancelButtonSegue" {
+         if segue.identifier == "cancelButtonSegue" {
             //if state is .NewGate and the user has canceled
             //we need to delete the new gate from the context
             if self.state == .NewGate {

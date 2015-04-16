@@ -349,8 +349,13 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     }
     
     func locationUpdated() {
+        
         if let gate = gate {
-            let distance = Int(ceil(gate.distanceFromUserLocation))
+        
+            println("location update in cell**********")
+            gate.toString()
+            let distance = Int(gate.distanceFromUserLocation)
+            println("distance \(distance)")
             let title = gate.name + "\n\(distance) m"
             itemText = title
         }

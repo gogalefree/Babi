@@ -19,9 +19,10 @@ class GateEditorAutomaticCell: UITableViewCell {
    
     weak var delegate: GateAutomaticCellDelegate!
     
-    var automatic : Bool! {
+    var gate : Gate! {
         didSet{
             defineTitle()
+            automaticSwitch.on = gate.automatic
         }
     }
     
@@ -35,15 +36,15 @@ class GateEditorAutomaticCell: UITableViewCell {
     }
     
     func automaticSwitchMoved(sender: UISwitch) {
-        automatic = automaticSwitch.on
+        gate.automatic = automaticSwitch.on
         if let delegate = delegate {
-            delegate.didChangeGateAutomaticMode(automatic)
+            delegate.didChangeGateAutomaticMode(gate.automatic)
         }
     }
     
     func defineTitle() {
         
-        if !automatic {
+        if !gate.automatic {
             animateTitle(titles[1])
         }
         else {

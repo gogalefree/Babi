@@ -13,32 +13,14 @@ class GateEditorDistanceCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
 
-    @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var minusButton: UIButton!
-
+    @IBOutlet weak var stepper: UIStepper!
+    
     
     var gate: Gate? {
-        didSet{ if let gate = gate{ self.updateLabel()}}
-    }
-    
-    
-    @IBAction func addOneMeter(sender: UIButton) {
-    
-        if let gate = gate {
-            var currentDistance = gate.fireDistanceFromGate
-            currentDistance++
-            gate.fireDistanceFromGate = currentDistance
-            updateLabel()
-        }
-    }
-    
-    @IBAction func reduceOneMeter(sender: UIButton) {
-        
-        if let gate = gate {
-            var currentDistance = gate.fireDistanceFromGate
-            currentDistance--
-            gate.fireDistanceFromGate = currentDistance
-            updateLabel()
+        didSet{ if let gate = gate{
+            self.updateLabel()
+            self.stepper.value = Double(gate.fireDistanceFromGate)
+            }
         }
     }
     
@@ -46,14 +28,15 @@ class GateEditorDistanceCell: UITableViewCell {
         self.distanceLabel.text = "\(gate!.fireDistanceFromGate)"
     }
     
+    func stepperPressed(){
+        self.gate?.fireDistanceFromGate = Int(stepper.value)
+        updateLabel()
+    }
+    
     func configButtons() {
-        plusButton.layer.cornerRadius = 10
-        plusButton.layer.borderColor = UIColor.blackColor().CGColor
-        plusButton.layer.borderWidth = 1
         
-        minusButton.layer.cornerRadius = 10
-        minusButton.layer.borderColor = UIColor.blackColor().CGColor
-        minusButton.layer.borderWidth = 1
+        stepper.layer.cornerRadius = 10
+        stepper.addTarget(self, action: "stepperPressed", forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     override func awakeFromNib() {
@@ -64,6 +47,7 @@ class GateEditorDistanceCell: UITableViewCell {
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+        
         // Configure the view for the selected state
     }
 

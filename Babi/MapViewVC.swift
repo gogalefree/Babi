@@ -10,13 +10,20 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MapVCDelegate: NSObjectProtocol {
+    func didFinishPickingLocation(gateAnnotation: MKPointAnnotation?)
+}
+
 class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var buttonView: UIVisualEffectView!
-    
+    @IBOutlet weak var doneButton: UIButton!
+
+    weak var delegate: MapVCDelegate?
     
     var gateAnnotation: MKPointAnnotation?
+    var gate: Gate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +34,17 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.mapView.delegate = self
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
-
+        
+        if let gate = gate {
+            
+            if gate.longitude != 0.0 && gate.latitude != 0.0 {
+                
+                let gateAnnotation = MKPointAnnotation()
+                gateAnnotation.coordinate = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
+                self.gateAnnotation = gateAnnotation
+            }
+        }
+        
         if let gateAnnotation = gateAnnotation {
             
             self.mapView.addAnnotation(gateAnnotation)
@@ -54,6 +71,27 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.buttonView.animateToAlphaWithSpring(0.4, alpha: 1)
     }
     
+    @IBAction func doneClicked() {
+        
+        println("doneClicked")
+
+        if let mapAnnotation = gateAnnotation {
+            gate?.latitude = mapAnnotation.coordinate.latitude
+            gate?.longitude = mapAnnotation.coordinate.longitude
+        }
+        
+        //inform gateEditor
+        if let delegate = delegate {
+            delegate.didFinishPickingLocation(gateAnnotation)
+        }
+        
+        //dissmiss
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func cancelAction() {
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -64,16 +102,4 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
