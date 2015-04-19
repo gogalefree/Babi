@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class NoGatesVC: UIViewController {
     
@@ -14,8 +15,13 @@ class NoGatesVC: UIViewController {
 
     let noGatesMessage = String.localizedStringWithFormat("Hi BaBi,\n You have no gates yet.", "a title saying that the user has no gates yet")
     
-    let helloMessage = String.localizedStringWithFormat("Hi BaBi,\n Whats Up?.", "a title saying hello to the user")
+    let helloMessage1 = String.localizedStringWithFormat("Hi BaBi,\n Whats Up?", "a title saying hello to the user")
+    let helloMessage2 = String.localizedStringWithFormat("Hi BaBi,\n Where to?", "a title saying hello to the user")
+    let helloMessage3 = String.localizedStringWithFormat("Hi BaBi,\n have a nice trip.", "a title saying hello to the user")
+    let helloMessage4 = String.localizedStringWithFormat("Hi BaBi,\n Drive safe.", "a title saying hello to the user")
+    let helloMessage5 = String.localizedStringWithFormat("Hi BaBi,\n Have fun!" , "a title saying hello to the user")
     
+    var messages = [String]()
     
     
     override func viewDidLoad() {
@@ -23,13 +29,20 @@ class NoGatesVC: UIViewController {
         super.viewDidLoad()
         
         let gates = Model.shared.gates()
+        messages = [helloMessage1 , helloMessage2, helloMessage3, helloMessage4, helloMessage5]
         
         if gates == nil || gates?.count == 0 {
             self.messageLable.text = noGatesMessage
         }
         else {
-            self.messageLable.text = helloMessage
+            self.messageLable.text = generateHelloMessage()
         }
+    }
+    
+    func generateHelloMessage() -> String {
+        
+        let random = Int(arc4random_uniform(5))
+        return messages[random]
     }
     
     override func viewWillAppear(animated: Bool) {

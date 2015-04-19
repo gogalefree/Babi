@@ -113,8 +113,6 @@ class Gate: NSManagedObject {
         
         var newGate = Gate(entity: entity!, insertIntoManagedObjectContext: context!) as Gate!
         
-      //  var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as Gate
-        
         return newGate
 
     }

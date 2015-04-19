@@ -252,7 +252,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let header = headers[3]
         header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])        
         tableView.reloadSections(NSIndexSet(index: 3), withRowAnimation: .Automatic)
-        gate.toString()
     }
     
     //MARK: - Configure State
@@ -264,6 +263,8 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         case .NewGate:
 
             gate = Gate.instansiateWithZero()
+            gate.shouldCall = false
+            Model.shared.context?.save(nil)
             hideDoneButton()
             hideDeleteButton()
       
@@ -414,7 +415,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gate.phoneNumber = gatePhoneNumber
         }
         
-        gate.toString()
     }
 
     

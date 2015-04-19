@@ -17,9 +17,6 @@ protocol MapVCDelegate: NSObjectProtocol {
 class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
 
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var buttonView: UIVisualEffectView!
-    @IBOutlet weak var doneButton: UIButton!
-
     weak var delegate: MapVCDelegate?
     
     var gateAnnotation: MKPointAnnotation?
@@ -50,9 +47,8 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
             self.mapView.addAnnotation(gateAnnotation)
             self.mapView.centerCoordinate = gateAnnotation.coordinate
         }
-        
-        buttonView.layer.cornerRadius = 5
-        buttonView.alpha = 0
+        self.navigationItem.rightBarButtonItem?.enabled = false
+       
     }
     
     func mapTapped(recognizer: UITapGestureRecognizer) {
@@ -67,8 +63,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         annotation.coordinate = coords
         gateAnnotation = annotation
         self.mapView.addAnnotation(annotation)
-        
-        self.buttonView.animateToAlphaWithSpring(0.4, alpha: 1)
+        self.navigationItem.rightBarButtonItem?.enabled = true
     }
     
     @IBAction func doneClicked() {

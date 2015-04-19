@@ -21,16 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let barColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
         
-//        UINavigationBar.appearance().barTintColor = barColor
-//        UINavigationBar.appearance().backgroundColor = barColor
-        UINavigationBar.appearance().tintColor = UIColor.blackColor()
-//        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-//        
+       UINavigationBar.appearance().tintColor = UIColor.blackColor()
         
         UINavigationBar.appearance().translucent = true
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), forBarMetrics: .Default)
-        //UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
-        // UINavigationBar.appearance().shadowImage = UIImage()
 
         UIApplication.sharedApplication().idleTimerDisabled = true
         
@@ -39,9 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         
-//        if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-//         //   Model.shared.locationNotifications.didRecieveLocalNotification(notification)
-//        }
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
@@ -74,6 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if NSUserDefaults.standardUserDefaults().boolForKey(kSleepModeKey) {
+            let container = window?.rootViewController as! MainContainerController
+            container.wakeUpFromSleepMode()
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -140,7 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
+              //  abort()
             }
         }
     }

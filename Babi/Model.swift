@@ -142,6 +142,11 @@ class Model: NSObject, CLLocationManagerDelegate {
             return nil
         }
         println("model fetched with count \(results?.count)")
+       
+        if let results = results {
+            return sortGatesByDistanceFromUser(results as! [Gate])
+        }
+        
         return results as? [Gate]
     }
     
@@ -149,6 +154,27 @@ class Model: NSObject, CLLocationManagerDelegate {
         self.locationNotifications.cancelLocalNotification(gate)
         context?.deleteObject(gate)
         context?.save(nil)
+    }
+    
+    func sortGatesByDistanceFromUser(gates: [Gate]) -> [Gate] {
+        
+        var sortedGates = gates
+        
+        sortedGates.sort({ $0.distanceFromUserLocation < $1.distanceFromUserLocation })
+        
+        return sortedGates
+    }
+    
+    func startLocationUpdates() {
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func stopLocationUpdates() {
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.stopUpdatingLocation()
+        }
     }
 }
 

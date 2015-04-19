@@ -19,9 +19,12 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         super.viewDidLoad()
         
         self.cellsCurrentlyEditing = NSMutableSet()
-        if gates == nil {
+        if gates == nil || gates?.count == 0 {
             gates = [Gate]()
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationUpdated", name: kLocationUpdateNotification, object: nil)
+
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -84,20 +87,11 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         
         self.cellsCurrentlyEditing.removeObject(self.tableView.indexPathForCell(cell)!);
     }
-    
-    func buttonZeroAction(cell: SwipeableCellTableViewCell) {
-//        //delete gate
-//        let indexPath = tableView.indexPathForCell(cell)!
-//        let gate = gates![indexPath.row]
-//        gates!.removeAtIndex(indexPath.row)
-//        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-//        Model.shared.deleteGate(gate)
-//        let container = self.navigationController?.parentViewController as!MainContainerController
-//        container.noGatesMessageIfNeeded()
-    }
-    
+        
     func buttonOneAction(cell: SwipeableCellTableViewCell){
         //present gate editor for editing
+        Model.shared.stopLocationUpdates()
+
         let indexPath = tableView.indexPathForCell(cell)!
         self.selectedIndexPath = indexPath
         
@@ -135,6 +129,8 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     
     @IBAction func presentGateEditor(sender: AnyObject) {
         //for creating a new gate
+        Model.shared.stopLocationUpdates()
+
         let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as! UINavigationController
         gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
@@ -154,6 +150,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         
         var error: NSError? = nil
         if !Model.shared.context!.save(&error) {println(error)}
+        Model.shared.startLocationUpdates()
         
         //register notification if needed
         Model.shared.locationNotifications.registerGateForLocationNotification(gate)
@@ -166,10 +163,10 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
             return
         }
         
-//        //notify container to remove no gates message
-//        let container = self.navigationController?.parentViewController as! MainContainerController
-//        container.removeNoGatesMessageIfNeeded()
-//       
+        //notify container to remove no gates message
+        let container = self.navigationController?.parentViewController as! MainContainerController
+        container.hideNoMessageVCIfNeeded()
+       
         tableView.beginUpdates()
         gates?.insert(gate, atIndex: 0)
         tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
@@ -180,17 +177,48 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         //delete gate
         let indexPath = self.selectedIndexPath
         let gate = gates![indexPath.row]
-        println("deleted \(gate.name)")
+
+        tableView.beginUpdates()
         gates!.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         Model.shared.deleteGate(gate)
-        let container = self.navigationController?.parentViewController as!MainContainerController
-        container.removeGatesTVCIfNeeded()
+        tableView.endUpdates()
+        
+        let container =
+        self.navigationController?.parentViewController as!MainContainerController
+        
+        container.showNoMessageVCIfNeeded()
+        Model.shared.startLocationUpdates()
+
     }
     
+    func locationUpdated() {
+        
+        if let gates = gates {
+            
+            for (index , gate) in enumerate(gates) {
+                
+                let indexpath = NSIndexPath(forRow: index, inSection: 0)
+                let cell = tableView.cellForRowAtIndexPath(indexpath) as! SwipeableCellTableViewCell
+                
+                let distance = gate.distanceFromUserLocation
+                let distanceInMeters = Int(distance)
+                println("distance \(distanceInMeters)")
+                let title = gate.name + "\n\(distanceInMeters) m"
+                cell.itemText = title
+            }
+        }
+    }
+
     @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {
         print("canceked and back to gates table view controller")
     }
 
+    @IBAction func toogleSleepMode() {
+        //notifies the container that sleep mode button pressed
+        
+        let container = self.navigationController?.parentViewController as! MainContainerController
+        container.toogleSleepMode()
+    }
     
 }

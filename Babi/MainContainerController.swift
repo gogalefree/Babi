@@ -9,6 +9,8 @@
 import UIKit
 import Foundation
 
+let kSleepModeKey = "kSleepModeKey"
+
 class MainContainerController: UIViewController {
     
     lazy var noGatesMessageVC : UIViewController!  = {
@@ -20,10 +22,27 @@ class MainContainerController: UIViewController {
             as! UINavigationController!
     }()
     
+    @IBOutlet weak var dimmingView: UIView!
+    @IBOutlet weak var sleepModeMessageView: UIView!
+    @IBOutlet weak var sleepMessageTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var wakeUpButton: UIButton!
+    let kSleepMessageHiddenConstant: CGFloat = -400.0
+    let kSleepMessageVisibleConstant: CGFloat = 70.0
+
+    
+    var sleepMode = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.dimmingView.alpha = 0
+        self.sleepModeMessageView.alpha = 0
+        self.wakeUpButton.alpha = 0
+        self.sleepMessageTopConstraint.constant = kSleepMessageHiddenConstant
+        self.wakeUpButton.layer.borderColor = UIColor.whiteColor().CGColor
+        self.wakeUpButton.layer.borderWidth = 1
+        self.wakeUpButton.layer.cornerRadius = 10
         
         presentWelcomeMessage()
         
@@ -32,25 +51,31 @@ class MainContainerController: UIViewController {
         
         dispatch_after(delayTime, dispatch_get_main_queue(), { () -> Void in
             
-            self.presentGatesTVCIfNeeded()
+            self.presentGatesTVC()
         })        
     }
     
-    func presentGatesTVCIfNeeded() {
-        
-        let gates = Model.shared.gates()
-        
-        if let gates = gates {
-            
-            if gates.count > 0 {
-                
-                self.addChildViewController(gatesTVCNavigationVC)
-                gatesTVCNavigationVC.view.frame = self.view.bounds
-                gatesTVCNavigationVC.didMoveToParentViewController(self)
-                self.view.addSubview(gatesTVCNavigationVC.view)
-                self.noGatesMessageVC.view.alpha = 0
-            }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if sleepMode {
+            wakeUpFromSleepMode()
         }
+    }
+    
+    func presentGatesTVC() {
+    
+            gatesTVCNavigationVC.view.alpha = 0
+            self.addChildViewController(gatesTVCNavigationVC)
+            gatesTVCNavigationVC.view.frame = self.view.bounds
+            gatesTVCNavigationVC.didMoveToParentViewController(self)
+            self.view.addSubview(gatesTVCNavigationVC.view)
+    
+            UIView.animateWithDuration(0.4, animations: { () -> Void in
+                
+                self.gatesTVCNavigationVC.view.alpha = 1
+                
+                if Model.shared.gates() != nil {self.noGatesMessageVC.view.alpha = 0}
+            })
     }
     
     func presentWelcomeMessage() {
@@ -63,10 +88,15 @@ class MainContainerController: UIViewController {
         noGatesMessageVC.didMoveToParentViewController(self)
     }
     
+    func hideNoMessageVCIfNeeded() {
+        let gates = Model.shared.gates()
+        if gates != nil && gates?.count != 0{
+            self.noGatesMessageVC.view.alpha = 0
+        }
+    }
     
-    func removeGatesTVCIfNeeded() {
+    func showNoMessageVCIfNeeded() {
         
-        println("gates tvc removed")
         
         let gates = Model.shared.gates()
         
@@ -75,10 +105,75 @@ class MainContainerController: UIViewController {
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 self.noGatesMessageVC.view.alpha = 1
             })
-            
-            gatesTVCNavigationVC.view.removeFromSuperview()
-            gatesTVCNavigationVC.removeFromParentViewController()
+//            
+//            gatesTVCNavigationVC.view.removeFromSuperview()
+//            gatesTVCNavigationVC.removeFromParentViewController()
         
+        }
+    }
+    
+    func toogleSleepMode() {
+        
+        sleepMode = true
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: kSleepModeKey)
+        //update model
+        Model.shared.stopLocationUpdates()
+        UIApplication.sharedApplication().idleTimerDisabled = false
+        
+        //updateUI
+        UIView.animateWithDuration(0.8, animations: { () -> Void in
+            
+            self.dimmingView.alpha = 0.8
+            self.sleepModeMessageView.alpha = 1
+            self.view.bringSubviewToFront(self.dimmingView)
+            self.view.bringSubviewToFront(self.sleepModeMessageView)
+            
+        }) { (completed) -> Void in
+            
+            UIView.animateWithDuration(0.4, animations: { () -> Void in
+                
+                self.sleepMessageTopConstraint.constant = self.kSleepMessageVisibleConstant
+                self.view.layoutIfNeeded()
+                self.wakeUpButton.alpha = 1
+                
+            }, completion: { (finished) -> Void in
+                
+            })
+            
+        }
+    }
+    
+    @IBAction func wakeUpFromSleepMode() {
+        
+        sleepMode = false
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: kSleepModeKey)
+
+        //update model
+        Model.shared.startLocationUpdates()
+        UIApplication.sharedApplication().idleTimerDisabled = false
+        
+        //updateUI
+        UIView.animateWithDuration(0.8, animations: { () -> Void in
+            
+          
+            self.sleepMessageTopConstraint.constant = self.kSleepMessageHiddenConstant
+            self.view.layoutIfNeeded()
+            self.wakeUpButton.alpha = 0
+
+         
+            
+            }) { (completed) -> Void in
+                
+                UIView.animateWithDuration(0.4, animations: { () -> Void in
+                    
+                    self.dimmingView.alpha = 0
+                    self.sleepModeMessageView.alpha = 0
+
+                    
+                    
+                    }, completion: { (finished) -> Void in
+                        
+                })
         }
     }
 

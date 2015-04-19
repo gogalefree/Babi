@@ -9,7 +9,6 @@
 import UIKit
 
 protocol SwipeableCellDelegate{
-    func buttonZeroAction(cell: SwipeableCellTableViewCell)
     func buttonOneAction(cell: SwipeableCellTableViewCell)
     func buttonTwoAction(cell: SwipeableCellTableViewCell)
     func cellDidOpen(cell: UITableViewCell)
@@ -19,7 +18,6 @@ protocol SwipeableCellDelegate{
 class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     
     
-    @IBOutlet weak var button0: UIButton!
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
     @IBOutlet weak var myContentView: UIView!
@@ -28,7 +26,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var contentViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var arrowImageView: UIImageView!
     
-    let automaticColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
+    let automaticColor = UIColor.blackColor()// UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
     let manualColor = UIColor.blackColor()
 
     
@@ -64,9 +62,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         
         if let delegate = self.delegate {
             
-//            if sender == self.button0 {
-//                delegate.buttonZeroAction(self)
-//            }
+
             if sender == self.button1 {
                 delegate.buttonOneAction(self)
                 
@@ -332,8 +328,6 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         self.panRecognizer = UIPanGestureRecognizer(target: self, action: "panThisCell:")
         self.panRecognizer.delegate = self;
         self.myContentView.addGestureRecognizer(self.panRecognizer)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationUpdated", name: kLocationUpdateNotification, object: nil)
-
     }
     
     func setAutomaticButtonTitle(automatic: Bool) {
@@ -348,19 +342,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         })
     }
     
-    func locationUpdated() {
         
-        if let gate = gate {
-        
-            println("location update in cell**********")
-            gate.toString()
-            let distance = Int(gate.distanceFromUserLocation)
-            println("distance \(distance)")
-            let title = gate.name + "\n\(distance) m"
-            itemText = title
-        }
-    }
-    
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         
         let touch = touches.first as! UITouch
