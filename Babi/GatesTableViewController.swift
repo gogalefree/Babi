@@ -14,6 +14,9 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     var cellsCurrentlyEditing :NSMutableSet!
     var gates = Model.shared.gates() as [Gate]?
     var selectedIndexPath: NSIndexPath!
+    var shouldUpdateLocation = true
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +41,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         cell.indexPath = indexPath
         cell.delegate = self
         let gate = gates![indexPath.row] as Gate
-        let title = gate.name + "\n\(floor(gate.distanceFromUserLocation / 1000))"
+        let title = gate.name + "\n\(floor(gate.distanceFromUserLocation() / 1000))"
         cell.itemText = title
         
         
@@ -57,7 +60,20 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .None
+
+    }
+    
+    override func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
+    }
+    
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -106,7 +122,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         
         self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
         
-        self.cellsCurrentlyEditing.removeObject(indexPath)
+     //   self.cellsCurrentlyEditing.removeObject(indexPath)
         
         Model.shared.locationNotifications.cancelLocalNotification(gate)
     }
@@ -177,6 +193,9 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         //delete gate
         let indexPath = self.selectedIndexPath
         let gate = gates![indexPath.row]
+        if cellsCurrentlyEditing.containsObject(indexPath){
+            cellsCurrentlyEditing.removeObject(indexPath)
+        }
 
         tableView.beginUpdates()
         gates!.removeAtIndex(indexPath.row)
@@ -196,18 +215,67 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         
         if let gates = gates {
             
-            for (index , gate) in enumerate(gates) {
+            if shouldUpdateLocation {
                 
-                let indexpath = NSIndexPath(forRow: index, inSection: 0)
-                let cell = tableView.cellForRowAtIndexPath(indexpath) as! SwipeableCellTableViewCell
+                for (index , gate) in enumerate(gates) {
+                    
+                    let indexpath = NSIndexPath(forRow: index, inSection: 0)
+                    let cell = tableView.cellForRowAtIndexPath(indexpath) as? SwipeableCellTableViewCell
+                    
+
+                    if let cell = cell {
+                        
+                        let distance = gate.distanceFromUserLocation()
+                        let distanceInMeters = Int(distance)
+                        let title = gate.name + "\n\(distanceInMeters) m"
+                        cell.itemText = title
+                    }
+                }
                 
-                let distance = gate.distanceFromUserLocation
-                let distanceInMeters = Int(distance)
-                println("distance \(distanceInMeters)")
-                let title = gate.name + "\n\(distanceInMeters) m"
-                cell.itemText = title
+          //      if !Model.shared.isInRegion(Model.shared.userLocation){
+                    reorderGates()
+            //    }
             }
         }
+    }
+    
+    func reorderGates() {
+        
+        
+        var didMove = false
+        shouldUpdateLocation = false
+        if var gates = self.gates {
+            
+            for var index = 0 ; index < self.gates!.count - 1; index++  {
+                
+                let firstGate = self.gates![index]
+                let seccondGate = self.gates![index+1]
+                
+                if seccondGate.distanceFromUserLocation() < firstGate.distanceFromUserLocation() {
+                   
+                    didMove = true
+                    
+                    let fromIndexPath = NSIndexPath(forRow: index+1, inSection: 0)
+                    let toIndexPath = NSIndexPath(forRow: index, inSection: 0)
+                    
+                    self.gates!.removeAtIndex(index+1)
+                    self.gates!.insert(seccondGate, atIndex: index)
+                    tableView.moveRowAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+                    
+                    if self.cellsCurrentlyEditing.containsObject(fromIndexPath){
+                        self.cellsCurrentlyEditing.removeObject(fromIndexPath)
+                        self.cellsCurrentlyEditing.addObject(toIndexPath)
+                    }
+                   break
+                }
+            }
+            
+            if didMove {
+                reorderGates()
+            }
+        }
+        shouldUpdateLocation = true
+//        Model.shared.setUserRegion()
     }
 
     @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {
@@ -216,7 +284,8 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
 
     @IBAction func toogleSleepMode() {
         //notifies the container that sleep mode button pressed
-        
+
+ //       reorderGates()
         let container = self.navigationController?.parentViewController as! MainContainerController
         container.toogleSleepMode()
     }

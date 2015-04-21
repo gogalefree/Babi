@@ -238,13 +238,31 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             let locationHeader = headers[2]
             locationHeader.selected = false
             visibleSections[2] = false
-            locationHeader.animateNewText(locationHeaderTitles[1])
             let authenticated = authenticateGate()
             if authenticated.authenticated {
                 showDoneButton()
             }
+
+            let location = CLLocation(latitude: gate.latitude, longitude: gate.longitude)
+            let coder = CLGeocoder()
+            coder.reverseGeocodeLocation(location, completionHandler: { (placemarks: [AnyObject]! , error: NSError!) -> Void in
+                
+                if error != nil || placemarks.count == 0 {
+                    locationHeader.animateNewText(locationHeaderTitles[1])
+                    return
+                }
+                
+                let placemark = placemarks.first as! CLPlacemark
+                let name = placemark.name
+                if let name = name {
+                    self.gate.placemarkName = name
+                    locationHeader.animateNewText(name)
+                }
+            })
         }
     }
+    
+  
 
     //MARK: - AutomaticCell Delegate
     

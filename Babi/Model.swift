@@ -27,6 +27,7 @@ class Model: NSObject, CLLocationManagerDelegate {
     
     let callCenter = BabiCallCenter()
     let usageUpdater = BabiUsageUpdater()
+    var userRegion = CLCircularRegion()
     
     var gateInRegion: Gate?
     
@@ -98,11 +99,11 @@ class Model: NSObject, CLLocationManagerDelegate {
             
             for gate in gates{
                 
-                println("gate distance from user: \(gate.distanceFromUserLocation)")
+                println("gate distance from user: \(gate.distanceFromUserLocation())")
                 println("gate fire Distance: \(gate.fireDistanceFromGate)")
                 
                 
-                if gate.distanceFromUserLocation < Double(gate.fireDistanceFromGate) {
+                if gate.distanceFromUserLocation() < Double(gate.fireDistanceFromGate) {
             
                     gate.userInRegion = true
                 }
@@ -145,7 +146,7 @@ class Model: NSObject, CLLocationManagerDelegate {
         
         var sortedGates = gates
         
-        sortedGates.sort({ $0.distanceFromUserLocation < $1.distanceFromUserLocation })
+        sortedGates.sort({ $0.distanceFromUserLocation() < $1.distanceFromUserLocation() })
         
         return sortedGates
     }
@@ -160,6 +161,14 @@ class Model: NSObject, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             self.locationManager.stopUpdatingLocation()
         }
+    }
+    
+    func setUserRegion() {
+        userRegion = CLCircularRegion(center: self.userLocation.coordinate, radius: 50, identifier: "userRegionForLocationUpdates")
+    }
+    
+    func isInRegion(location: CLLocation) -> Bool {
+        return userRegion.containsCoordinate(location.coordinate)
     }
 }
 

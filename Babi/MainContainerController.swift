@@ -13,7 +13,7 @@ let kSleepModeKey = "kSleepModeKey"
 
 class MainContainerController: UIViewController {
     
-    lazy var noGatesMessageVC : UIViewController!  = {
+    lazy var noGatesMessageVC : NoGatesVC!  = {
         return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as! NoGatesVC
         }()
     
@@ -104,10 +104,8 @@ class MainContainerController: UIViewController {
 
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 self.noGatesMessageVC.view.alpha = 1
+                self.noGatesMessageVC.showNoGatesMessage()
             })
-//            
-//            gatesTVCNavigationVC.view.removeFromSuperview()
-//            gatesTVCNavigationVC.removeFromParentViewController()
         
         }
     }

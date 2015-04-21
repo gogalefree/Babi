@@ -45,6 +45,12 @@ class NoGatesVC: UIViewController {
         return messages[random]
     }
     
+    func showNoGatesMessage() {
+        self.messageLable.alpha = 0
+        self.messageLable.text = noGatesMessage
+        self.messageLable.animateToAlphaWithSpring(0.4, alpha: 1)
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.messageLable.alpha = 0

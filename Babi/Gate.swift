@@ -15,6 +15,7 @@ let kGateLatitudeDefaultValue = 0.0
 let kGateLongitudeDefaultValue = 0.0
 let kGateModeDefaultValue = true
 let kGateDistanceToCallDefaultValue = 50
+let kGatePlacemarkNameDefaultValue = "placemarkName"
 
 class Gate: NSManagedObject {
     
@@ -25,6 +26,7 @@ class Gate: NSManagedObject {
     @NSManaged var automatic: Bool
     @NSManaged var phoneNumber: String
     @NSManaged var fireDistanceFromGate: Int
+    @NSManaged var placemarkName: String
     
     var shouldCall = false
     var userInRegion = false {
@@ -38,13 +40,14 @@ class Gate: NSManagedObject {
             }
         }
     }
-    
-    var distanceFromUserLocation: CLLocationDistance {
-     
-        var gateCords = CLLocation(latitude: latitude, longitude: longitude)
-        var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
-        return distance
-    }
+//    
+//    var distanceFromUserLocation: CLLocationDistance {
+//     
+//        var gateCords = CLLocation(latitude: latitude, longitude: longitude)
+//        var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
+//       // println("gate \(name) distance \(distance)")
+//        return distance
+//    }
     
 //    func didUpdateLocation() {
 //      
@@ -55,6 +58,13 @@ class Gate: NSManagedObject {
 //            userInRegion = false
 //        }
 //    }
+    
+    func distanceFromUserLocation() -> Double {
+        
+        var gateCords = CLLocation(latitude: latitude, longitude: longitude)
+        var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
+        return distance
+    }
     
     func callGateIfNeeded () {
         

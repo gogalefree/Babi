@@ -47,7 +47,6 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     
     var gate: Gate?
     
-    
     func setInitialTitles() {
         
         titleLabel.textColor = UIColor.grayColor()
@@ -75,7 +74,13 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         case .GatePhoneNumber:
             titleLabel.text = gate.phoneNumber
         case .GateLocation:
-            titleLabel.text = locationHeaderTitles[1]
+            if gate.placemarkName != kGatePlacemarkNameDefaultValue {
+                titleLabel.text = gate.placemarkName
+            }
+            else{
+                titleLabel.text = locationHeaderTitles[1]
+            }
+            
         case .GateMode:
             titleLabel.text = automaticHeaderTitles[gate.automatic.hashValue]
         }
@@ -160,7 +165,9 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }
         else {
             titleLabel.textColor = UIColor.darkGrayColor()
+            titleLabel.alpha = 0
             titleLabel.text = text
+            titleLabel.animateToAlphaWithSpring(0.4, alpha: 1)
         }
     }
     
