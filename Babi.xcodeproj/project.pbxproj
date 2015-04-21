@@ -13,6 +13,8 @@
 		E41790741ADF8800002E68D1 /* contacts13.png in Resources */ = {isa = PBXBuildFile; fileRef = E41790731ADF8800002E68D1 /* contacts13.png */; };
 		E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */; };
 		E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */; };
+		E42F023B1AE57098001F9FE1 /* target12.png in Resources */ = {isa = PBXBuildFile; fileRef = E42F023A1AE57098001F9FE1 /* target12.png */; };
+		E42F023D1AE573DA001F9FE1 /* target12(1).png in Resources */ = {isa = PBXBuildFile; fileRef = E42F023C1AE573DA001F9FE1 /* target12(1).png */; };
 		E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4B1AC6875400A3D669 /* Gate.swift */; };
 		E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */; };
 		E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */; };
@@ -46,6 +48,7 @@
 		E48A9BE01AE0397700CB3EB9 /* direction51.png in Resources */ = {isa = PBXBuildFile; fileRef = E48A9BDF1AE0397700CB3EB9 /* direction51.png */; };
 		E48A9BE21AE1626400CB3EB9 /* left_co_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = E48A9BE11AE1626400CB3EB9 /* left_co_circle.png */; };
 		E48A9BE41AE297B100CB3EB9 /* shut-down.png in Resources */ = {isa = PBXBuildFile; fileRef = E48A9BE31AE297B100CB3EB9 /* shut-down.png */; };
+		E48A9BE61AE4110C00CB3EB9 /* BabiUsageUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48A9BE51AE4110C00CB3EB9 /* BabiUsageUpdater.swift */; };
 		E4981C941ADD953E00F778F5 /* gateEditorHeaderImage.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */; };
 		E4981C961ADD98B900F778F5 /* gateEditorHeaderView2.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */; };
 		E4981C9A1ADD9AEF00F778F5 /* plus32.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C981ADD9AEF00F778F5 /* plus32.png */; };
@@ -82,6 +85,8 @@
 		E41790731ADF8800002E68D1 /* contacts13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = contacts13.png; path = gateEditorFenceImage/contacts13.png; sourceTree = "<group>"; };
 		E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationNotifications.swift; sourceTree = "<group>"; };
 		E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneDialer.swift; sourceTree = "<group>"; };
+		E42F023A1AE57098001F9FE1 /* target12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = target12.png; sourceTree = "<group>"; };
+		E42F023C1AE573DA001F9FE1 /* target12(1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "target12(1).png"; sourceTree = "<group>"; };
 		E4375B4B1AC6875400A3D669 /* Gate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gate.swift; sourceTree = "<group>"; };
 		E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTableViewController.swift; sourceTree = "<group>"; };
 		E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatesTVCell.swift; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 		E48A9BDF1AE0397700CB3EB9 /* direction51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = direction51.png; sourceTree = "<group>"; };
 		E48A9BE11AE1626400CB3EB9 /* left_co_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_co_circle.png; sourceTree = "<group>"; };
 		E48A9BE31AE297B100CB3EB9 /* shut-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shut-down.png"; sourceTree = "<group>"; };
+		E48A9BE51AE4110C00CB3EB9 /* BabiUsageUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabiUsageUpdater.swift; sourceTree = "<group>"; };
 		E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorHeaderImage.001.png; sourceTree = "<group>"; };
 		E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorHeaderView2.001.png; sourceTree = "<group>"; };
 		E4981C981ADD9AEF00F778F5 /* plus32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus32.png; sourceTree = "<group>"; };
@@ -250,6 +256,7 @@
 				E4375B4B1AC6875400A3D669 /* Gate.swift */,
 				E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */,
 				E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */,
+				E48A9BE51AE4110C00CB3EB9 /* BabiUsageUpdater.swift */,
 				E4E2E24F1ADCE74D006BD949 /* koby_background_cell.jpeg */,
 				E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */,
 				E4E2E2481ADCDECF006BD949 /* koby_color_small.jpeg */,
@@ -298,6 +305,8 @@
 		E4981CA11ADDB70700F778F5 /* gateEditorFenceImage */ = {
 			isa = PBXGroup;
 			children = (
+				E42F023C1AE573DA001F9FE1 /* target12(1).png */,
+				E42F023A1AE57098001F9FE1 /* target12.png */,
 				E48A9BE31AE297B100CB3EB9 /* shut-down.png */,
 				E48A9BE11AE1626400CB3EB9 /* left_co_circle.png */,
 				E48A9BDD1AE01C7000CB3EB9 /* facebook30.png */,
@@ -390,6 +399,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E42F023D1AE573DA001F9FE1 /* target12(1).png in Resources */,
 				E48A9BD81AE016E100CB3EB9 /* garbage11.png in Resources */,
 				E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */,
 				E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */,
@@ -404,6 +414,7 @@
 				E48A9BE01AE0397700CB3EB9 /* direction51.png in Resources */,
 				E4E2E2541ADD07BB006BD949 /* kobi_full.jpg in Resources */,
 				E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */,
+				E42F023B1AE57098001F9FE1 /* target12.png in Resources */,
 				E48A9BDE1AE01C7000CB3EB9 /* facebook30.png in Resources */,
 				E4E2E24E1ADCE490006BD949 /* shuneet_10_oblique_v21.OTF in Resources */,
 				E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */,
@@ -448,6 +459,7 @@
 				E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */,
 				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
 				E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */,
+				E48A9BE61AE4110C00CB3EB9 /* BabiUsageUpdater.swift in Sources */,
 				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
 				E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */,

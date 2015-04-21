@@ -16,11 +16,16 @@ protocol MapVCDelegate: NSObjectProtocol {
 
 class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
 
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView:         MKMapView!
+    @IBOutlet weak var trackUserButton: UIButton!
+    @IBOutlet weak var blureView:       UIVisualEffectView!
+    
+    
     weak var delegate: MapVCDelegate?
     
     var gateAnnotation: MKPointAnnotation?
     var gate: Gate?
+    var trackingUserLocation = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +53,69 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
             self.mapView.centerCoordinate = gateAnnotation.coordinate
         }
         self.navigationItem.rightBarButtonItem?.enabled = false
-       
+        addPanRecognizer()
+        configureTrackButton()
+    }
+    
+    func addPanRecognizer() {
+        
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: "didDragMap:")
+        panRecognizer.delegate = self
+        self.mapView.addGestureRecognizer(panRecognizer)
+    }
+    
+    func configureTrackButton() {
+        
+        self.trackUserButton.layer.cornerRadius = self.trackUserButton.frame.size.width / 2
+        self.blureView.layer.cornerRadius = self.blureView.frame.size.width / 2
+        self.blureView.layer.borderWidth = 1
+        self.blureView.layer.borderColor = UIColor.grayColor().CGColor
+    }
+    
+    func didDragMap(recognizer: UIPanGestureRecognizer) {
+        
+        if (recognizer.state == UIGestureRecognizerState.Began) {
+                
+            self.trackingUserLocation = false
+            self.blureView.animateToAlphaWithSpring(0.4, alpha: 1)
+        }
+    }
+    
+    //MARK: - Track button action
+    @IBAction func trackUserAction(sender: AnyObject) {
+        
+        self.trackingUserLocation = true
+        self.blureView.animateToAlphaWithSpring(0.4, alpha: 0)
+        self.mapView.setCenterCoordinate(self.mapView.userLocation.coordinate, animated: true)
+    }
+    
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
+
+    
+    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+        
+        if userLocation == nil {return}
+        
+        if trackingUserLocation {
+            
+            self.mapView.setCenterCoordinate(self.mapView.userLocation.coordinate, animated: true)
+            var newCamera = self.mapView.camera.copy() as! MKMapCamera
+            newCamera.heading = self.mapView.userLocation.location.course
+            self.mapView.setCamera(newCamera, animated: true)
+        }
+    }
+    
+    func mapViewWillStartRenderingMap(mapView: MKMapView!) {
+        println("will start rendernig")
+    }
+    
+    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+        println("did finish rendernig")
+
     }
     
     func mapTapped(recognizer: UITapGestureRecognizer) {
@@ -88,11 +155,6 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -664,11 +664,42 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LKh-Fp-9ma">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lfM-NG-E9r">
+                                <rect key="frame" x="27" y="484" width="55" height="55"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1Ti-cL-NKG">
+                                    <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WcW-cK-UaX">
+                                            <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
+                                            <state key="normal" image="target12(1).png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="trackUserAction:" destination="oJx-Ug-0dq" eventType="touchUpInside" id="GMI-6n-Igv"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="WcW-cK-UaX" secondAttribute="trailing" id="61b-lK-lNT"/>
+                                        <constraint firstItem="WcW-cK-UaX" firstAttribute="top" secondItem="1Ti-cL-NKG" secondAttribute="top" id="I0h-3z-TlP"/>
+                                        <constraint firstAttribute="bottom" secondItem="WcW-cK-UaX" secondAttribute="bottom" id="jP9-pp-mmy"/>
+                                        <constraint firstItem="WcW-cK-UaX" firstAttribute="leading" secondItem="1Ti-cL-NKG" secondAttribute="leading" id="yMP-u0-fxf"/>
+                                    </constraints>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="d4N-6H-dDF"/>
+                                    <constraint firstAttribute="width" constant="55" id="iXw-tK-Z4M"/>
+                                </constraints>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mlb-mR-mxa" firstAttribute="top" secondItem="LKh-Fp-9ma" secondAttribute="bottom" id="2Rx-z3-r4u"/>
+                            <constraint firstItem="mlb-mR-mxa" firstAttribute="top" secondItem="lfM-NG-E9r" secondAttribute="bottom" constant="61" id="3AC-Rg-TpU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LKh-Fp-9ma" secondAttribute="trailing" constant="-16" id="7nq-sk-Acb"/>
+                            <constraint firstItem="lfM-NG-E9r" firstAttribute="leading" secondItem="cnv-Sh-nQS" secondAttribute="leadingMargin" constant="11" id="Fyq-ww-8Th"/>
                             <constraint firstItem="LKh-Fp-9ma" firstAttribute="leading" secondItem="cnv-Sh-nQS" secondAttribute="leadingMargin" constant="-16" id="jva-zI-gLY"/>
                             <constraint firstItem="LKh-Fp-9ma" firstAttribute="top" secondItem="cnv-Sh-nQS" secondAttribute="topMargin" id="wJc-32-CNE"/>
                         </constraints>
@@ -686,7 +717,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="blureView" destination="lfM-NG-E9r" id="YL3-WX-B6C"/>
                         <outlet property="mapView" destination="LKh-Fp-9ma" id="qZW-S3-0Ol"/>
+                        <outlet property="trackUserButton" destination="WcW-cK-UaX" id="gAD-xW-cMi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5s-lr-reJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -761,6 +794,7 @@
         <image name="return13.png" width="24" height="24"/>
         <image name="settings-64" width="32" height="32"/>
         <image name="shut-down.png" width="24" height="24"/>
+        <image name="target12(1).png" width="55" height="55"/>
         <image name="tick10.png" width="24" height="24"/>
     </resources>
 </document>

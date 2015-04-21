@@ -150,7 +150,7 @@ class MainContainerController: UIViewController {
 
         //update model
         Model.shared.startLocationUpdates()
-        UIApplication.sharedApplication().idleTimerDisabled = false
+        UIApplication.sharedApplication().idleTimerDisabled = true
         
         //updateUI
         UIView.animateWithDuration(0.8, animations: { () -> Void in

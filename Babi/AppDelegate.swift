@@ -69,6 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let container = window?.rootViewController as! MainContainerController
             container.wakeUpFromSleepMode()
         }
+        
+        Model.shared.usageUpdater.incrementDidBecomeActive()
     }
 
     func applicationWillTerminate(application: UIApplication) {
