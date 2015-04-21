@@ -36,7 +36,8 @@ class GateEditorDistanceCell: UITableViewCell {
     func configButtons() {
         
         stepper.layer.cornerRadius = 10
-        stepper.addTarget(self, action: "stepperPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        stepper.addTarget(self, action: "stepperPressed", forControlEvents: UIControlEvents.ValueChanged)
+    
     }
 
     override func awakeFromNib() {

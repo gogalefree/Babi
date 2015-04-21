@@ -520,7 +520,7 @@
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HGc-v7-rlc" id="U2p-1U-riv">
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
-                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="4hz-5Z-vjd">
+                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" wraps="YES" maximumValue="300" translatesAutoresizingMaskIntoConstraints="NO" id="4hz-5Z-vjd">
                                                                 <rect key="frame" x="490" y="18" width="94" height="29"/>
                                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             </stepper>
@@ -542,9 +542,9 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e0K-v7-M4a">
-                                                                <rect key="frame" x="435" y="20" width="30" height="27"/>
+                                                                <rect key="frame" x="430" y="20" width="40" height="27"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="30" id="Zg6-DP-sjf"/>
+                                                                    <constraint firstAttribute="width" constant="40" id="Zg6-DP-sjf"/>
                                                                     <constraint firstAttribute="height" constant="27" id="wDR-fK-44c"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="ShuneetClassic" family="Shuneet Classic" pointSize="27"/>
@@ -552,7 +552,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="m" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lig-zF-Xpy">
-                                                                <rect key="frame" x="447" y="25" width="42" height="21"/>
+                                                                <rect key="frame" x="452" y="25" width="42" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="42" id="7TI-Bx-jjg"/>
                                                                     <constraint firstAttribute="height" constant="21" id="dUK-sN-S2q"/>
@@ -571,7 +571,7 @@
                                                             <constraint firstItem="qg6-5Z-r0D" firstAttribute="leading" secondItem="U2p-1U-riv" secondAttribute="leadingMargin" id="O6Q-Lh-GrJ"/>
                                                             <constraint firstAttribute="centerY" secondItem="4hz-5Z-vjd" secondAttribute="centerY" constant="0.5" id="Tvl-zd-HGY"/>
                                                             <constraint firstItem="e0K-v7-M4a" firstAttribute="top" secondItem="U2p-1U-riv" secondAttribute="topMargin" constant="12" id="UXW-2W-ywa"/>
-                                                            <constraint firstItem="4hz-5Z-vjd" firstAttribute="leading" secondItem="lig-zF-Xpy" secondAttribute="trailing" constant="1" id="asO-ey-fkv"/>
+                                                            <constraint firstItem="4hz-5Z-vjd" firstAttribute="leading" secondItem="lig-zF-Xpy" secondAttribute="trailing" constant="-4" id="asO-ey-fkv"/>
                                                             <constraint firstItem="qg6-5Z-r0D" firstAttribute="top" secondItem="U2p-1U-riv" secondAttribute="topMargin" id="bwm-vO-DeU"/>
                                                             <constraint firstItem="lig-zF-Xpy" firstAttribute="leading" secondItem="e0K-v7-M4a" secondAttribute="trailing" constant="-18" id="eiX-Xj-iOq"/>
                                                             <constraint firstAttribute="trailingMargin" secondItem="4hz-5Z-vjd" secondAttribute="trailing" constant="8" id="jJ9-h0-9EE"/>
