@@ -63,11 +63,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton, self.addressBookButton]
     }
     
-   
-//    func scrollViewDidScroll(scrollView: UIScrollView) {
-//    
-//    }
-    
     //MARK: - Table View delegate datasource
    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -167,7 +162,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         //if the header is location header then we show the map vc
         if headerView.headerRoll == GateEditorTVCHeaderView.Roll.GateLocation {
-            //headerView.selected = false
             presentMapVC()
         }
         
@@ -382,10 +376,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             if let phonehasv = phoneV {
                 pho = phoneV!.takeUnretainedValue() as ABMultiValueRef
-            
-            //.takeUnretainedValue() as ABMultiValueRef
-        
-            
+                
             
         if ABMultiValueGetCount(pho) > 0
         {

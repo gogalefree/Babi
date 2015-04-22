@@ -245,7 +245,8 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         isOpen = false
         
         if (endEditing) {
-            self.delegate?.cellDidClose(self);
+            self.delegate?.cellDidClose(self)
+            animateIconCellCloased()
         }
         
         if (self.startingRightLayoutConstraintConstant != nil && self.startingRightLayoutConstraintConstant == 0 &&
@@ -273,6 +274,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         
         if (notifyDelegate) {
             self.delegate?.cellDidOpen(self)
+            animateIconCellOpen()
         }
         
        

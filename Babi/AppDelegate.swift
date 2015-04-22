@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Model.shared.setUp()
         
-        let barColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
+      //  let barColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
         
        UINavigationBar.appearance().tintColor = UIColor.blackColor()
         

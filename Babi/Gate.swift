@@ -40,24 +40,6 @@ class Gate: NSManagedObject {
             }
         }
     }
-//    
-//    var distanceFromUserLocation: CLLocationDistance {
-//     
-//        var gateCords = CLLocation(latitude: latitude, longitude: longitude)
-//        var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
-//       // println("gate \(name) distance \(distance)")
-//        return distance
-//    }
-    
-//    func didUpdateLocation() {
-//      
-//        if self.distanceFromUserLocation < Double(self.fireDistanceFromGate) {
-//            userInRegion = true
-//        }
-//        else {
-//            userInRegion = false
-//        }
-//    }
     
     func distanceFromUserLocation() -> Double {
         
