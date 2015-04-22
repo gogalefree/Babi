@@ -64,9 +64,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+//    func scrollViewDidScroll(scrollView: UIScrollView) {
+//    
+//    }
     
-    }
+    //MARK: - Table View delegate datasource
    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         /*

@@ -12,6 +12,10 @@ import Foundation
 class NoGatesVC: UIViewController {
     
     @IBOutlet weak var messageLable: UILabel!
+    let originYPortrait: CGFloat = 56.0
+    let originYLandscape: CGFloat = 24.0
+
+        
 
     let noGatesMessage = String.localizedStringWithFormat("Hi BaBi,\n You have no gates yet.", "a title saying that the user has no gates yet")
     
@@ -62,4 +66,20 @@ class NoGatesVC: UIViewController {
             self.messageLable.alpha = 1
         })
     }
+    
+        override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    
+            super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    
+            //moving to landscape
+            if size.width > size.height {
+                self.view.frame.origin.y = originYLandscape
+            }
+                //moving to portrait
+            else {
+                self.view.frame.origin.y = originYLandscape
+            }
+        }
+
+    
  }

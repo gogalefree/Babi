@@ -28,7 +28,7 @@ class MainContainerController: UIViewController {
     @IBOutlet weak var wakeUpButton: UIButton!
     let kSleepMessageHiddenConstant: CGFloat = -400.0
     let kSleepMessageVisibleConstant: CGFloat = 70.0
-
+   
     
     var sleepMode = false
 
@@ -174,6 +174,7 @@ class MainContainerController: UIViewController {
                 })
         }
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
