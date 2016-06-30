@@ -16,21 +16,21 @@ class LocationNotifications: NSObject {
     
     func registerGateForLocationNotification(gate: Gate) {
         
-        let localNotification = generateLocalNotification(gate)
-
-        if gate.automatic {
-            
-            if registeredGates.containsObject(gate) {return}
-            
-            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-            registeredGates.addObject(gate)
-        }
+//        let localNotification = generateLocalNotification(gate)
+//
+//        if gate.automatic {
+//            
+//            if registeredGates.containsObject(gate) {return}
+//            
+//            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+//            registeredGates.addObject(gate)
+//        }
     }
     
     func cancelLocalNotification(gate: Gate) {
-        let notification = generateLocalNotification(gate)
-        UIApplication.sharedApplication().cancelLocalNotification(notification)
-        if registeredGates.containsObject(gate){registeredGates.removeObject(gate)}
+//        let notification = generateLocalNotification(gate)
+//        UIApplication.sharedApplication().cancelLocalNotification(notification)
+//        if registeredGates.containsObject(gate){registeredGates.removeObject(gate)}
     }
     
     func didRecieveLocalNotification(notification: UILocalNotification) {

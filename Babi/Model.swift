@@ -60,12 +60,12 @@ class Model: NSObject, CLLocationManagerDelegate {
         arrivedToGateCategory.setActions([callAction, cancelAction], forContext: UIUserNotificationActionContext.Default)
         
         let categoriesSet = NSSet(object: arrivedToGateCategory)
-        let types = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound;
-        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet as Set<NSObject>);
+        let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound];
+        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet as Set<NSObject> as Set<NSObject>);
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         switch status {
         case  .AuthorizedWhenInUse :
@@ -85,7 +85,7 @@ class Model: NSObject, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!){
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         userLocation = locations.last as! CLLocation
         NSNotificationCenter.defaultCenter().postNotificationName(kLocationUpdateNotification, object: nil)
         isInRegion()
@@ -99,8 +99,8 @@ class Model: NSObject, CLLocationManagerDelegate {
             
             for gate in gates{
                 
-                println("gate distance from user: \(gate.distanceFromUserLocation())")
-                println("gate fire Distance: \(gate.fireDistanceFromGate)")
+                print("gate distance from user: \(gate.distanceFromUserLocation())")
+                print("gate fire Distance: \(gate.fireDistanceFromGate)")
                 
                 
                 if gate.distanceFromUserLocation() < Double(gate.fireDistanceFromGate) {
@@ -121,13 +121,19 @@ class Model: NSObject, CLLocationManagerDelegate {
         request.returnsObjectsAsFaults = false
 
         var error: NSError? = nil
-        let results = context?.executeFetchRequest(request, error: &error)
+        let results: [AnyObject]?
+        do {
+            results = try context?.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            results = nil
+        }
         
         if error != nil  || results?.count == 0 {
-            println("error fetching or no results")
+            print("error fetching or no results")
             return nil
         }
-        println("model fetched with count \(results?.count)")
+        print("model fetched with count \(results?.count)")
        
         if let results = results {
             return sortGatesByDistanceFromUser(results as! [Gate])
@@ -139,14 +145,17 @@ class Model: NSObject, CLLocationManagerDelegate {
     func deleteGate(gate: Gate) {
         self.locationNotifications.cancelLocalNotification(gate)
         context?.deleteObject(gate)
-        context?.save(nil)
+        do {
+            try context?.save()
+        } catch _ {
+        }
     }
     
     func sortGatesByDistanceFromUser(gates: [Gate]) -> [Gate] {
         
         var sortedGates = gates
         
-        sortedGates.sort({ $0.distanceFromUserLocation() < $1.distanceFromUserLocation() })
+        sortedGates.sortInPlace({ $0.distanceFromUserLocation() < $1.distanceFromUserLocation() })
         
         return sortedGates
     }

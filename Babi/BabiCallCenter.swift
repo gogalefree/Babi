@@ -23,7 +23,7 @@ class BabiCallCenter: NSObject {
         
         callCenter.callEventHandler = { [weak self] (call:CTCall!) in
             
-            println("call state before handler: \(call.callState)")
+            print("call state before handler: \(call.callState)")
             
             switch call.callState {
             case CTCallStateConnected:
@@ -38,11 +38,11 @@ class BabiCallCenter: NSObject {
     }
     
     func callConnected() {
-        println("CTCallStateConnected")
+        print("CTCallStateConnected")
     }
     
     func callDisconnected() {
-        println("CTCallStateDisconnected")
+        print("CTCallStateDisconnected")
         let url = NSURL(string: "babi://")
         UIApplication.sharedApplication().openURL(url!)
     }

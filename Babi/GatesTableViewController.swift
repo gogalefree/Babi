@@ -90,7 +90,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
             
         }
         else {
-            println("Unhandled Editing style")
+            print("Unhandled Editing style")
         }
     }
     
@@ -165,10 +165,13 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         gate.shouldCall = true
         
         var error: NSError? = nil
-        if !Model.shared.context!.save(&error) {println(error)}
+        do {
+            try Model.shared.context!.save()
+        } catch let error1 as NSError {error = error1; print(error)}
         Model.shared.startLocationUpdates()
         
         //register notification if needed
+        //we dont register local notifications for now
         Model.shared.locationNotifications.registerGateForLocationNotification(gate)
         
         if gateEditor.state == GateEditorState.EditGate {
@@ -217,7 +220,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
             
             if shouldUpdateLocation {
                 
-                for (index , gate) in enumerate(gates) {
+                for (index , gate) in gates.enumerate() {
                     
                     let indexpath = NSIndexPath(forRow: index, inSection: 0)
                     let cell = tableView.cellForRowAtIndexPath(indexpath) as? SwipeableCellTableViewCell
@@ -279,7 +282,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
     }
 
     @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {
-        print("canceked and back to gates table view controller")
+        print("canceked and back to gates table view controller", terminator: "")
     }
 
     @IBAction func toogleSleepMode() {

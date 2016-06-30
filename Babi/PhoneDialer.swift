@@ -16,7 +16,7 @@ class PhoneDialer: NSObject {
             
             if phoneNumber != "phoneNumber" { //the default value
             
-                var url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
+                let url:NSURL = NSURL(string: "tel://\(phoneNumber)")!
                 UIApplication.sharedApplication().openURL(url)
             }
         }

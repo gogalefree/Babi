@@ -80,7 +80,7 @@ class MainContainerController: UIViewController {
     
     func presentWelcomeMessage() {
         
-        var frame = CGRectMake(0,56, self.view.bounds.width, self.view.bounds.height)
+        let frame = CGRectMake(0,56, self.view.bounds.width, self.view.bounds.height)
         noGatesMessageVC.view.frame = frame
         self.addChildViewController(noGatesMessageVC)
         self.view.addSubview(noGatesMessageVC.view)

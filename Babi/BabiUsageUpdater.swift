@@ -42,7 +42,7 @@ class BabiUsageUpdater: NSObject {
         
         deviceUUID = deviceUUID ?? {
            
-            var uuid = NSUUID().UUIDString
+            let uuid = NSUUID().UUIDString
             NSUserDefaults.standardUserDefaults().setObject(uuid, forKey: kDeviceUUIDKey)
             return uuid
         }()
@@ -57,10 +57,10 @@ class BabiUsageUpdater: NSObject {
     func reportUUID() {
 
         let params = paramsForInitialReport()
-        let jsonData = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: nil)
+        let jsonData = try? NSJSONSerialization.dataWithJSONObject(params, options: [])
         let url = NSURL(string: initialReportUrlString)
 
-        var request = NSMutableURLRequest(URL: url!)
+        let request = NSMutableURLRequest(URL: url!)
         request.HTTPMethod = "PUT"
         request.HTTPBody = jsonData!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -68,7 +68,7 @@ class BabiUsageUpdater: NSObject {
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request, completionHandler: {
-            (data:NSData!, response: NSURLResponse!, error:NSError!) -> Void in
+            (data:NSData?, response: NSURLResponse?, error:NSError?) -> Void in
             
             if let response = response {
                 
@@ -80,7 +80,7 @@ class BabiUsageUpdater: NSObject {
                     self.didReportUUID = true
                 }
                 else {
-                    println("error: \(error)")
+                    print("error: \(error)")
                 }
             }
         })
@@ -105,7 +105,7 @@ class BabiUsageUpdater: NSObject {
         var countryCode: String = "NotPhone"
         let local = NSLocale.currentLocale()
         countryCode = local.objectForKey(NSLocaleCountryCode) as! String
-        println("local code: \(countryCode)")
+        print("local code: \(countryCode)")
         return countryCode
     }
     
@@ -116,7 +116,7 @@ class BabiUsageUpdater: NSObject {
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         let date = NSDate()
         dateInstalled = dateFormatter.stringFromDate(date)
-        println("date: \(dateInstalled)")
+        print("date: \(dateInstalled)")
         return dateInstalled
     }
     
@@ -139,9 +139,9 @@ class BabiUsageUpdater: NSObject {
             
             let params = [kAppIdKey:kAppIdValue,kBecameActiveParamsKey:storedCounter,kDeviceUUIDParamsKey:deviceUUID]
 
-            let dictToSend = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: nil)
+            let dictToSend = try? NSJSONSerialization.dataWithJSONObject(params, options: [])
             
-            println(params)
+            print(params)
             
             let url = NSURL(string: updateActivityURLString)
             var request = NSMutableURLRequest(URL: url!)
@@ -151,17 +151,17 @@ class BabiUsageUpdater: NSObject {
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             
             let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response: NSURLResponse!, error:NSError!) -> Void in
+            let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response: NSURLResponse?, error:NSError?) -> Void in
                 
                 if var serverResponse = response {
                     
-                    print("respons: \(serverResponse.description)")
+                    print("respons: \(serverResponse.description)", terminator: "")
                     
                     if error == nil {
                         //we currently implement as best effort. nothing is done with an error
-                        let recieved = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as! [String:String]
+                        let recieved = (try! NSJSONSerialization.JSONObjectWithData(data, options: [])) as! [String:String]
     
-                        println("receieved: \(recieved)")
+                        print("receieved: \(recieved)")
                         
                     }
                 }

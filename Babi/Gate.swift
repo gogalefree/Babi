@@ -43,8 +43,8 @@ class Gate: NSManagedObject {
     
     func distanceFromUserLocation() -> Double {
         
-        var gateCords = CLLocation(latitude: latitude, longitude: longitude)
-        var distance = gateCords.distanceFromLocation(Model.shared.userLocation)
+        let gateCords = CLLocation(latitude: latitude, longitude: longitude)
+        let distance = gateCords.distanceFromLocation(Model.shared.userLocation)
         return distance
     }
     
@@ -72,10 +72,16 @@ class Gate: NSManagedObject {
             let request = NSFetchRequest(entityName: "Gate")
             request.predicate = NSPredicate(format: "name == %@", name)
             var error: NSError?
-            let results = context?.executeFetchRequest(request, error: &error)
+            let results: [AnyObject]?
+            do {
+                results = try context?.executeFetchRequest(request)
+            } catch let error1 as NSError {
+                error = error1
+                results = nil
+            }
             
             if results?.count > 1 || error != nil {
-                println("error creating Gate: \(error)")
+                print("error creating Gate: \(error)")
             }
             else if results?.count == 1 {
                 //we have this gate
@@ -83,7 +89,7 @@ class Gate: NSManagedObject {
             }
             else {
                 //create new gate
-                var newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as! Gate
+                let newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as! Gate
                 newGate.name = name
                 newGate.latitude = latitude
                 newGate.longitude = longitude
@@ -103,7 +109,7 @@ class Gate: NSManagedObject {
         
         let entity = NSEntityDescription.entityForName("Gate", inManagedObjectContext: context!)
         
-        var newGate = Gate(entity: entity!, insertIntoManagedObjectContext: context!) as Gate!
+        let newGate = Gate(entity: entity!, insertIntoManagedObjectContext: context!) as Gate!
         
         return newGate
 
@@ -113,19 +119,19 @@ class Gate: NSManagedObject {
         
         let keys = gate.entity.attributesByName.keys.array
         let dict = gate.dictionaryWithValuesForKeys(keys)
-        print("keys are: \(dict)")
+        print("keys are: \(dict)", terminator: "")
         return dict
     }
     
     func toString() {
-        println("Gate: ***************")
-        println("name: \(self.name)")
-        println("latitude: \(self.latitude)")
-        println("longitude: \(self.longitude)")
-        println("mode: \(self.automatic)")
-        println("phone Number: \(phoneNumber)")
-        println("distance: \(fireDistanceFromGate)")
-        println("***************")
+        print("Gate: ***************")
+        print("name: \(self.name)")
+        print("latitude: \(self.latitude)")
+        print("longitude: \(self.longitude)")
+        print("mode: \(self.automatic)")
+        print("phone Number: \(phoneNumber)")
+        print("distance: \(fireDistanceFromGate)")
+        print("***************")
     }
 
     override func awakeFromFetch() {

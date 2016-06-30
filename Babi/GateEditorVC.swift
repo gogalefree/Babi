@@ -73,7 +73,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         //3 gate mode
         //4 fence header
         */
-        return 5
+        return 4
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -105,25 +105,25 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         switch indexPath.section {
             
         case 2:
-            var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorLocationCell", forIndexPath: indexPath) as! GateEditorLocationCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("GateEditorLocationCell", forIndexPath: indexPath) as! GateEditorLocationCell
             return cell
             
         case 3:
             if indexPath.row == 0 {
                 //automatic cell
-                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as! GateEditorAutomaticCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("GateEditorAutomaticCell", forIndexPath: indexPath) as! GateEditorAutomaticCell
                 cell.gate = gate
                 cell.delegate = self
                 return cell
             }
             else {
-                var cell = tableView.dequeueReusableCellWithIdentifier("GateEditorDistanceToCallCell", forIndexPath: indexPath) as! GateEditorDistanceCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("GateEditorDistanceToCallCell", forIndexPath: indexPath) as! GateEditorDistanceCell
                 cell.gate = gate
                 return cell
             }
             
         default:
-            var cell = UITableViewCell()
+            let cell = UITableViewCell()
             return cell
         }
     }
@@ -158,7 +158,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     // MARK: - Headers Delegate
     
     func headerTapped(headerView: GateEditorTVCHeaderView) {
-        println("gates tvc header tappd: \(headerView.headerRoll.rawValue)")
+        print("gates tvc header tappd: \(headerView.headerRoll.rawValue)")
         
         //if the header is location header then we show the map vc
         if headerView.headerRoll == GateEditorTVCHeaderView.Roll.GateLocation {
@@ -170,9 +170,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
         if visible && section < 3 {
         
-            let gateState = authenticateGate()
-            if gateState.authenticated {showDoneButton()}
-            else {hideDoneButton()}
+            showDoneButtonIfNeeded()
         }
         
         visibleSections[section] = !visible
@@ -278,7 +276,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
             gate = Gate.instansiateWithZero()
             gate.shouldCall = false
-            Model.shared.context?.save(nil)
+            do {
+                try Model.shared.context?.save()
+            } catch _ {
+            }
             hideDoneButton()
             hideDeleteButton()
       
@@ -330,12 +331,12 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.presentViewController(addressBookController, animated: true, completion: nil)
     }
     
-    func peoplePickerNavigationControllerDidCancel(peoplePicker: ABPeoplePickerNavigationController!) {
+    func peoplePickerNavigationControllerDidCancel(peoplePicker: ABPeoplePickerNavigationController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!,
-        didSelectPerson person: ABRecord!) {
+    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController,
+        didSelectPerson person: ABRecord) {
             
             
         var gateName = ""
@@ -347,10 +348,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         if let firstName = firstName{
             gateName = firstName as! String
-            println("firstName: \(firstName)")
+            print("firstName: \(firstName)")
         }
         else {
-            println("fristName is nil")
+            print("fristName is nil")
         }
             
         
@@ -362,12 +363,12 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
             if let lastName = lastName {
                 gateName = gateName + " " + (lastName as! String)
-                println("gate name including lastName: \(gateName)")
+                print("gate name including lastName: \(gateName)")
             }
         }
             
         else {
-            println("lastName is nil")
+            print("lastName is nil")
   
         }
        
@@ -380,7 +381,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             
         if ABMultiValueGetCount(pho) > 0
         {
-            var phones: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeUnretainedValue() as ABMultiValueRef
+            let phones: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeUnretainedValue() as ABMultiValueRef
             
                 for var index = 0; index < ABMultiValueGetCount(phones); ++index{
                     
@@ -388,16 +389,16 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     let currentPhoneValue = ABMultiValueCopyValueAtIndex(phones, index).takeUnretainedValue() as! CFStringRef as String
                     
                     gatePhoneNumber = currentPhoneValue
-                    println("phone value \(currentPhoneValue)")
-                    println("phone label \(currentPhoneLabel)")
+                    print("phone value \(currentPhoneValue)")
+                    print("phone label \(currentPhoneLabel)")
                     break
                     
                 }
             
         }
             }
-            println("final name: \(gateName)")
-            println("final phone: \(gatePhoneNumber)")
+            print("final name: \(gateName)")
+            print("final phone: \(gatePhoneNumber)")
             
             updateGateAndUIFromAddressBook(gateName , gatePhoneNumber: gatePhoneNumber)
 
@@ -426,20 +427,27 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gate.phoneNumber = gatePhoneNumber
         }
         
+            showDoneButtonIfNeeded()
     }
 
     
-    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!, shouldContinueAfterSelectingPerson person: ABRecord!, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
+    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
         return false
     }
     
-    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!, shouldContinueAfterSelectingPerson person: ABRecord!) -> Bool {
+    func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord) -> Bool {
         
         
         return false
     }
     
     // MARK: - Authenticate Gate
+    
+    func showDoneButtonIfNeeded() {
+        let authenticated = authenticateGate()
+        if authenticated.authenticated {showDoneButton()}
+        else {hideDoneButton()}
+    }
 
     func authenticateGate() -> (authenticated: Bool, section: Int?) {
         
@@ -485,7 +493,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                 let context = Model.shared.context
                 if let context = context {
                     context.deleteObject(gate)
-                    context.save(nil)
+                    do {
+                        try context.save()
+                    } catch _ {
+                    }
                 }
             }
         }

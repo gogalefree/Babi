@@ -2,7 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Gate" representedClassName="Babi.Gate" syncable="YES">
         <attribute name="automatic" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
-        <attribute name="fireDistanceFromGate" attributeType="Integer 64" defaultValueString="50" syncable="YES"/>
+        <attribute name="fireDistanceFromGate" attributeType="Integer 32" defaultValueString="50" syncable="YES"/>
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="Gate" syncable="YES"/>

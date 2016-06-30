@@ -56,7 +56,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
             
             let components = string.componentsSeparatedByCharactersInSet(digitsCharecterSet)
             
-            let filtered = join("", components)
+            let filtered = components.joinWithSeparator("")
             
             shouldChange =  string == filtered && newLength <= 10
         }

@@ -146,10 +146,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             switch headerRoll as Roll {
             case .GateName:
                 gate.name = textField.text
-                println("saved gate name: \(gate.name)")
+                print("saved gate name: \(gate.name)")
             case .GatePhoneNumber:
                 gate.phoneNumber = textField.text
-                println("saved gate phone: \(gate.phoneNumber)")
+                print("saved gate phone: \(gate.phoneNumber)")
 
             default:
                 break
@@ -217,7 +217,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         
         let digitsCharecterSet = NSCharacterSet(charactersInString: digits).invertedSet
         let components = string.componentsSeparatedByCharactersInSet(digitsCharecterSet)
-        let filtered = join("", components)
+        let filtered = components.joinWithSeparator("")
         var shouldChange = true
         shouldChange =  string == filtered
         return shouldChange

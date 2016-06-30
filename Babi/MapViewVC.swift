@@ -30,31 +30,37 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addTapGestureToMap()
+        addPanRecognizer()
+        addGateAnnotationIfNeeded()
+        configureTrackButton()
+        self.navigationItem.rightBarButtonItem?.enabled = false
+    }
+    
+    func addGateAnnotationIfNeeded() {
+        
+        if let gate = gate {
+    
+            if gate.longitude != 0.0 && gate.latitude != 0.0 {
+        
+                let gateAnnotation = MKPointAnnotation()
+                gateAnnotation.coordinate = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
+                self.gateAnnotation = gateAnnotation
+                self.mapView.addAnnotation(gateAnnotation)
+                self.mapView.centerCoordinate = gateAnnotation.coordinate
+            }
+        }
+    }
+    
+    func addTapGestureToMap() {
+    
         let tapGesture = UITapGestureRecognizer(target: self, action: "mapTapped:")
         tapGesture.delegate = self
         self.mapView.addGestureRecognizer(tapGesture)
         self.mapView.delegate = self
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
-        
-        if let gate = gate {
-            
-            if gate.longitude != 0.0 && gate.latitude != 0.0 {
-                
-                let gateAnnotation = MKPointAnnotation()
-                gateAnnotation.coordinate = CLLocationCoordinate2DMake(gate.latitude, gate.longitude)
-                self.gateAnnotation = gateAnnotation
-            }
-        }
-        
-        if let gateAnnotation = gateAnnotation {
-            
-            self.mapView.addAnnotation(gateAnnotation)
-            self.mapView.centerCoordinate = gateAnnotation.coordinate
-        }
-        self.navigationItem.rightBarButtonItem?.enabled = false
-        addPanRecognizer()
-        configureTrackButton()
+
     }
     
     func addPanRecognizer() {
@@ -96,7 +102,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
 
 
     
-    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         
         if userLocation == nil {return}
         
@@ -109,12 +115,12 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         }
     }
     
-    func mapViewWillStartRenderingMap(mapView: MKMapView!) {
-        println("will start rendernig")
+    func mapViewWillStartRenderingMap(mapView: MKMapView) {
+        print("will start rendernig")
     }
     
-    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
-        println("did finish rendernig")
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+        print("did finish rendernig")
 
     }
     
@@ -135,7 +141,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     
     @IBAction func doneClicked() {
         
-        println("doneClicked")
+        print("doneClicked")
 
         if let mapAnnotation = gateAnnotation {
             gate?.latitude = mapAnnotation.coordinate.latitude

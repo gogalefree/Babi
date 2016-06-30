@@ -25,19 +25,20 @@ class GateEditorDistanceCell: UITableViewCell {
     }
     
     func updateLabel() {
+        
         self.distanceLabel.text = "\(gate!.fireDistanceFromGate)"
     }
     
     func stepperPressed(){
+        
         self.gate?.fireDistanceFromGate = Int(stepper.value)
         updateLabel()
     }
     
     func configButtons() {
         
-        stepper.layer.cornerRadius = 10
+   //     stepper.layer.cornerRadius = 10
         stepper.addTarget(self, action: "stepperPressed", forControlEvents: UIControlEvents.ValueChanged)
-    
     }
 
     override func awakeFromNib() {

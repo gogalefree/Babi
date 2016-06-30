@@ -37,7 +37,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     let kBounceValue: CGFloat = 20.0
     var isOpen: Bool = false {
         didSet{
-            println("gate open: \(isOpen)")
+            print("gate open: \(isOpen)")
         }
     }
     
@@ -72,7 +72,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
             }
                 
             else {
-                println("Unknown Button Clicked")
+                print("Unknown Button Clicked")
             }
         }
     }
@@ -98,7 +98,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
             
             if self.startingRightLayoutConstraintConstant == 0 { //true if the cell is closed
                 if !panningLeft {
-                    println("paning right when the cell is closed")
+                    print("paning right when the cell is closed")
 
                     
                     let constant = max(-deltaX, 0)
@@ -111,7 +111,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                     }
                 }
                 else {
-                    println("paning left when the cell is closed \(-deltaX)")
+                    print("paning left when the cell is closed \(-deltaX)")
 
                     let constant = min(-deltaX, self.buttonTotalWidth())
                     
@@ -128,7 +128,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                 let adjustment = self.startingRightLayoutConstraintConstant - deltaX; //1
                 
                 if (!panningLeft) {
-                    println("paning right when the cell is open \(deltaX)")
+                    print("paning right when the cell is open \(deltaX)")
 
                     
                     let constant = max(adjustment, 0)
@@ -143,7 +143,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
                     }
                 }
                 else {
-                    println("paning left when the cell is open")
+                    print("paning left when the cell is open")
 
                     
                     let constant = min(adjustment, self.buttonTotalWidth()) //5
@@ -345,12 +345,12 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     }
     
         
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
         let touch = touches.first as! UITouch
         let touchPoint = touch.locationInView(self)
         let callRect = CGRectMake(0,0,
-            CGRectGetMinX(self.arrowImageView.frame) - 10 ,
+            CGRectGetMinX(self.arrowImageView.frame) - 30 ,
             CGRectGetHeight(self.frame))
         
         let closeCellRect = CGRectMake(0,0,
@@ -362,13 +362,13 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         
         if !shouldCall && !isOpen {
             //open cell
-            println("Arrow touched")
+            print("Arrow touched")
             self.setConstraintsToShowAllButtons(true ,notifyDelegateDidOpen:true);
             animateIconCellOpen()
         }
         else if shouldCloseCell && isOpen {
             //close the cell
-            print("Arrow touched to close")
+            print("Arrow touched to close", terminator: "")
             self.resetConstraintContstantsToZero(true, notifyDelegateDidClose: true)
             animateIconCellCloased()
         }
