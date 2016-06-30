@@ -48,9 +48,12 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         
         var shouldChange = true
         
+        guard let text = textField.text else {return shouldChange}
+        
         //validate phone number - digits only
         if indexPath.section == 1 {
-            let newLength = (textField.text as NSString).length + (string as NSString).length - range.length
+            
+            let newLength = (text as NSString).length + (string as NSString).length - range.length
             
             let digitsCharecterSet = NSCharacterSet(charactersInString: digits).invertedSet
             
@@ -62,7 +65,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         }
 
         
-        let currentString = textField.text + string
+        let currentString = text + string
         if let delegate = delegate {
             if shouldChange {
                 delegate.editingText(currentString, indexpath: indexPath)
@@ -72,7 +75,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         
         //deleting chars
         if string == "" {
-            let string = textField.text.substringToIndex(textField.text.endIndex.predecessor())
+            let string = text.substringToIndex(text.endIndex.predecessor())
             delegate.editingText(string, indexpath: indexPath)
         }
         

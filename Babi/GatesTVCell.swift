@@ -15,7 +15,7 @@ protocol SwipeableCellDelegate{
     func cellDidClose(cell: UITableViewCell)
 }
 
-class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
+class SwipeableCellTableViewCell: UITableViewCell {
     
     
     @IBOutlet weak var button1: UIButton!
@@ -327,7 +327,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.panRecognizer = UIPanGestureRecognizer(target: self, action: "panThisCell:")
+        self.panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(SwipeableCellTableViewCell.panThisCell(_:)))
         self.panRecognizer.delegate = self;
         self.myContentView.addGestureRecognizer(self.panRecognizer)
     }
@@ -347,7 +347,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
-        let touch = touches.first as! UITouch
+        if let touch = touches.first {
         let touchPoint = touch.locationInView(self)
         let callRect = CGRectMake(0,0,
             CGRectGetMinX(self.arrowImageView.frame) - 30 ,
@@ -375,6 +375,7 @@ class SwipeableCellTableViewCell: UITableViewCell, UIGestureRecognizerDelegate {
         else {
             //call gate phone number
             super.touchesBegan(touches, withEvent: event)
+        }
         }
     }
     

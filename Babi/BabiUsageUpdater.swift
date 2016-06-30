@@ -74,6 +74,7 @@ class BabiUsageUpdater: NSObject {
                 
                 let serverResponse = response as! NSHTTPURLResponse
                 
+                print(serverResponse)
                 if error == nil {
                     
                     NSUserDefaults.standardUserDefaults().setBool(true, forKey: kDidReportUUID)
@@ -123,7 +124,7 @@ class BabiUsageUpdater: NSObject {
     func incrementDidBecomeActive() {
         
         var storedCounter = NSUserDefaults.standardUserDefaults().integerForKey(kDidBecomeActiveCounterKey)
-        storedCounter++
+        storedCounter += 1
         NSUserDefaults.standardUserDefaults().setInteger(storedCounter, forKey: kDidBecomeActiveCounterKey)
         
         //reportToServerIfNeede
@@ -144,7 +145,7 @@ class BabiUsageUpdater: NSObject {
             print(params)
             
             let url = NSURL(string: updateActivityURLString)
-            var request = NSMutableURLRequest(URL: url!)
+            let request = NSMutableURLRequest(URL: url!)
             request.HTTPMethod = "PUT"
             request.HTTPBody = dictToSend
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -153,15 +154,24 @@ class BabiUsageUpdater: NSObject {
             let session = NSURLSession.sharedSession()
             let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response: NSURLResponse?, error:NSError?) -> Void in
                 
-                if var serverResponse = response {
+                if let serverResponse = response {
                     
                     print("respons: \(serverResponse.description)", terminator: "")
                     
                     if error == nil {
                         //we currently implement as best effort. nothing is done with an error
-                        let recieved = (try! NSJSONSerialization.JSONObjectWithData(data, options: [])) as! [String:String]
-    
-                        print("receieved: \(recieved)")
+                        if let data = data {
+                            
+                            do {
+                        
+                                let recieved = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:String]
+                                
+                                print("receieved: \(recieved)")
+                                
+                            }catch let error as NSError {
+                                print("error: \(error)" + " " + #function)
+                            }
+                        }
                         
                     }
                 }

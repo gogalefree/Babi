@@ -54,7 +54,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     
     func addTapGestureToMap() {
     
-        let tapGesture = UITapGestureRecognizer(target: self, action: "mapTapped:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(MapViewVC.mapTapped(_:)))
         tapGesture.delegate = self
         self.mapView.addGestureRecognizer(tapGesture)
         self.mapView.delegate = self
@@ -65,7 +65,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     
     func addPanRecognizer() {
         
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: "didDragMap:")
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MapViewVC.didDragMap(_:)))
         panRecognizer.delegate = self
         self.mapView.addGestureRecognizer(panRecognizer)
     }
@@ -104,14 +104,18 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         
-        if userLocation == nil {return}
-        
         if trackingUserLocation {
             
             self.mapView.setCenterCoordinate(self.mapView.userLocation.coordinate, animated: true)
-            var newCamera = self.mapView.camera.copy() as! MKMapCamera
-            newCamera.heading = self.mapView.userLocation.location.course
-            self.mapView.setCamera(newCamera, animated: true)
+            if let newCamera = self.mapView.camera.copy() as? MKMapCamera {
+             
+                if let location = self.mapView.userLocation.location {
+                
+                    newCamera.heading = location.course
+                    self.mapView.setCamera(newCamera, animated: true)
+                }
+                
+            }
         }
     }
     

@@ -117,7 +117,7 @@ class Gate: NSManagedObject {
     
     class func gateDictionary(gate: Gate) -> [NSObject : AnyObject] {
         
-        let keys = gate.entity.attributesByName.keys.array
+        let keys = Array(gate.entity.attributesByName.keys)
         let dict = gate.dictionaryWithValuesForKeys(keys)
         print("keys are: \(dict)", terminator: "")
         return dict

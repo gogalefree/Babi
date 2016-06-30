@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GatesTableViewController: UITableViewController  , UITableViewDataSource, UITableViewDelegate, SwipeableCellDelegate {
+class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
     
        
     var cellsCurrentlyEditing :NSMutableSet!
@@ -26,7 +26,7 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
             gates = [Gate]()
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationUpdated", name: kLocationUpdateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GatesTableViewController.locationUpdated), name: kLocationUpdateNotification, object: nil)
 
     }
     
@@ -247,9 +247,9 @@ class GatesTableViewController: UITableViewController  , UITableViewDataSource, 
         
         var didMove = false
         shouldUpdateLocation = false
-        if var gates = self.gates {
+        if self.gates != nil {
             
-            for var index = 0 ; index < self.gates!.count - 1; index++  {
+            for index in 0  ..< self.gates!.count - 1  {
                 
                 let firstGate = self.gates![index]
                 let seccondGate = self.gates![index+1]

@@ -59,9 +59,10 @@ class Model: NSObject, CLLocationManagerDelegate {
         arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
         arrivedToGateCategory.setActions([callAction, cancelAction], forContext: UIUserNotificationActionContext.Default)
         
-        let categoriesSet = NSSet(object: arrivedToGateCategory)
-        let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound];
-        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet as Set<NSObject> as Set<NSObject>);
+        let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
+        let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
+        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet)
+      
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
@@ -86,9 +87,11 @@ class Model: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
-        userLocation = locations.last as! CLLocation
-        NSNotificationCenter.defaultCenter().postNotificationName(kLocationUpdateNotification, object: nil)
-        isInRegion()
+        if let location = locations.last {
+            userLocation = location
+            NSNotificationCenter.defaultCenter().postNotificationName(kLocationUpdateNotification, object: nil)
+            isInRegion()
+        }
     }
     
     private func isInRegion() {

@@ -145,10 +145,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             
             switch headerRoll as Roll {
             case .GateName:
-                gate.name = textField.text
+                gate.name = textField.text ?? ""
                 print("saved gate name: \(gate.name)")
             case .GatePhoneNumber:
-                gate.phoneNumber = textField.text
+                gate.phoneNumber = textField.text ?? ""
                 print("saved gate phone: \(gate.phoneNumber)")
 
             default:
@@ -226,7 +226,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.tapGestureRecognizer.addTarget(self, action: "headerTapped:")
+        self.tapGestureRecognizer.addTarget(self, action: #selector(GateEditorTVCHeaderView.headerTapped(_:)))
         self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 66))
     
         self.textField.delegate = self

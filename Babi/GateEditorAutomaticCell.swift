@@ -31,7 +31,7 @@ class GateEditorAutomaticCell: UITableViewCell {
     override func awakeFromNib() {
        
         super.awakeFromNib()
-        automaticSwitch.addTarget(self, action: "automaticSwitchMoved:", forControlEvents: UIControlEvents.ValueChanged)
+        automaticSwitch.addTarget(self, action: #selector(GateEditorAutomaticCell.automaticSwitchMoved(_:)), forControlEvents: UIControlEvents.ValueChanged)
         titleLabel.text = titles[1]
         automaticSwitch.layer.borderColor = UIColor.blackColor().CGColor
         automaticSwitch.layer.borderWidth = 1
