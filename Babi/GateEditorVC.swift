@@ -20,13 +20,13 @@ enum GateEditorState {
 class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate, ABPeoplePickerNavigationControllerDelegate, MapVCDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-  
+    
     var doneButton: UIBarButtonItem!
     var deleteButton: UIBarButtonItem!
     var addressBookButton: UIBarButtonItem!
     
     private let kTableViewHeaderHeight: CGFloat = 160.0
-
+    
     
     var visibleSections: [Bool] = [false, false, false, false, false] //count must be equal to the sections count
     
@@ -46,36 +46,36 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.tableView.contentInset.top = 68
         addNavigationBarItems()
         configureWithState(state)
-
+        
     }
     
     func addNavigationBarItems() {
-                
+        
         let doneImage = UIImage(named: "tick10.png")
-        self.doneButton = UIBarButtonItem(image: doneImage, style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonClicked:")
+        self.doneButton = UIBarButtonItem(image: doneImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(GateEditorVC.doneButtonClicked(_:)))
         
         let deleteImage = UIImage(named: "garbage11.png")
-        self.deleteButton = UIBarButtonItem(image: deleteImage, style: UIBarButtonItemStyle.Plain, target: self, action: "deleteAction")
+        self.deleteButton = UIBarButtonItem(image: deleteImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(GateEditorVC.deleteAction))
         
         let addressBookImage = UIImage(named: "address20.png")
-        self.addressBookButton = UIBarButtonItem(image: addressBookImage, style: UIBarButtonItemStyle.Plain, target: self, action: "addressBookAction")
+        self.addressBookButton = UIBarButtonItem(image: addressBookImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(GateEditorVC.addressBookAction))
         
         self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton, self.addressBookButton]
     }
     
     //MARK: - Table View delegate datasource
-   
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         /*
-        //0 gate name
-        //1 gate phone number
-        //2 gate location
-        //3 gate mode
-        //4 fence header
-        */
+         //0 gate name
+         //1 gate phone number
+         //2 gate location
+         //3 gate mode
+         //4 fence header
+         */
         return 4
     }
-
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 66
     }
@@ -85,12 +85,12 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         let sectionIsVisible = visibleSections[section]
         if !sectionIsVisible {return 0}
         
         switch section {
-        
+            
         case 3:
             if gate.automatic { return 2 } //mode (automatic + distance to fire)
             return 1
@@ -150,11 +150,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             headers.append(headerView)
             return headerView
         }
-        
+            
         else{ return headers[section]}
     }
     
-  
+    
     // MARK: - Headers Delegate
     
     func headerTapped(headerView: GateEditorTVCHeaderView) {
@@ -167,9 +167,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         let section = headerView.section
         let visible = visibleSections[section]
-
-        if visible && section < 3 {
         
+        if visible && section < 3 {
+            
             showDoneButtonIfNeeded()
         }
         
@@ -203,7 +203,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                 let header = headers[index]
                 header.selected = false
                 header.setIdeleState()
-
+                
                 switch index {
                 case 2, 3:
                     tableView.reloadSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
@@ -215,7 +215,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func presentMapVC() {
-    
+        
         let mapNavigationVC = self.storyboard?.instantiateViewControllerWithIdentifier("mapViewNavController") as! UINavigationController
         let mapVC = mapNavigationVC.viewControllers[0] as! MapViewVC
         mapVC.delegate = self
@@ -227,8 +227,8 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     //mapVC Delegate
     func didFinishPickingLocation(gateAnnotation: MKPointAnnotation?) {
-
-        if let gateAnnotation = gateAnnotation {
+        
+        if  gateAnnotation != nil {
             let locationHeader = headers[2]
             locationHeader.selected = false
             visibleSections[2] = false
@@ -236,44 +236,46 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             if authenticated.authenticated {
                 showDoneButton()
             }
-
+            
             let location = CLLocation(latitude: gate.latitude, longitude: gate.longitude)
             let coder = CLGeocoder()
-            coder.reverseGeocodeLocation(location, completionHandler: { (placemarks: [AnyObject]! , error: NSError!) -> Void in
+            coder.reverseGeocodeLocation(location , completionHandler: { (placemarks: [CLPlacemark]?,error: NSError?) in
                 
-                if error != nil || placemarks.count == 0 {
+                if error != nil || placemarks?.count == 0 {
                     locationHeader.animateNewText(locationHeaderTitles[1])
                     return
                 }
                 
-                let placemark = placemarks.first as! CLPlacemark
+                guard let placemarks = placemarks else  { return }
+                if let placemark = placemarks.first  {
                 let name = placemark.name
                 if let name = name {
                     self.gate.placemarkName = name
                     locationHeader.animateNewText(name)
                 }
+                }
             })
         }
     }
     
-  
-
+    
+    
     //MARK: - AutomaticCell Delegate
     
     func didChangeGateAutomaticMode(isAutomatic: Bool) {
         let header = headers[3]
-        header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])        
+        header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])
         tableView.reloadSections(NSIndexSet(index: 3), withRowAnimation: .Automatic)
     }
     
     //MARK: - Configure State
-
-
+    
+    
     func configureWithState(gateState: GateEditorState) {
         switch gateState {
-           
+            
         case .NewGate:
-
+            
             gate = Gate.instansiateWithZero()
             gate.shouldCall = false
             do {
@@ -282,7 +284,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             }
             hideDoneButton()
             hideDeleteButton()
-      
+            
         case .EditGate:
             break
         }
@@ -301,10 +303,10 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func hideDeleteButton() {
         self.deleteButton.enabled = false
     }
-
+    
     //MARK: - Button Actions
     func doneButtonClicked(sender: AnyObject) {
-    
+        
         let gateAuthenticated = authenticateGate()
         if !gateAuthenticated.authenticated {showAlert(gateAuthenticated.section!)}
         else {self.performSegueWithIdentifier("unwindToGatesTVC", sender:self)}
@@ -325,7 +327,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     func addressBookAction() {
         //show address nav controller
-    
+        
         let addressBookController = ABPeoplePickerNavigationController()
         addressBookController.peoplePickerDelegate = self
         self.presentViewController(addressBookController, animated: true, completion: nil)
@@ -336,9 +338,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController,
-        didSelectPerson person: ABRecord) {
-            
-            
+                                          didSelectPerson person: ABRecord) {
+        
+        
         var gateName = ""
         var gatePhoneNumber = ""
         
@@ -353,14 +355,14 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         else {
             print("fristName is nil")
         }
-            
+        
         
         //last name
         let lastNameTemp = ABRecordCopyValue(person, kABPersonLastNameProperty)
         if let lastNameTemp = lastNameTemp {
             
             let lastName: NSObject! = Unmanaged<NSObject>.fromOpaque(lastNameTemp.toOpaque()).takeRetainedValue()
-        
+            
             if let lastName = lastName {
                 gateName = gateName + " " + (lastName as! String)
                 print("gate name including lastName: \(gateName)")
@@ -369,21 +371,21 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             
         else {
             print("lastName is nil")
-  
+            
         }
-       
-            var pho: ABMultiValueRef
-            let phoneV : Unmanaged<AnyObject>? = ABRecordCopyValue(person, kABPersonPhoneProperty)
+        
+        var pho: ABMultiValueRef
+        let phoneV : Unmanaged<AnyObject>? = ABRecordCopyValue(person, kABPersonPhoneProperty)
+        
+        if  phoneV != nil {
+            pho = phoneV!.takeUnretainedValue() as ABMultiValueRef
             
-            if let phonehasv = phoneV {
-                pho = phoneV!.takeUnretainedValue() as ABMultiValueRef
+            
+            if ABMultiValueGetCount(pho) > 0
+            {
+                let phones: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeUnretainedValue() as ABMultiValueRef
                 
-            
-        if ABMultiValueGetCount(pho) > 0
-        {
-            let phones: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeUnretainedValue() as ABMultiValueRef
-            
-                for var index = 0; index < ABMultiValueGetCount(phones); ++index{
+                for index in 0 ..< ABMultiValueGetCount(phones){
                     
                     let currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phones, index).takeUnretainedValue() as CFStringRef as String
                     let currentPhoneValue = ABMultiValueCopyValueAtIndex(phones, index).takeUnretainedValue() as! CFStringRef as String
@@ -394,21 +396,21 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     break
                     
                 }
-            
-        }
+                
             }
-            print("final name: \(gateName)")
-            print("final phone: \(gatePhoneNumber)")
-            
-            updateGateAndUIFromAddressBook(gateName , gatePhoneNumber: gatePhoneNumber)
-
+        }
+        print("final name: \(gateName)")
+        print("final phone: \(gatePhoneNumber)")
+        
+        updateGateAndUIFromAddressBook(gateName , gatePhoneNumber: gatePhoneNumber)
+        
     }
     
     func updateGateAndUIFromAddressBook(gateName: String , gatePhoneNumber: String){
         
-        //close headers 
+        //close headers
         //update header labels
-
+        
         if gateName != "" {
             let gateNameHeader = headers[0]
             gateNameHeader.selected = false
@@ -417,7 +419,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gateNameHeader.titleLabel.textColor = UIColor.darkGrayColor()
             gate.name = gateName
         }
-
+        
         if gatePhoneNumber != "" {
             let gatePhoneHeader = headers[1]
             gatePhoneHeader.selected = false
@@ -427,9 +429,9 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gate.phoneNumber = gatePhoneNumber
         }
         
-            showDoneButtonIfNeeded()
+        showDoneButtonIfNeeded()
     }
-
+    
     
     func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
         return false
@@ -448,7 +450,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         if authenticated.authenticated {showDoneButton()}
         else {hideDoneButton()}
     }
-
+    
     func authenticateGate() -> (authenticated: Bool, section: Int?) {
         
         
@@ -480,13 +482,13 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
- 
+    
     
     // MARK: - Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     
-         if segue.identifier == "cancelButtonSegue" {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "cancelButtonSegue" {
             //if state is .NewGate and the user has canceled
             //we need to delete the new gate from the context
             if self.state == .NewGate {
