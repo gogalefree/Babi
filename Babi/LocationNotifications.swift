@@ -16,21 +16,21 @@ class LocationNotifications: NSObject {
     
     func registerGateForLocationNotification(gate: Gate) {
         
-//        let localNotification = generateLocalNotification(gate)
-//
-//        if gate.automatic {
-//            
-//            if registeredGates.containsObject(gate) {return}
-//            
-//            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-//            registeredGates.addObject(gate)
-//        }
+        let localNotification = generateLocalNotification(gate)
+
+        if gate.automatic {
+            
+            if registeredGates.containsObject(gate) {return}
+            
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+            registeredGates.addObject(gate)
+        }
     }
     
     func cancelLocalNotification(gate: Gate) {
-//        let notification = generateLocalNotification(gate)
-//        UIApplication.sharedApplication().cancelLocalNotification(notification)
-//        if registeredGates.containsObject(gate){registeredGates.removeObject(gate)}
+        let notification = generateLocalNotification(gate)
+        UIApplication.sharedApplication().cancelLocalNotification(notification)
+        if registeredGates.containsObject(gate){registeredGates.removeObject(gate)}
     }
     
     func didRecieveLocalNotification(notification: UILocalNotification) {
@@ -49,13 +49,13 @@ class LocationNotifications: NSObject {
         
         let localNotification = UILocalNotification()
         localNotification.userInfo = Gate.gateDictionary(gate)
-        localNotification.alertBody = gate.name
+        localNotification.alertBody = "You're getting close to \(gate.name). Luanch Babi?"
         localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.regionTriggersOnce = false
         localNotification.category = "ARRIVED_CATEGORY"
         localNotification.region = CLCircularRegion(
             center: CLLocationCoordinate2DMake(gate.latitude, gate.longitude),
-            radius: CLLocationDistance(10),
+            radius: CLLocationDistance(500),
             identifier: "\(gate.longitude)\(gate.latitude)")
         localNotification.region!.notifyOnEntry = true
         localNotification.region!.notifyOnExit = false

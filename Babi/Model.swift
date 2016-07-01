@@ -13,6 +13,8 @@ import CoreLocation
 
 let kCallActionIdentifier = "CALL_IDENTIFIER"
 let kDissmissActionIdentifier = "DISSMISS_IDENTIFIER"
+let kLaunchBabiActionIdentifier = "LAUNCH_Babi_IDENTIFIER"
+
 let kLocationUpdateNotification = "kLocationUpdateNotification"
 
 class Model: NSObject, CLLocationManagerDelegate {
@@ -45,6 +47,13 @@ class Model: NSObject, CLLocationManagerDelegate {
         callAction.destructive = false
         callAction.authenticationRequired = true
         
+        let launchAction = UIMutableUserNotificationAction()
+        launchAction.identifier = kLaunchBabiActionIdentifier
+        launchAction.title = "Launch BaBi"
+        launchAction.activationMode = UIUserNotificationActivationMode.Foreground
+        launchAction.destructive = false
+        launchAction.authenticationRequired = false
+        
         let cancelAction = UIMutableUserNotificationAction()
         cancelAction.identifier = kDissmissActionIdentifier
         cancelAction.title = "Cancel"
@@ -57,7 +66,7 @@ class Model: NSObject, CLLocationManagerDelegate {
         
         // Identifier to include in your push payload and local notification
         arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
-        arrivedToGateCategory.setActions([callAction, cancelAction], forContext: UIUserNotificationActionContext.Default)
+        arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], forContext: UIUserNotificationActionContext.Default)
         
         let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
         let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
