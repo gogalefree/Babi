@@ -37,7 +37,7 @@ class GateEditorDistanceCell: UITableViewCell {
     
     func configButtons() {
         
-        stepper.addTarget(self, action: #selector(GateEditorDistanceCell.stepperPressed), forControlEvents: UIControlEvents.ValueChanged)
+        stepper.addTarget(self, action: #selector(GateEditorDistanceCell.stepperPressed), for: UIControlEvents.valueChanged)
     }
 
     override func awakeFromNib() {
@@ -45,7 +45,7 @@ class GateEditorDistanceCell: UITableViewCell {
         configButtons()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         

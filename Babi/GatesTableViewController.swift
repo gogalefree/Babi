@@ -7,13 +7,37 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
     
        
     var cellsCurrentlyEditing :NSMutableSet!
     var gates = Model.shared.gates() as [Gate]?
-    var selectedIndexPath: NSIndexPath!
+    var selectedIndexPath: IndexPath!
     var shouldUpdateLocation = true
     
     
@@ -26,17 +50,17 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
             gates = [Gate]()
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GatesTableViewController.locationUpdated), name: kLocationUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GatesTableViewController.locationUpdated), name: NSNotification.Name(rawValue: kLocationUpdateNotification), object: nil)
 
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SwipeableCellTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SwipeableCellTableViewCell
         cell.gate = gates![indexPath.row]
         cell.indexPath = indexPath
         cell.delegate = self
@@ -45,13 +69,13 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         cell.itemText = title
         
         
-        if self.cellsCurrentlyEditing.containsObject(indexPath) {
+        if self.cellsCurrentlyEditing.contains(indexPath) {
             cell.openCell()
         }
         return cell
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let gates = gates {
             return gates.count
@@ -59,34 +83,34 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         return 0
     }
     
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .None
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
 
     }
     
-    override func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
     }
     
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         let gate = gates![indexPath.row]
         let phoneNumber = gate.phoneNumber
         PhoneDialer.callGate(phoneNumber)
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        if editingStyle == .Delete {
+        if editingStyle == .delete {
             
         }
         else {
@@ -94,42 +118,42 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         }
     }
     
-    func cellDidOpen(cell: UITableViewCell) {
-        let currentEditingIndexPath = self.tableView.indexPathForCell(cell)
-        self.cellsCurrentlyEditing.addObject(currentEditingIndexPath!)
+    func cellDidOpen(_ cell: UITableViewCell) {
+        let currentEditingIndexPath = self.tableView.indexPath(for: cell)
+        self.cellsCurrentlyEditing.add(currentEditingIndexPath!)
     }
     
-    func cellDidClose(cell: UITableViewCell) {
+    func cellDidClose(_ cell: UITableViewCell) {
         
-        self.cellsCurrentlyEditing.removeObject(self.tableView.indexPathForCell(cell)!);
+        self.cellsCurrentlyEditing.remove(self.tableView.indexPath(for: cell)!);
     }
         
-    func buttonOneAction(cell: SwipeableCellTableViewCell){
+    func buttonOneAction(_ cell: SwipeableCellTableViewCell){
         //present gate editor for editing
         Model.shared.stopLocationUpdates()
 
-        let indexPath = tableView.indexPathForCell(cell)!
+        let indexPath = tableView.indexPath(for: cell)!
         self.selectedIndexPath = indexPath
         
         let gate = gates![indexPath.row]
         
-        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as! UINavigationController
-        gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        let gateEditorNavController = self.storyboard?.instantiateViewController(withIdentifier: "gateEditorNavController") as! UINavigationController
+        gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         
         let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
         gateEditor.gate = gate
-        gateEditor.state = .EditGate
+        gateEditor.state = .editGate
         
-        self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
+        self.navigationController?.present(gateEditorNavController, animated: true, completion: nil)
         
      //   self.cellsCurrentlyEditing.removeObject(indexPath)
         
         Model.shared.locationNotifications.cancelLocalNotification(gate)
     }
     
-    func buttonTwoAction(cell: SwipeableCellTableViewCell) {
+    func buttonTwoAction(_ cell: SwipeableCellTableViewCell) {
 
-        let indexPath = tableView.indexPathForCell(cell)!
+        let indexPath = tableView.indexPath(for: cell)!
         self.selectedIndexPath = indexPath
         let gate = gates![indexPath.row]
         gate.automatic = !gate.automatic
@@ -143,71 +167,74 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         }
     }
     
-    @IBAction func presentGateEditor(sender: AnyObject) {
+    func shareButtonClicked(_ cell: SwipeableCellTableViewCell) {
+        print("starting share process")
+    }
+    
+    @IBAction func presentGateEditor(_ sender: AnyObject) {
         //for creating a new gate
         Model.shared.stopLocationUpdates()
 
-        let gateEditorNavController = self.storyboard?.instantiateViewControllerWithIdentifier("gateEditorNavController") as! UINavigationController
-        gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        let gateEditorNavController = self.storyboard?.instantiateViewController(withIdentifier: "gateEditorNavController") as! UINavigationController
+        gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
-        gateEditor.state = .NewGate
-        self.navigationController?.presentViewController(gateEditorNavController, animated: true, completion: nil)
+        gateEditor.state = .newGate
+        self.navigationController?.present(gateEditorNavController, animated: true, completion: nil)
     }
     
-    @IBAction func unwindFromGateEditorVC(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromGateEditorVC(_ segue: UIStoryboardSegue) {
        //created new gate or finished editing
-        let gateEditor = segue.sourceViewController as! GateEditorVC
+        let gateEditor = segue.source as! GateEditorVC
         let gate = gateEditor.gate
         
         //Save Gate
         //the should call inits with false so calls are'nt initiated till the gate is completly configured
 
-        gate.shouldCall = true
+        gate?.shouldCall = true
         
-        var error: NSError? = nil
         do {
             try Model.shared.context!.save()
-        } catch let error1 as NSError {error = error1; print(error)}
+        } catch let error1 as NSError { print(error1)}
         Model.shared.startLocationUpdates()
         
         //register notification if needed
         //we dont register local notifications for now
-        Model.shared.locationNotifications.registerGateForLocationNotification(gate)
+        Model.shared.locationNotifications.registerGateForLocationNotification(gate!)
         
-        if gateEditor.state == GateEditorState.EditGate {
+        if gateEditor.state == GateEditorState.editGate {
             if let selectedIndexPath = self.selectedIndexPath {
-                tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
+                tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
             }
             
             return
         }
         
         //notify container to remove no gates message
-        let container = self.navigationController?.parentViewController as! MainContainerController
+        let container = self.navigationController?.parent as! MainContainerController
         container.hideNoMessageVCIfNeeded()
        
         tableView.beginUpdates()
-        gates?.insert(gate, atIndex: 0)
-        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
+        gates?.insert(gate!, at: 0)
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         tableView.endUpdates()
     }
     
-    @IBAction func unwindWithDeleteButtonFromEditorVC(segue: UIStoryboardSegue) {
+    @IBAction func unwindWithDeleteButtonFromEditorVC(_ segue: UIStoryboardSegue) {
         //delete gate
         let indexPath = self.selectedIndexPath
-        let gate = gates![indexPath.row]
-        if cellsCurrentlyEditing.containsObject(indexPath){
-            cellsCurrentlyEditing.removeObject(indexPath)
+        let gate = gates![(indexPath?.row)!]
+        if cellsCurrentlyEditing.contains(indexPath!){
+            cellsCurrentlyEditing.remove(indexPath!)
         }
 
         tableView.beginUpdates()
-        gates!.removeAtIndex(indexPath.row)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        gates!.remove(at: (indexPath?.row)!)
+        tableView.deleteRows(at: [indexPath!], with: .automatic)
         Model.shared.deleteGate(gate)
         tableView.endUpdates()
         
         let container =
-        self.navigationController?.parentViewController as!MainContainerController
+        self.navigationController?.parent as!MainContainerController
         
         container.showNoMessageVCIfNeeded()
         Model.shared.startLocationUpdates()
@@ -220,10 +247,10 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
             
             if shouldUpdateLocation {
                 
-                for (index , gate) in gates.enumerate() {
+                for (index , gate) in gates.enumerated() {
                     
-                    let indexpath = NSIndexPath(forRow: index, inSection: 0)
-                    let cell = tableView.cellForRowAtIndexPath(indexpath) as? SwipeableCellTableViewCell
+                    let indexpath = IndexPath(row: index, section: 0)
+                    let cell = tableView.cellForRow(at: indexpath) as? SwipeableCellTableViewCell
                     
 
                     if let cell = cell {
@@ -247,7 +274,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         
         var didMove = false
         shouldUpdateLocation = false
-        if self.gates != nil {
+        if self.gates != nil && self.gates?.count > 1{
             
             for index in 0  ..< self.gates!.count - 1  {
                 
@@ -258,16 +285,16 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
                    
                     didMove = true
                     
-                    let fromIndexPath = NSIndexPath(forRow: index+1, inSection: 0)
-                    let toIndexPath = NSIndexPath(forRow: index, inSection: 0)
+                    let fromIndexPath = IndexPath(row: index+1, section: 0)
+                    let toIndexPath = IndexPath(row: index, section: 0)
                     
-                    self.gates!.removeAtIndex(index+1)
-                    self.gates!.insert(seccondGate, atIndex: index)
-                    tableView.moveRowAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+                    self.gates!.remove(at: index+1)
+                    self.gates!.insert(seccondGate, at: index)
+                    tableView.moveRow(at: fromIndexPath, to: toIndexPath)
                     
-                    if self.cellsCurrentlyEditing.containsObject(fromIndexPath){
-                        self.cellsCurrentlyEditing.removeObject(fromIndexPath)
-                        self.cellsCurrentlyEditing.addObject(toIndexPath)
+                    if self.cellsCurrentlyEditing.contains(fromIndexPath){
+                        self.cellsCurrentlyEditing.remove(fromIndexPath)
+                        self.cellsCurrentlyEditing.add(toIndexPath)
                     }
                    break
                 }
@@ -281,7 +308,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
 //        Model.shared.setUserRegion()
     }
 
-    @IBAction func unwindeWithCancelButtonFromGateEditor(segue: UIStoryboardSegue) {
+    @IBAction func unwindeWithCancelButtonFromGateEditor(_ segue: UIStoryboardSegue) {
         print("canceked and back to gates table view controller", terminator: "")
     }
 
@@ -289,7 +316,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         //notifies the container that sleep mode button pressed
 
  //       reorderGates()
-        let container = self.navigationController?.parentViewController as! MainContainerController
+        let container = self.navigationController?.parent as! MainContainerController
         container.toogleSleepMode()
     }
     

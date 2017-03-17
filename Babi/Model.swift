@@ -19,8 +19,10 @@ let kLocationUpdateNotification = "kLocationUpdateNotification"
 
 class Model: NSObject, CLLocationManagerDelegate {
 
+    static let shared = Model()
+    
     let kDistanceFilter = 3.0
-    let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
     let locationManager = CLLocationManager()
     var userLocation = CLLocation()
     lazy var locationNotifications: LocationNotifications = {
@@ -43,42 +45,42 @@ class Model: NSObject, CLLocationManagerDelegate {
         let callAction = UIMutableUserNotificationAction()
         callAction.identifier = kCallActionIdentifier
         callAction.title = "Open Gate"
-        callAction.activationMode = UIUserNotificationActivationMode.Foreground
-        callAction.destructive = false
-        callAction.authenticationRequired = true
+        callAction.activationMode = UIUserNotificationActivationMode.foreground
+        callAction.isDestructive = false
+        callAction.isAuthenticationRequired = true
         
         let launchAction = UIMutableUserNotificationAction()
         launchAction.identifier = kLaunchBabiActionIdentifier
         launchAction.title = "Launch BaBi"
-        launchAction.activationMode = UIUserNotificationActivationMode.Foreground
-        launchAction.destructive = false
-        launchAction.authenticationRequired = false
+        launchAction.activationMode = UIUserNotificationActivationMode.foreground
+        launchAction.isDestructive = false
+        launchAction.isAuthenticationRequired = false
         
         let cancelAction = UIMutableUserNotificationAction()
         cancelAction.identifier = kDissmissActionIdentifier
         cancelAction.title = "Cancel"
-        cancelAction.activationMode = UIUserNotificationActivationMode.Background
-        cancelAction.destructive = false
-        cancelAction.authenticationRequired = false
+        cancelAction.activationMode = UIUserNotificationActivationMode.background
+        cancelAction.isDestructive = false
+        cancelAction.isAuthenticationRequired = false
         
         
         let arrivedToGateCategory = UIMutableUserNotificationCategory()
         
         // Identifier to include in your push payload and local notification
         arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
-        arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], forContext: UIUserNotificationActionContext.Default)
+        arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], for: UIUserNotificationActionContext.default)
         
         let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
-        let types: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
-        let settings = UIUserNotificationSettings(forTypes: types, categories: categoriesSet)
+        let types: UIUserNotificationType = [UIUserNotificationType.badge, UIUserNotificationType.alert, UIUserNotificationType.sound]
+        let settings = UIUserNotificationSettings(types: types, categories: categoriesSet)
       
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        UIApplication.shared.registerUserNotificationSettings(settings)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         switch status {
-        case  .AuthorizedWhenInUse :
+        case  .authorizedWhenInUse :
             setupLocationManager()
         default:
             break
@@ -95,15 +97,15 @@ class Model: NSObject, CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         if let location = locations.last {
             userLocation = location
-            NSNotificationCenter.defaultCenter().postNotificationName(kLocationUpdateNotification, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: kLocationUpdateNotification), object: nil)
             isInRegion()
         }
     }
     
-    private func isInRegion() {
+    fileprivate func isInRegion() {
       
         let gates = self.gates()
         
@@ -129,13 +131,13 @@ class Model: NSObject, CLLocationManagerDelegate {
     
     func gates() -> [Gate]? {
         
-        let request = NSFetchRequest(entityName: "Gate")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Gate")
         request.returnsObjectsAsFaults = false
 
         var error: NSError? = nil
         let results: [AnyObject]?
         do {
-            results = try context?.executeFetchRequest(request)
+            results = try context?.fetch(request)
         } catch let error1 as NSError {
             error = error1
             results = nil
@@ -154,20 +156,20 @@ class Model: NSObject, CLLocationManagerDelegate {
         return results as? [Gate]
     }
     
-    func deleteGate(gate: Gate) {
+    func deleteGate(_ gate: Gate) {
         self.locationNotifications.cancelLocalNotification(gate)
-        context?.deleteObject(gate)
+        context?.delete(gate)
         do {
             try context?.save()
         } catch _ {
         }
     }
     
-    func sortGatesByDistanceFromUser(gates: [Gate]) -> [Gate] {
+    func sortGatesByDistanceFromUser(_ gates: [Gate]) -> [Gate] {
         
         var sortedGates = gates
         
-        sortedGates.sortInPlace({ $0.distanceFromUserLocation() < $1.distanceFromUserLocation() })
+        sortedGates.sort(by: { $0.distanceFromUserLocation() < $1.distanceFromUserLocation() })
         
         return sortedGates
     }
@@ -188,25 +190,8 @@ class Model: NSObject, CLLocationManagerDelegate {
         userRegion = CLCircularRegion(center: self.userLocation.coordinate, radius: 50, identifier: "userRegionForLocationUpdates")
     }
     
-    func isInRegion(location: CLLocation) -> Bool {
-        return userRegion.containsCoordinate(location.coordinate)
+    func isInRegion(_ location: CLLocation) -> Bool {
+        return userRegion.contains(location.coordinate)
     }
 }
 
-extension Model {
-    
-    //SingleTone Shared Instance
-     class var shared : Model {
-        
-        struct Static {
-            static var onceToken : dispatch_once_t = 0
-            static var instance : Model? = nil
-        }
-        
-        dispatch_once(&Static.onceToken) {
-            Static.instance = Model()
-        }
-        
-        return Static.instance!
-    }
-}

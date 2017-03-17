@@ -8,6 +8,30 @@
 import CoreData
 import UIKit
 import CoreLocation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 let kGateNameDefaultValue = "Gate"
 let kGatePhoneNumberDefaultValue = "phoneNumber"
@@ -44,7 +68,7 @@ class Gate: NSManagedObject {
     func distanceFromUserLocation() -> Double {
         
         let gateCords = CLLocation(latitude: latitude, longitude: longitude)
-        let distance = gateCords.distanceFromLocation(Model.shared.userLocation)
+        let distance = gateCords.distance(from: Model.shared.userLocation)
         return distance
     }
     
@@ -58,7 +82,7 @@ class Gate: NSManagedObject {
     }
     
     class func instansiate(
-        name: String,
+        _ name: String,
         latitude: Double,
         longitude: Double,
         automatic: Bool?,
@@ -67,14 +91,14 @@ class Gate: NSManagedObject {
             
             var gate: Gate?
             
-            let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+            let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
             
-            let request = NSFetchRequest(entityName: "Gate")
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Gate")
             request.predicate = NSPredicate(format: "name == %@", name)
             var error: NSError?
             let results: [AnyObject]?
             do {
-                results = try context?.executeFetchRequest(request)
+                results = try context?.fetch(request)
             } catch let error1 as NSError {
                 error = error1
                 results = nil
@@ -89,7 +113,7 @@ class Gate: NSManagedObject {
             }
             else {
                 //create new gate
-                let newGate = NSEntityDescription.insertNewObjectForEntityForName("Gate", inManagedObjectContext: context!) as! Gate
+                let newGate = NSEntityDescription.insertNewObject(forEntityName: "Gate", into: context!) as! Gate
                 newGate.name = name
                 newGate.latitude = latitude
                 newGate.longitude = longitude
@@ -105,20 +129,20 @@ class Gate: NSManagedObject {
     
     class func instansiateWithZero() -> Gate {
         
-        let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let entity = NSEntityDescription.entityForName("Gate", inManagedObjectContext: context!)
+        let entity = NSEntityDescription.entity(forEntityName: "Gate", in: context!)
         
-        let newGate = Gate(entity: entity!, insertIntoManagedObjectContext: context!) as Gate!
+        let newGate = Gate(entity: entity!, insertInto: context!) as Gate!
         
-        return newGate
+        return newGate!
 
     }
     
-    class func gateDictionary(gate: Gate) -> [NSObject : AnyObject] {
+    class func gateDictionary(_ gate: Gate) -> [AnyHashable: Any] {
         
         let keys = Array(gate.entity.attributesByName.keys)
-        let dict = gate.dictionaryWithValuesForKeys(keys)
+        let dict = gate.dictionaryWithValues(forKeys: keys)
         print("keys are: \(dict)", terminator: "")
         return dict
     }

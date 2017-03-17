@@ -29,9 +29,9 @@ let updateActivityURLString = "http://54.200.233.10/babi/bab_update_activity.php
 class BabiUsageUpdater: NSObject {
     
     
-    var deviceUUID : String? =  NSUserDefaults.standardUserDefaults().objectForKey(kDeviceUUIDKey) as? String
-    var didReportUUID: Bool? = NSUserDefaults.standardUserDefaults().boolForKey(kDidReportUUID)
-    var didBecomeActiveCounter: Int? = NSUserDefaults.standardUserDefaults().integerForKey(kDidBecomeActiveCounterKey)
+    var deviceUUID : String? =  UserDefaults.standard.object(forKey: kDeviceUUIDKey) as? String
+    var didReportUUID: Bool? = UserDefaults.standard.bool(forKey: kDidReportUUID)
+    var didBecomeActiveCounter: Int? = UserDefaults.standard.integer(forKey: kDidBecomeActiveCounterKey)
     
     override init() {
         super.init()
@@ -42,8 +42,8 @@ class BabiUsageUpdater: NSObject {
         
         deviceUUID = deviceUUID ?? {
            
-            let uuid = NSUUID().UUIDString
-            NSUserDefaults.standardUserDefaults().setObject(uuid, forKey: kDeviceUUIDKey)
+            let uuid = UUID().uuidString
+            UserDefaults.standard.set(uuid, forKey: kDeviceUUIDKey)
             return uuid
         }()
         
@@ -57,27 +57,27 @@ class BabiUsageUpdater: NSObject {
     func reportUUID() {
 
         let params = paramsForInitialReport()
-        let jsonData = try? NSJSONSerialization.dataWithJSONObject(params, options: [])
-        let url = NSURL(string: initialReportUrlString)
+        let jsonData = try? JSONSerialization.data(withJSONObject: params, options: [])
+        let url = URL(string: initialReportUrlString)
 
-        let request = NSMutableURLRequest(URL: url!)
-        request.HTTPMethod = "PUT"
-        request.HTTPBody = jsonData!
+        var request = URLRequest(url: url!)
+        request.httpMethod = "PUT"
+        request.httpBody = jsonData!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request, completionHandler: {
-            (data:NSData?, response: NSURLResponse?, error:NSError?) -> Void in
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {
+            (data, response , error) -> Void in
             
             if let response = response {
                 
-                let serverResponse = response as! NSHTTPURLResponse
+                let serverResponse = response as! HTTPURLResponse
                 
                 print(serverResponse)
                 if error == nil {
                     
-                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: kDidReportUUID)
+                    UserDefaults.standard.set(true, forKey: kDidReportUUID)
                     self.didReportUUID = true
                 }
                 else {
@@ -104,8 +104,8 @@ class BabiUsageUpdater: NSObject {
     func getCountryCode() -> String {
         
         var countryCode: String = "NotPhone"
-        let local = NSLocale.currentLocale()
-        countryCode = local.objectForKey(NSLocaleCountryCode) as! String
+        let local = Locale.current
+        countryCode = (local as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String
         print("local code: \(countryCode)")
         return countryCode
     }
@@ -113,19 +113,19 @@ class BabiUsageUpdater: NSObject {
     func dateInstalled() -> String {
         
         var dateInstalled = ""
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        let date = NSDate()
-        dateInstalled = dateFormatter.stringFromDate(date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        let date = Date()
+        dateInstalled = dateFormatter.string(from: date)
         print("date: \(dateInstalled)")
         return dateInstalled
     }
     
     func incrementDidBecomeActive() {
         
-        var storedCounter = NSUserDefaults.standardUserDefaults().integerForKey(kDidBecomeActiveCounterKey)
+        var storedCounter = UserDefaults.standard.integer(forKey: kDidBecomeActiveCounterKey)
         storedCounter += 1
-        NSUserDefaults.standardUserDefaults().setInteger(storedCounter, forKey: kDidBecomeActiveCounterKey)
+        UserDefaults.standard.set(storedCounter, forKey: kDidBecomeActiveCounterKey)
         
         //reportToServerIfNeede
         
@@ -134,25 +134,25 @@ class BabiUsageUpdater: NSObject {
         }
     }
     
-    func reportActivityCounter(storedCounter: Int) {
+    func reportActivityCounter(_ storedCounter: Int) {
         
         if let deviceUUID = deviceUUID {
             
-            let params = [kAppIdKey:kAppIdValue,kBecameActiveParamsKey:storedCounter,kDeviceUUIDParamsKey:deviceUUID]
+            let params = [kAppIdKey:kAppIdValue,kBecameActiveParamsKey:storedCounter,kDeviceUUIDParamsKey:deviceUUID] as [String : Any]
 
-            let dictToSend = try? NSJSONSerialization.dataWithJSONObject(params, options: [])
+            let dictToSend = try? JSONSerialization.data(withJSONObject: params, options: [])
             
             print(params)
             
-            let url = NSURL(string: updateActivityURLString)
-            let request = NSMutableURLRequest(URL: url!)
-            request.HTTPMethod = "PUT"
-            request.HTTPBody = dictToSend
+            let url = URL(string: updateActivityURLString)
+            var request = URLRequest(url: url!)
+            request.httpMethod = "PUT"
+            request.httpBody = dictToSend
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             
-            let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response: NSURLResponse?, error:NSError?) -> Void in
+            let session = URLSession.shared
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                 
                 if let serverResponse = response {
                     
@@ -164,7 +164,7 @@ class BabiUsageUpdater: NSObject {
                             
                             do {
                         
-                                let recieved = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:String]
+                                let recieved = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
                                 
                                 print("receieved: \(recieved)")
                                 

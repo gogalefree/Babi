@@ -14,11 +14,11 @@ let kSleepModeKey = "kSleepModeKey"
 class MainContainerController: UIViewController {
     
     lazy var noGatesMessageVC : NoGatesVC!  = {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("noGatesMessageVC") as! NoGatesVC
+        return self.storyboard?.instantiateViewController(withIdentifier: "noGatesMessageVC") as! NoGatesVC
         }()
     
     lazy var gatesTVCNavigationVC: UINavigationController! = {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("GatesTVCNavController")
+        return self.storyboard?.instantiateViewController(withIdentifier: "GatesTVCNavController")
             as! UINavigationController!
     }()
     
@@ -40,22 +40,21 @@ class MainContainerController: UIViewController {
         self.sleepModeMessageView.alpha = 0
         self.wakeUpButton.alpha = 0
         self.sleepMessageTopConstraint.constant = kSleepMessageHiddenConstant
-        self.wakeUpButton.layer.borderColor = UIColor.whiteColor().CGColor
+        self.wakeUpButton.layer.borderColor = UIColor.white.cgColor
         self.wakeUpButton.layer.borderWidth = 1
         self.wakeUpButton.layer.cornerRadius = 10
         
         presentWelcomeMessage()
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW,
-            Int64(2 * Double(NSEC_PER_SEC)))
+        let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         
-        dispatch_after(delayTime, dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.asyncAfter(deadline: delayTime, execute: { () -> Void in
             
             self.presentGatesTVC()
         })        
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if sleepMode {
             wakeUpFromSleepMode()
@@ -67,10 +66,10 @@ class MainContainerController: UIViewController {
             gatesTVCNavigationVC.view.alpha = 0
             self.addChildViewController(gatesTVCNavigationVC)
             gatesTVCNavigationVC.view.frame = self.view.bounds
-            gatesTVCNavigationVC.didMoveToParentViewController(self)
+            gatesTVCNavigationVC.didMove(toParentViewController: self)
             self.view.addSubview(gatesTVCNavigationVC.view)
     
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
+            UIView.animate(withDuration: 0.4, animations: { () -> Void in
                 
                 self.gatesTVCNavigationVC.view.alpha = 1
                 
@@ -80,12 +79,12 @@ class MainContainerController: UIViewController {
     
     func presentWelcomeMessage() {
         
-        let frame = CGRectMake(0,56, self.view.bounds.width, self.view.bounds.height)
+        let frame = CGRect(x: 0,y: 56, width: self.view.bounds.width, height: self.view.bounds.height)
         noGatesMessageVC.view.frame = frame
         self.addChildViewController(noGatesMessageVC)
         self.view.addSubview(noGatesMessageVC.view)
-        self.view.bringSubviewToFront(noGatesMessageVC.view)
-        noGatesMessageVC.didMoveToParentViewController(self)
+        self.view.bringSubview(toFront: noGatesMessageVC.view)
+        noGatesMessageVC.didMove(toParentViewController: self)
     }
     
     func hideNoMessageVCIfNeeded() {
@@ -102,7 +101,7 @@ class MainContainerController: UIViewController {
         
         if gates == nil || gates?.count == 0 {
 
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
+            UIView.animate(withDuration: 0.4, animations: { () -> Void in
                 self.noGatesMessageVC.view.alpha = 1
                 self.noGatesMessageVC.showNoGatesMessage()
             })
@@ -113,22 +112,22 @@ class MainContainerController: UIViewController {
     func toogleSleepMode() {
         
         sleepMode = true
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: kSleepModeKey)
+        UserDefaults.standard.set(true, forKey: kSleepModeKey)
         //update model
         Model.shared.stopLocationUpdates()
-        UIApplication.sharedApplication().idleTimerDisabled = false
+        UIApplication.shared.isIdleTimerDisabled = false
         
         //updateUI
-        UIView.animateWithDuration(0.8, animations: { () -> Void in
+        UIView.animate(withDuration: 0.8, animations: { () -> Void in
             
             self.dimmingView.alpha = 0.8
             self.sleepModeMessageView.alpha = 1
-            self.view.bringSubviewToFront(self.dimmingView)
-            self.view.bringSubviewToFront(self.sleepModeMessageView)
+            self.view.bringSubview(toFront: self.dimmingView)
+            self.view.bringSubview(toFront: self.sleepModeMessageView)
             
-        }) { (completed) -> Void in
+        }, completion: { (completed) -> Void in
             
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
+            UIView.animate(withDuration: 0.4, animations: { () -> Void in
                 
                 self.sleepMessageTopConstraint.constant = self.kSleepMessageVisibleConstant
                 self.view.layoutIfNeeded()
@@ -138,20 +137,20 @@ class MainContainerController: UIViewController {
                 
             })
             
-        }
+        }) 
     }
     
     @IBAction func wakeUpFromSleepMode() {
         
         sleepMode = false
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: kSleepModeKey)
+        UserDefaults.standard.set(false, forKey: kSleepModeKey)
 
         //update model
         Model.shared.startLocationUpdates()
-        UIApplication.sharedApplication().idleTimerDisabled = true
+        UIApplication.shared.isIdleTimerDisabled = true
         
         //updateUI
-        UIView.animateWithDuration(0.8, animations: { () -> Void in
+        UIView.animate(withDuration: 0.8, animations: { () -> Void in
             
           
             self.sleepMessageTopConstraint.constant = self.kSleepMessageHiddenConstant
@@ -160,9 +159,9 @@ class MainContainerController: UIViewController {
 
          
             
-            }) { (completed) -> Void in
+            }, completion: { (completed) -> Void in
                 
-                UIView.animateWithDuration(0.4, animations: { () -> Void in
+                UIView.animate(withDuration: 0.4, animations: { () -> Void in
                     
                     self.dimmingView.alpha = 0
                     self.sleepModeMessageView.alpha = 0
@@ -172,7 +171,7 @@ class MainContainerController: UIViewController {
                     }, completion: { (finished) -> Void in
                         
                 })
-        }
+        }) 
     }
     
 

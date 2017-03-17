@@ -14,28 +14,28 @@ class LocationNotifications: NSObject {
    
     var registeredGates  = NSMutableSet()
     
-    func registerGateForLocationNotification(gate: Gate) {
+    func registerGateForLocationNotification(_ gate: Gate) {
         
         let localNotification = generateLocalNotification(gate)
 
         if gate.automatic {
             
-            if registeredGates.containsObject(gate) {return}
+            if registeredGates.contains(gate) {return}
             
-            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-            registeredGates.addObject(gate)
+            UIApplication.shared.scheduleLocalNotification(localNotification)
+            registeredGates.add(gate)
         }
     }
     
-    func cancelLocalNotification(gate: Gate) {
+    func cancelLocalNotification(_ gate: Gate) {
         let notification = generateLocalNotification(gate)
-        UIApplication.sharedApplication().cancelLocalNotification(notification)
-        if registeredGates.containsObject(gate){registeredGates.removeObject(gate)}
+        UIApplication.shared.cancelLocalNotification(notification)
+        if registeredGates.contains(gate){registeredGates.remove(gate)}
     }
     
-    func didRecieveLocalNotification(notification: UILocalNotification) {
+    func didRecieveLocalNotification(_ notification: UILocalNotification) {
       
-        let userInfo = notification.userInfo as [NSObject: AnyObject]?
+        let userInfo = notification.userInfo as [AnyHashable: Any]?
         
         if let userInfo = userInfo{
         
@@ -45,7 +45,7 @@ class LocationNotifications: NSObject {
         }
     }
     
-    func generateLocalNotification(gate: Gate) -> UILocalNotification{
+    func generateLocalNotification(_ gate: Gate) -> UILocalNotification{
         
         let localNotification = UILocalNotification()
         localNotification.userInfo = Gate.gateDictionary(gate)

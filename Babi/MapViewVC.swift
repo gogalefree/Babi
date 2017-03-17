@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 
 protocol MapVCDelegate: NSObjectProtocol {
-    func didFinishPickingLocation(gateAnnotation: MKPointAnnotation?)
+    func didFinishPickingLocation(_ gateAnnotation: MKPointAnnotation?)
 }
 
 class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
@@ -34,7 +34,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         addPanRecognizer()
         addGateAnnotationIfNeeded()
         configureTrackButton()
-        self.navigationItem.rightBarButtonItem?.enabled = false
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     func addGateAnnotationIfNeeded() {
@@ -59,7 +59,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.mapView.addGestureRecognizer(tapGesture)
         self.mapView.delegate = self
         self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
+        self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
 
     }
     
@@ -75,12 +75,12 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.trackUserButton.layer.cornerRadius = self.trackUserButton.frame.size.width / 2
         self.blureView.layer.cornerRadius = self.blureView.frame.size.width / 2
         self.blureView.layer.borderWidth = 1
-        self.blureView.layer.borderColor = UIColor.grayColor().CGColor
+        self.blureView.layer.borderColor = UIColor.gray.cgColor
     }
     
-    func didDragMap(recognizer: UIPanGestureRecognizer) {
+    func didDragMap(_ recognizer: UIPanGestureRecognizer) {
         
-        if (recognizer.state == UIGestureRecognizerState.Began) {
+        if (recognizer.state == UIGestureRecognizerState.began) {
                 
             self.trackingUserLocation = false
             self.blureView.animateToAlphaWithSpring(0.4, alpha: 1)
@@ -88,25 +88,25 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     }
     
     //MARK: - Track button action
-    @IBAction func trackUserAction(sender: AnyObject) {
+    @IBAction func trackUserAction(_ sender: AnyObject) {
         
         self.trackingUserLocation = true
         self.blureView.animateToAlphaWithSpring(0.4, alpha: 0)
-        self.mapView.setCenterCoordinate(self.mapView.userLocation.coordinate, animated: true)
+        self.mapView.setCenter(self.mapView.userLocation.coordinate, animated: true)
     }
     
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 
 
     
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
         if trackingUserLocation {
             
-            self.mapView.setCenterCoordinate(self.mapView.userLocation.coordinate, animated: true)
+            self.mapView.setCenter(self.mapView.userLocation.coordinate, animated: true)
             if let newCamera = self.mapView.camera.copy() as? MKMapCamera {
              
                 if let location = self.mapView.userLocation.location {
@@ -119,28 +119,28 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         }
     }
     
-    func mapViewWillStartRenderingMap(mapView: MKMapView) {
+    func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
         print("will start rendernig")
     }
     
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         print("did finish rendernig")
 
     }
     
-    func mapTapped(recognizer: UITapGestureRecognizer) {
+    func mapTapped(_ recognizer: UITapGestureRecognizer) {
         
         if let gateAnnotation = gateAnnotation {
             mapView.removeAnnotation(gateAnnotation)
         }
         
-        let point = recognizer.locationInView(self.mapView)
-        let coords = mapView.convertPoint(point, toCoordinateFromView: self.mapView)
+        let point = recognizer.location(in: self.mapView)
+        let coords = mapView.convert(point, toCoordinateFrom: self.mapView)
         let annotation = MKPointAnnotation()
         annotation.coordinate = coords
         gateAnnotation = annotation
         self.mapView.addAnnotation(annotation)
-        self.navigationItem.rightBarButtonItem?.enabled = true
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     @IBAction func doneClicked() {
@@ -158,11 +158,11 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         }
         
         //dissmiss
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelAction() {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

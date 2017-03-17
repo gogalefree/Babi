@@ -9,7 +9,7 @@
 import UIKit
 
 protocol GateAutomaticCellDelegate: NSObjectProtocol {
-    func didChangeGateAutomaticMode(isAutomatic: Bool)
+    func didChangeGateAutomaticMode(_ isAutomatic: Bool)
 }
 
 class GateEditorAutomaticCell: UITableViewCell {
@@ -22,7 +22,7 @@ class GateEditorAutomaticCell: UITableViewCell {
     var gate : Gate! {
         didSet{
             defineTitle()
-            automaticSwitch.on = gate.automatic
+            automaticSwitch.isOn = gate.automatic
         }
     }
     
@@ -31,15 +31,15 @@ class GateEditorAutomaticCell: UITableViewCell {
     override func awakeFromNib() {
        
         super.awakeFromNib()
-        automaticSwitch.addTarget(self, action: #selector(GateEditorAutomaticCell.automaticSwitchMoved(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        automaticSwitch.addTarget(self, action: #selector(GateEditorAutomaticCell.automaticSwitchMoved(_:)), for: UIControlEvents.valueChanged)
         titleLabel.text = titles[1]
-        automaticSwitch.layer.borderColor = UIColor.blackColor().CGColor
+        automaticSwitch.layer.borderColor = UIColor.black.cgColor
         automaticSwitch.layer.borderWidth = 1
         automaticSwitch.layer.cornerRadius = 15
     }
     
-    func automaticSwitchMoved(sender: UISwitch) {
-        gate.automatic = automaticSwitch.on
+    func automaticSwitchMoved(_ sender: UISwitch) {
+        gate.automatic = automaticSwitch.isOn
         if let delegate = delegate {
             delegate.didChangeGateAutomaticMode(gate.automatic)
         }
@@ -56,13 +56,13 @@ class GateEditorAutomaticCell: UITableViewCell {
         }
     }
 
-    func animateTitle(title: String) {
+    func animateTitle(_ title: String) {
         titleLabel.animateToAlphaWithSpring(0.4, alpha: 0)
         titleLabel.text = title
         titleLabel.animateToAlphaWithSpring(0.4, alpha: 1)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

@@ -9,10 +9,11 @@
 import UIKit
 
 protocol SwipeableCellDelegate{
-    func buttonOneAction(cell: SwipeableCellTableViewCell)
-    func buttonTwoAction(cell: SwipeableCellTableViewCell)
-    func cellDidOpen(cell: UITableViewCell)
-    func cellDidClose(cell: UITableViewCell)
+    func buttonOneAction(_ cell: SwipeableCellTableViewCell)
+    func buttonTwoAction(_ cell: SwipeableCellTableViewCell)
+    func shareButtonClicked(_ cell: SwipeableCellTableViewCell)
+    func cellDidOpen(_ cell: UITableViewCell)
+    func cellDidClose(_ cell: UITableViewCell)
 }
 
 class SwipeableCellTableViewCell: UITableViewCell {
@@ -20,14 +21,15 @@ class SwipeableCellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
+    @IBOutlet weak var button3: UIButton!
     @IBOutlet weak var myContentView: UIView!
     @IBOutlet weak var myTextLable: UILabel!
     @IBOutlet weak var contentViewRightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var arrowImageView: UIImageView!
     
-    let automaticColor = UIColor.blackColor()// UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
-    let manualColor = UIColor.blackColor()
+    let automaticColor = UIColor.black// UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
+    let manualColor = UIColor.black
 
     
     
@@ -48,7 +50,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
     }
     
     var delegate: SwipeableCellDelegate?
-    var indexPath: NSIndexPath!
+    var indexPath: IndexPath!
     var itemText: String? {
         didSet {
             
@@ -58,7 +60,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func buttonClicked(sender: UIButton) {
+    @IBAction func buttonClicked(_ sender: UIButton) {
         
         if let delegate = self.delegate {
             
@@ -71,23 +73,23 @@ class SwipeableCellTableViewCell: UITableViewCell {
                 delegate.buttonTwoAction(self)
             }
                 
-            else {
-                print("Unknown Button Clicked")
+            else if sender == self.button3 {
+                delegate.shareButtonClicked(self)
             }
         }
     }
     
-    func panThisCell(recognizer: UIPanGestureRecognizer) {
+    func panThisCell(_ recognizer: UIPanGestureRecognizer) {
         
         switch recognizer.state {
             
-        case .Began:
-            self.panStartPoint = recognizer.translationInView(self.myContentView);
+        case .began:
+            self.panStartPoint = recognizer.translation(in: self.myContentView);
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
             
-        case .Changed:
+        case .changed:
             
-            let currentPoint = recognizer.translationInView(self.myContentView)
+            let currentPoint = recognizer.translation(in: self.myContentView)
             let deltaX = currentPoint.x - self.panStartPoint.x //negative if pan left
          //   println("Pan Moved \(deltaX)")
             
@@ -163,11 +165,11 @@ class SwipeableCellTableViewCell: UITableViewCell {
             self.contentViewLeftConstraint.constant = -self.contentViewRightConstraint.constant
             
             
-        case .Ended:
+        case .ended:
             
             if (self.startingRightLayoutConstraintConstant == 0) { //1 //Cell was opening
                 
-                let halfOfButtonOne:CGFloat  = CGRectGetWidth(self.button1.frame) / 2;
+                let halfOfButtonOne:CGFloat  = self.button1.frame.width / 2;
                 
                 //added
                 animateIconCellOpen()
@@ -187,7 +189,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
             else {
                 
                 //Cell was closing
-                let buttonOnePlusHalfOfButton2:CGFloat = CGRectGetWidth(self.button1.frame) + (CGRectGetWidth(self.button2.frame) / 2);
+                let buttonOnePlusHalfOfButton2:CGFloat = self.button1.frame.width + (self.button2.frame.width / 2);
                 
                 //added
                 animateIconCellCloased()
@@ -204,7 +206,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
                 }
             }
             
-        case .Cancelled:
+        case .cancelled:
             
             if (self.startingRightLayoutConstraintConstant == 0) {
                 //Cell was closed - reset everything to 0
@@ -223,24 +225,24 @@ class SwipeableCellTableViewCell: UITableViewCell {
         
     }
     
-    func updateConstraintsIfNeeded(animated: Bool ,completion:(finished: Bool) ->Void ) {
+    func updateConstraintsIfNeeded(_ animated: Bool ,completion:@escaping (_ finished: Bool) ->Void ) {
         
         var duration = 0.0;
         if (animated) {
             duration = 0.4;
         }
         
-        UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut , animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions() , animations: { () -> Void in
             self.layoutIfNeeded()
             }, completion: completion)
     }
     
     func buttonTotalWidth() -> CGFloat {
         
-        return CGRectGetWidth(self.frame) - CGRectGetMinX(self.button2.frame);
+        return self.frame.width - self.button3.frame.minX;
     }
     
-    func resetConstraintContstantsToZero(animated: Bool ,notifyDelegateDidClose endEditing:Bool) {
+    func resetConstraintContstantsToZero(_ animated: Bool ,notifyDelegateDidClose endEditing:Bool) {
         
         isOpen = false
         
@@ -268,7 +270,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
         })
     }
     
-    func setConstraintsToShowAllButtons(animated:Bool ,notifyDelegateDidOpen notifyDelegate:Bool) {
+    func setConstraintsToShowAllButtons(_ animated:Bool ,notifyDelegateDidOpen notifyDelegate:Bool) {
         
         self.isOpen = true
         
@@ -302,20 +304,20 @@ class SwipeableCellTableViewCell: UITableViewCell {
     }
     
     func animateIconCellOpen() {
-        UIView.animateWithDuration(0.8, animations: {
-            self.arrowImageView.transform = CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
+        UIView.animate(withDuration: 0.8, animations: {
+            self.arrowImageView.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
         })
     }
     
     func animateIconCellCloased() {
-        UIView.animateWithDuration(0.8, animations: {
-            self.arrowImageView.transform = CGAffineTransformMakeRotation(0)
+        UIView.animate(withDuration: 0.8, animations: {
+            self.arrowImageView.transform = CGAffineTransform(rotationAngle: 0)
         })
         
     }
     
     
-    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
@@ -332,33 +334,33 @@ class SwipeableCellTableViewCell: UITableViewCell {
         self.myContentView.addGestureRecognizer(self.panRecognizer)
     }
     
-    func setAutomaticButtonTitle(automatic: Bool) {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.button2.setTitle(automaticHeaderTitles[automatic.hashValue], forState: UIControlState.Normal)
+    func setAutomaticButtonTitle(_ automatic: Bool) {
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.button2.setTitle(automaticHeaderTitles[automatic.hashValue], for: UIControlState())
             if automatic {
-                self.button2.setTitleColor(self.automaticColor, forState: .Normal)
+                self.button2.setTitleColor(self.automaticColor, for: UIControlState())
             }
             else {
-                self.button2.setTitleColor(self.manualColor, forState: .Normal)
+                self.button2.setTitleColor(self.manualColor, for: UIControlState())
             }
         })
     }
     
         
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch = touches.first {
-        let touchPoint = touch.locationInView(self)
-        let callRect = CGRectMake(0,0,
-            CGRectGetMinX(self.arrowImageView.frame) - 30 ,
-            CGRectGetHeight(self.frame))
+        let touchPoint = touch.location(in: self)
+        let callRect = CGRect(x: 0,y: 0,
+            width: self.arrowImageView.frame.minX - 30 ,
+            height: self.frame.height)
         
-        let closeCellRect = CGRectMake(0,0,
-            CGRectGetMaxX(arrowImageView.frame),
-            CGRectGetHeight(self.frame))
+        let closeCellRect = CGRect(x: 0,y: 0,
+            width: arrowImageView.frame.maxX,
+            height: self.frame.height)
         
-        let shouldCall = CGRectContainsPoint(callRect, touchPoint)
-        let shouldCloseCell = CGRectContainsPoint(closeCellRect, touchPoint)
+        let shouldCall = callRect.contains(touchPoint)
+        let shouldCloseCell = closeCellRect.contains(touchPoint)
         
         if !shouldCall && !isOpen {
             //open cell
@@ -374,17 +376,17 @@ class SwipeableCellTableViewCell: UITableViewCell {
         }
         else {
             //call gate phone number
-            super.touchesBegan(touches, withEvent: event)
+            super.touchesBegan(touches, with: event)
         }
         }
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state

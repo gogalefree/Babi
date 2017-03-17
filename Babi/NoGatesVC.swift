@@ -55,21 +55,21 @@ class NoGatesVC: UIViewController {
         self.messageLable.animateToAlphaWithSpring(0.4, alpha: 1)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.messageLable.alpha = 0
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.messageLable.alpha = 1
         })
     }
     
-        override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     
-            super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+            super.viewWillTransition(to: size, with: coordinator)
     
             //moving to landscape
             if size.width > size.height {

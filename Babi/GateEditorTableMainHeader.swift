@@ -14,7 +14,7 @@ class GateEditorTableMainHeader: UIView {
         super.awakeFromNib()
         self.layer.cornerRadius = 8
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.layer.borderColor = UIColor.lightGray.cgColor
         self.clipsToBounds = true
     }
     

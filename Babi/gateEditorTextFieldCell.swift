@@ -12,8 +12,8 @@ let kGateEditorGateNameTitle = String.localizedStringWithFormat("Enter Gate Name
 let kGateEditorPhoneNumberTitle = String.localizedStringWithFormat("Gate phone number. digits only.", "a title explaining that the user should enter a phone number for the gate")
 
 protocol GateEditorTextFieldCellDeleagte: NSObjectProtocol {
-    func didFinishEditingText(text: String?,indexpath: NSIndexPath)
-    func editingText(text: String, indexpath: NSIndexPath)
+    func didFinishEditingText(_ text: String?,indexpath: IndexPath)
+    func editingText(_ text: String, indexpath: IndexPath)
 }
 
 class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
@@ -28,7 +28,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
     
     weak var delegate: GateEditorTextFieldCellDeleagte!
     
-    var indexPath: NSIndexPath! {
+    var indexPath: IndexPath! {
         didSet{
             titleLabel.text = titles[indexPath.section]
         }
@@ -36,7 +36,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
     
     //MARK: - Text Field Delegate
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let delegate = delegate {
             //deleting chars
             delegate.didFinishEditingText(textField.text, indexpath: indexPath)
@@ -44,7 +44,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         var shouldChange = true
         
@@ -55,11 +55,11 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
             
             let newLength = (text as NSString).length + (string as NSString).length - range.length
             
-            let digitsCharecterSet = NSCharacterSet(charactersInString: digits).invertedSet
+            let digitsCharecterSet = CharacterSet(charactersIn: digits).inverted
             
-            let components = string.componentsSeparatedByCharactersInSet(digitsCharecterSet)
+            let components = string.components(separatedBy: digitsCharecterSet)
             
-            let filtered = components.joinWithSeparator("")
+            let filtered = components.joined(separator: "")
             
             shouldChange =  string == filtered && newLength <= 10
         }
@@ -75,7 +75,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         
         //deleting chars
         if string == "" {
-            let string = text.substringToIndex(text.endIndex.predecessor())
+            let string = text.substring(to: text.characters.index(before: text.endIndex))
             delegate.editingText(string, indexpath: indexPath)
         }
         
@@ -83,7 +83,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         return shouldChange
     }
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.textField.text = ""
         return true
     }
@@ -94,7 +94,7 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

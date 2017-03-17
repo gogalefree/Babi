@@ -11,25 +11,25 @@ import UIKit
 
 extension UIView {
     
-    func animateToAlphaWithSpring(duration: NSTimeInterval , alpha: CGFloat) {
+    func animateToAlphaWithSpring(_ duration: TimeInterval , alpha: CGFloat) {
         
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             self.alpha = alpha
         }, completion: nil)
     }
     
-    func animateToCenterWithSpring(duration: NSTimeInterval , center: CGPoint, completion: (completion:Bool)->()) {
+    func animateToCenterWithSpring(_ duration: TimeInterval , center: CGPoint, completion: @escaping (_ completion:Bool)->()) {
         
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             self.center = center
             }, completion: completion)
     }
     
-    func animateToYWithSpring(duration: NSTimeInterval , Yvalue: CGFloat ,completion: (completion:Bool)->()) {
+    func animateToYWithSpring(_ duration: TimeInterval , Yvalue: CGFloat ,completion: @escaping (_ completion:Bool)->()) {
         
         var newOrigin = self.frame.origin
         newOrigin.y = Yvalue
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             self.frame.origin = newOrigin
             self.superview?.layoutIfNeeded()
             }, completion: completion)
@@ -37,19 +37,19 @@ extension UIView {
 }
 
 extension UIView {
-    class func loadFromNibNamed(nibNamed: String, bundle : NSBundle? = nil) -> UIView? {
+    class func loadFromNibNamed(_ nibNamed: String, bundle : Bundle? = nil) -> UIView? {
         return UINib(
             nibName: nibNamed,
             bundle: bundle
-            ).instantiateWithOwner(nil, options: nil)[0] as? UIView
+            ).instantiate(withOwner: nil, options: nil)[0] as? UIView
     }
 }
 
 extension UITabBar{
     
-    func animateCenterWithSpring(duration: NSTimeInterval , center: CGPoint) {
+    func animateCenterWithSpring(_ duration: TimeInterval , center: CGPoint) {
         
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             self.center = center
             }, completion: nil)
     }

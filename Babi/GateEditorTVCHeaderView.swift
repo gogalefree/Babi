@@ -9,7 +9,7 @@
 import UIKit
 
 protocol GateEditorHeaderViewDelegate: NSObjectProtocol {
-    func headerTapped(headerView: GateEditorTVCHeaderView)
+    func headerTapped(_ headerView: GateEditorTVCHeaderView)
 }
 
 let initialTitles = ["Gate Name" , "Gate Phone Number" , "Gate Location" , "Automatic"]
@@ -23,7 +23,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
 
    
     enum Roll: Int {
-        case GateName = 0, GatePhoneNumber = 1, GateLocation = 2, GateMode = 3
+        case gateName = 0, gatePhoneNumber = 1, gateLocation = 2, gateMode = 3
     }
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -49,31 +49,31 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     
     func setInitialTitles() {
         
-        titleLabel.textColor = UIColor.grayColor()
+        titleLabel.textColor = UIColor.gray
         titleLabel.text = initialTitles[section]
 
-        if self.headerRoll == .GateMode {
-            titleLabel.textColor = UIColor.darkGrayColor()
+        if self.headerRoll == .gateMode {
+            titleLabel.textColor = UIColor.darkGray
         }
-        else if self.headerRoll == .GateName || self.headerRoll == .GatePhoneNumber {
+        else if self.headerRoll == .gateName || self.headerRoll == .gatePhoneNumber {
 
-            iconImageView.image = UIImage(named: "pen.png")
+            iconImageView.image = UIImage(named: "ic_edit.png")
         }
-        else if self.headerRoll == .GateLocation {
-            iconImageView.image = UIImage(named: "facebook30.png")
+        else if self.headerRoll == .gateLocation {
+            iconImageView.image = UIImage(named: "ic_near_me.png")
         }
     }
     
-    func setGateTitles(gate: Gate) {
+    func setGateTitles(_ gate: Gate) {
         
-        titleLabel.textColor = UIColor.darkGrayColor()
+        titleLabel.textColor = UIColor.darkGray
         
         switch headerRoll as Roll {
-        case .GateName:
+        case .gateName:
             titleLabel.text = gate.name
-        case .GatePhoneNumber:
+        case .gatePhoneNumber:
             titleLabel.text = gate.phoneNumber
-        case .GateLocation:
+        case .gateLocation:
             if gate.placemarkName != kGatePlacemarkNameDefaultValue {
                 titleLabel.text = gate.placemarkName
             }
@@ -81,16 +81,16 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
                 titleLabel.text = locationHeaderTitles[1]
             }
             
-        case .GateMode:
+        case .gateMode:
             titleLabel.text = automaticHeaderTitles[gate.automatic.hashValue]
         }
     }
 
     
-    func headerTapped(recognizer: UITapGestureRecognizer) {
+    func headerTapped(_ recognizer: UITapGestureRecognizer) {
         
         selected = !selected
-        animateIcon()
+        //animateIcon()
         
         if selected {setSelectedState()}
         else        {setIdeleState()}
@@ -104,13 +104,13 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         
         switch headerRoll as Roll {
 
-        case .GateName:
+        case .gateName:
             showTextField()
-            self.textField.keyboardType = .Default
+            self.textField.keyboardType = .default
 
-        case .GatePhoneNumber:
+        case .gatePhoneNumber:
             showTextField()
-            self.textField.keyboardType = .NumbersAndPunctuation
+            self.textField.keyboardType = .numbersAndPunctuation
 
 
         default:
@@ -121,11 +121,11 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     func setIdeleState() {
         switch headerRoll as Roll {
         
-        case .GateName, .GatePhoneNumber:
+        case .gateName, .gatePhoneNumber:
             
             if self.textField.text != "" {
                 self.titleLabel.text = self.textField.text
-                self.titleLabel.textColor = UIColor.darkGrayColor()
+                self.titleLabel.textColor = UIColor.darkGray
                 saveGateData()
             }
                 
@@ -144,10 +144,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         if let gate = gate {
             
             switch headerRoll as Roll {
-            case .GateName:
+            case .gateName:
                 gate.name = textField.text ?? ""
                 print("saved gate name: \(gate.name)")
-            case .GatePhoneNumber:
+            case .gatePhoneNumber:
                 gate.phoneNumber = textField.text ?? ""
                 print("saved gate phone: \(gate.phoneNumber)")
 
@@ -157,14 +157,14 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }
     }
     
-    func animateNewText(text: String?) {
+    func animateNewText(_ text: String?) {
         
       
         if text == nil || text == "" {
             setInitialTitles()
         }
         else {
-            titleLabel.textColor = UIColor.darkGrayColor()
+            titleLabel.textColor = UIColor.darkGray
             titleLabel.alpha = 0
             titleLabel.text = text
             titleLabel.animateToAlphaWithSpring(0.4, alpha: 1)
@@ -172,16 +172,16 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     }
     
     func showTextField() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.textField.alpha = 1
             self.titleLabel.alpha = 0
-        }) { (completion) -> Void in
+        }, completion: { (completion) -> Void in
             self.textField.becomeFirstResponder()
-        }
+        }) 
     }
     
     func hideTextField() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.textField.alpha = 0
             self.titleLabel.alpha = 1
             self.textField.resignFirstResponder()
@@ -190,34 +190,34 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     
     func animateIcon() {
         
-        if selected && self.headerRoll == .GateMode{
+        if selected && self.headerRoll == .gateMode{
             
-            UIView.animateWithDuration(0.4, animations: {
+            UIView.animate(withDuration: 0.4, animations: {
                 
-                self.iconImageView.transform =  CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
+                self.iconImageView.transform =  CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
             })
         }
-        else if self.headerRoll == .GateMode {
+        else if self.headerRoll == .gateMode {
             
-            UIView.animateWithDuration(0.4, animations: {
+            UIView.animate(withDuration: 0.4, animations: {
                 
-                self.iconImageView.transform =  CGAffineTransformIdentity
+                self.iconImageView.transform =  CGAffineTransform.identity
             })
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         headerTapped(UITapGestureRecognizer())
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if headerRoll != .GatePhoneNumber {return true}
+        if headerRoll != .gatePhoneNumber {return true}
         
-        let digitsCharecterSet = NSCharacterSet(charactersInString: digits).invertedSet
-        let components = string.componentsSeparatedByCharactersInSet(digitsCharecterSet)
-        let filtered = components.joinWithSeparator("")
+        let digitsCharecterSet = CharacterSet(charactersIn: digits).inverted
+        let components = string.components(separatedBy: digitsCharecterSet)
+        let filtered = components.joined(separator: "")
         var shouldChange = true
         shouldChange =  string == filtered
         return shouldChange
@@ -227,7 +227,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     override func awakeFromNib() {
         super.awakeFromNib()
         self.tapGestureRecognizer.addTarget(self, action: #selector(GateEditorTVCHeaderView.headerTapped(_:)))
-        self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 66))
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.greaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 66))
     
         self.textField.delegate = self
         self.hideTextField()

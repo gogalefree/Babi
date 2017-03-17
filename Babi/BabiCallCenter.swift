@@ -43,8 +43,8 @@ class BabiCallCenter: NSObject {
     
     func callDisconnected() {
         print("CTCallStateDisconnected")
-        let url = NSURL(string: "babi://")
-        UIApplication.sharedApplication().openURL(url!)
+        let url = URL(string: "babi://")
+        UIApplication.shared.openURL(url!)
     }
    
 }
