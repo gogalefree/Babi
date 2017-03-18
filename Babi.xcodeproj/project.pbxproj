@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36957F87B78A29F699B34D57 /* Pods_Babi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8748867E8B6C7532A1D9A3F /* Pods_Babi.framework */; };
+		B2EF84787E0C29E0CC7772FD /* Pods_BabiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457DCD2A31374287A039CFD6 /* Pods_BabiTests.framework */; };
 		E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */; };
 		E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */; };
 		E41790721ADE96B5002E68D1 /* BabiCallCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */; };
@@ -22,6 +24,14 @@
 		E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */; };
 		E4375B581ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */; };
 		E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */; };
+		E44B6E4F1E7C931B00D953D6 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4B1E7C931B00D953D6 /* Contents.json */; };
+		E44B6E501E7C931B00D953D6 /* ic_call_36pt.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4C1E7C931B00D953D6 /* ic_call_36pt.png */; };
+		E44B6E511E7C931B00D953D6 /* ic_call_36pt_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4D1E7C931B00D953D6 /* ic_call_36pt_2x.png */; };
+		E44B6E521E7C931B00D953D6 /* ic_call_36pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4E1E7C931B00D953D6 /* ic_call_36pt_3x.png */; };
+		E44B6E581E7C94B900D953D6 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E541E7C94B900D953D6 /* Contents.json */; };
+		E44B6E591E7C94B900D953D6 /* ic_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E551E7C94B900D953D6 /* ic_phone.png */; };
+		E44B6E5A1E7C94B900D953D6 /* ic_phone_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E561E7C94B900D953D6 /* ic_phone_2x.png */; };
+		E44B6E5B1E7C94B900D953D6 /* ic_phone_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E571E7C94B900D953D6 /* ic_phone_3x.png */; };
 		E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B39E1AC6862C00707BA8 /* AppDelegate.swift */; };
 		E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */; };
 		E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3A31AC6862C00707BA8 /* MainContainerController.swift */; };
@@ -81,6 +91,10 @@
 		E490336C1E7C07AB001F9C75 /* ic_my_location_36pt.png in Resources */ = {isa = PBXBuildFile; fileRef = E49033681E7C07AB001F9C75 /* ic_my_location_36pt.png */; };
 		E490336D1E7C07AB001F9C75 /* ic_my_location_36pt_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E49033691E7C07AB001F9C75 /* ic_my_location_36pt_2x.png */; };
 		E490336E1E7C07AB001F9C75 /* ic_my_location_36pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E490336A1E7C07AB001F9C75 /* ic_my_location_36pt_3x.png */; };
+		E49033741E7C0D5B001F9C75 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = E49033701E7C0D5B001F9C75 /* Contents.json */; };
+		E49033751E7C0D5B001F9C75 /* ic_settings_36pt.png in Resources */ = {isa = PBXBuildFile; fileRef = E49033711E7C0D5B001F9C75 /* ic_settings_36pt.png */; };
+		E49033761E7C0D5B001F9C75 /* ic_settings_36pt_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E49033721E7C0D5B001F9C75 /* ic_settings_36pt_2x.png */; };
+		E49033771E7C0D5B001F9C75 /* ic_settings_36pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E49033731E7C0D5B001F9C75 /* ic_settings_36pt_3x.png */; };
 		E4981C941ADD953E00F778F5 /* gateEditorHeaderImage.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */; };
 		E4981C961ADD98B900F778F5 /* gateEditorHeaderView2.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */; };
 		E4981C9A1ADD9AEF00F778F5 /* plus32.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C981ADD9AEF00F778F5 /* plus32.png */; };
@@ -122,6 +136,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		120FAEE139B3FF8193AA815C /* Pods-BabiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabiTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2A8CE88AC2594E7530DC7836 /* Pods-BabiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests.release.xcconfig"; sourceTree = "<group>"; };
+		2DC39A6516AEF42C96940C03 /* Pods-Babi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Babi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Babi/Pods-Babi.release.xcconfig"; sourceTree = "<group>"; };
+		457DCD2A31374287A039CFD6 /* Pods_BabiTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BabiTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C5A861606F8B9B638665F83 /* Pods-Babi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Babi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Babi/Pods-Babi.debug.xcconfig"; sourceTree = "<group>"; };
 		E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kob_navBar_normal.jpeg; sourceTree = "<group>"; };
 		E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kobi_navBar_Blured.png; sourceTree = "<group>"; };
 		E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabiCallCenter.swift; sourceTree = "<group>"; };
@@ -137,6 +156,14 @@
 		E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GateEditorTVCHeaderView.xib; sourceTree = "<group>"; };
 		E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTVCHeaderView.swift; sourceTree = "<group>"; };
 		E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		E44B6E4B1E7C931B00D953D6 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		E44B6E4C1E7C931B00D953D6 /* ic_call_36pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_36pt.png; sourceTree = "<group>"; };
+		E44B6E4D1E7C931B00D953D6 /* ic_call_36pt_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_36pt_2x.png; sourceTree = "<group>"; };
+		E44B6E4E1E7C931B00D953D6 /* ic_call_36pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_36pt_3x.png; sourceTree = "<group>"; };
+		E44B6E541E7C94B900D953D6 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		E44B6E551E7C94B900D953D6 /* ic_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_phone.png; sourceTree = "<group>"; };
+		E44B6E561E7C94B900D953D6 /* ic_phone_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_phone_2x.png; sourceTree = "<group>"; };
+		E44B6E571E7C94B900D953D6 /* ic_phone_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_phone_3x.png; sourceTree = "<group>"; };
 		E453B3991AC6862C00707BA8 /* Babi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Babi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B39D1AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B39E1AC6862C00707BA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -200,6 +227,10 @@
 		E49033681E7C07AB001F9C75 /* ic_my_location_36pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_my_location_36pt.png; sourceTree = "<group>"; };
 		E49033691E7C07AB001F9C75 /* ic_my_location_36pt_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_my_location_36pt_2x.png; sourceTree = "<group>"; };
 		E490336A1E7C07AB001F9C75 /* ic_my_location_36pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_my_location_36pt_3x.png; sourceTree = "<group>"; };
+		E49033701E7C0D5B001F9C75 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		E49033711E7C0D5B001F9C75 /* ic_settings_36pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_settings_36pt.png; sourceTree = "<group>"; };
+		E49033721E7C0D5B001F9C75 /* ic_settings_36pt_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_settings_36pt_2x.png; sourceTree = "<group>"; };
+		E49033731E7C0D5B001F9C75 /* ic_settings_36pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_settings_36pt_3x.png; sourceTree = "<group>"; };
 		E4981C931ADD953E00F778F5 /* gateEditorHeaderImage.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorHeaderImage.001.png; sourceTree = "<group>"; };
 		E4981C951ADD98B900F778F5 /* gateEditorHeaderView2.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorHeaderView2.001.png; sourceTree = "<group>"; };
 		E4981C981ADD9AEF00F778F5 /* plus32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus32.png; sourceTree = "<group>"; };
@@ -228,6 +259,7 @@
 		E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koby_header2.jpeg; sourceTree = "<group>"; };
 		E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTableMainHeader.swift; sourceTree = "<group>"; };
 		E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babiMainTVCellImageSkecthGray.001.png; sourceTree = "<group>"; };
+		E8748867E8B6C7532A1D9A3F /* Pods_Babi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Babi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +267,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36957F87B78A29F699B34D57 /* Pods_Babi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,12 +275,55 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2EF84787E0C29E0CC7772FD /* Pods_BabiTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F646D46A85CF55D69B397C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E8748867E8B6C7532A1D9A3F /* Pods_Babi.framework */,
+				457DCD2A31374287A039CFD6 /* Pods_BabiTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8033D6F62716F96D186966B8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4C5A861606F8B9B638665F83 /* Pods-Babi.debug.xcconfig */,
+				2DC39A6516AEF42C96940C03 /* Pods-Babi.release.xcconfig */,
+				120FAEE139B3FF8193AA815C /* Pods-BabiTests.debug.xcconfig */,
+				2A8CE88AC2594E7530DC7836 /* Pods-BabiTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E44B6E4A1E7C931A00D953D6 /* ic_call_36pt.imageset */ = {
+			isa = PBXGroup;
+			children = (
+				E44B6E4B1E7C931B00D953D6 /* Contents.json */,
+				E44B6E4C1E7C931B00D953D6 /* ic_call_36pt.png */,
+				E44B6E4D1E7C931B00D953D6 /* ic_call_36pt_2x.png */,
+				E44B6E4E1E7C931B00D953D6 /* ic_call_36pt_3x.png */,
+			);
+			path = ic_call_36pt.imageset;
+			sourceTree = "<group>";
+		};
+		E44B6E531E7C94B900D953D6 /* ic_phone.imageset */ = {
+			isa = PBXGroup;
+			children = (
+				E44B6E541E7C94B900D953D6 /* Contents.json */,
+				E44B6E551E7C94B900D953D6 /* ic_phone.png */,
+				E44B6E561E7C94B900D953D6 /* ic_phone_2x.png */,
+				E44B6E571E7C94B900D953D6 /* ic_phone_3x.png */,
+			);
+			path = ic_phone.imageset;
+			sourceTree = "<group>";
+		};
 		E453B3901AC6862C00707BA8 = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +331,8 @@
 				E453B3B41AC6862C00707BA8 /* BabiTests */,
 				E453B39A1AC6862C00707BA8 /* Products */,
 				E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */,
+				8033D6F62716F96D186966B8 /* Pods */,
+				7F646D46A85CF55D69B397C7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -276,6 +354,9 @@
 				E473E3C71ACBABC50098D77A /* Model */,
 				E473E3CA1ACBAC600098D77A /* Functions */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
+				E44B6E531E7C94B900D953D6 /* ic_phone.imageset */,
+				E44B6E4A1E7C931A00D953D6 /* ic_call_36pt.imageset */,
+				E490336F1E7C0D5B001F9C75 /* ic_settings_36pt.imageset */,
 				E49033661E7C07AB001F9C75 /* ic_my_location_36pt.imageset */,
 				E490335D1E7C0664001F9C75 /* ic_near_me.imageset */,
 				E49033541E7BCA7B001F9C75 /* ic_expand_more.imageset */,
@@ -494,6 +575,17 @@
 			path = ic_my_location_36pt.imageset;
 			sourceTree = "<group>";
 		};
+		E490336F1E7C0D5B001F9C75 /* ic_settings_36pt.imageset */ = {
+			isa = PBXGroup;
+			children = (
+				E49033701E7C0D5B001F9C75 /* Contents.json */,
+				E49033711E7C0D5B001F9C75 /* ic_settings_36pt.png */,
+				E49033721E7C0D5B001F9C75 /* ic_settings_36pt_2x.png */,
+				E49033731E7C0D5B001F9C75 /* ic_settings_36pt_3x.png */,
+			);
+			path = ic_settings_36pt.imageset;
+			sourceTree = "<group>";
+		};
 		E4981CA11ADDB70700F778F5 /* gateEditorFenceImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -551,9 +643,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E453B3BB1AC6862C00707BA8 /* Build configuration list for PBXNativeTarget "Babi" */;
 			buildPhases = (
+				B146D7C358A0E75571E56F6A /* [CP] Check Pods Manifest.lock */,
 				E453B3951AC6862C00707BA8 /* Sources */,
 				E453B3961AC6862C00707BA8 /* Frameworks */,
 				E453B3971AC6862C00707BA8 /* Resources */,
+				49564B511A176AE5D0A03F37 /* [CP] Embed Pods Frameworks */,
+				04B93DF2F9E454C351BB2C98 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -568,9 +663,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E453B3BE1AC6862D00707BA8 /* Build configuration list for PBXNativeTarget "BabiTests" */;
 			buildPhases = (
+				97037A83114CCD2C6B56FA5A /* [CP] Check Pods Manifest.lock */,
 				E453B3AD1AC6862C00707BA8 /* Sources */,
 				E453B3AE1AC6862C00707BA8 /* Frameworks */,
 				E453B3AF1AC6862C00707BA8 /* Resources */,
+				8D7775458D62ADFB76429796 /* [CP] Embed Pods Frameworks */,
+				A252AF400376888AAA6170A4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -641,6 +739,7 @@
 				E4DDBB5A1E7BB1490053F89D /* ic_import_contacts_3x.png in Resources */,
 				E4DDBB571E7BB1490053F89D /* Contents.json in Resources */,
 				E49033641E7C0664001F9C75 /* ic_near_me_2x.png in Resources */,
+				E44B6E521E7C931B00D953D6 /* ic_call_36pt_3x.png in Resources */,
 				E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */,
 				E490335A1E7BCA7B001F9C75 /* ic_expand_more.png in Resources */,
 				E49033621E7C0664001F9C75 /* Contents.json in Resources */,
@@ -655,6 +754,7 @@
 				E49033261E7BC255001F9C75 /* ic_edit_3x.png in Resources */,
 				E49033591E7BCA7B001F9C75 /* Contents.json in Resources */,
 				E4DDBB6B1E7BB3E90053F89D /* ic_done_2x.png in Resources */,
+				E44B6E591E7C94B900D953D6 /* ic_phone.png in Resources */,
 				E4E2E24C1ADCE488006BD949 /* FreeSans.ttf in Resources */,
 				E490336C1E7C07AB001F9C75 /* ic_my_location_36pt.png in Resources */,
 				E4981CA31ADDB70700F778F5 /* gateEditorFenceImage.001.png in Resources */,
@@ -664,13 +764,17 @@
 				E4DDBB601E7BB36C0053F89D /* Contents.json in Resources */,
 				E490335C1E7BCA7B001F9C75 /* ic_expand_more_3x.png in Resources */,
 				E4E2E2501ADCE74D006BD949 /* koby_background_cell.jpeg in Resources */,
+				E49033741E7C0D5B001F9C75 /* Contents.json in Resources */,
 				E4DDBB591E7BB1490053F89D /* ic_import_contacts_2x.png in Resources */,
 				E49033361E7BC285001F9C75 /* ic_power_settings_new.png in Resources */,
+				E44B6E5A1E7C94B900D953D6 /* ic_phone_2x.png in Resources */,
+				E44B6E5B1E7C94B900D953D6 /* ic_phone_3x.png in Resources */,
 				E48A9BE01AE0397700CB3EB9 /* direction51.png in Resources */,
 				E4E2E2541ADD07BB006BD949 /* kobi_full.jpg in Resources */,
 				E490332E1E7BC26F001F9C75 /* ic_mode_edit_2x.png in Resources */,
 				E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */,
 				E42F023B1AE57098001F9FE1 /* target12.png in Resources */,
+				E49033761E7C0D5B001F9C75 /* ic_settings_36pt_2x.png in Resources */,
 				E49033531E7BCA65001F9C75 /* ic_chevron_left_3x.png in Resources */,
 				E490333E1E7BC2A0001F9C75 /* Contents.json in Resources */,
 				E49033651E7C0664001F9C75 /* ic_near_me_3x.png in Resources */,
@@ -680,6 +784,7 @@
 				E4E2E24E1ADCE490006BD949 /* shuneet_10_oblique_v21.OTF in Resources */,
 				E49033401E7BC2A0001F9C75 /* ic_undo_2x.png in Resources */,
 				E49033411E7BC2A0001F9C75 /* ic_undo_3x.png in Resources */,
+				E49033751E7C0D5B001F9C75 /* ic_settings_36pt.png in Resources */,
 				E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */,
 				E4981C9E1ADD9C3400F778F5 /* return13.png in Resources */,
 				E49033471E7BC343001F9C75 /* Contents.json in Resources */,
@@ -688,6 +793,7 @@
 				E48A9BE41AE297B100CB3EB9 /* shut-down.png in Resources */,
 				E4DDBB621E7BB36C0053F89D /* ic_delete_2x.png in Resources */,
 				E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */,
+				E44B6E501E7C931B00D953D6 /* ic_call_36pt.png in Resources */,
 				E4DDBB6A1E7BB3E90053F89D /* ic_done.png in Resources */,
 				E49033231E7BC255001F9C75 /* Contents.json in Resources */,
 				E490332C1E7BC26F001F9C75 /* Contents.json in Resources */,
@@ -699,15 +805,19 @@
 				E49033381E7BC285001F9C75 /* ic_power_settings_new_3x.png in Resources */,
 				E49033371E7BC285001F9C75 /* ic_power_settings_new_2x.png in Resources */,
 				E45F6C961AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png in Resources */,
+				E44B6E581E7C94B900D953D6 /* Contents.json in Resources */,
 				E490333F1E7BC2A0001F9C75 /* ic_undo.png in Resources */,
 				E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */,
 				E4981CA51ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib in Resources */,
 				E4DDBB691E7BB3E90053F89D /* Contents.json in Resources */,
+				E49033771E7C0D5B001F9C75 /* ic_settings_36pt_3x.png in Resources */,
 				E48A9BDC1AE01C0100CB3EB9 /* pen.png in Resources */,
 				E4DDBB581E7BB1490053F89D /* ic_import_contacts.png in Resources */,
 				E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */,
+				E44B6E511E7C931B00D953D6 /* ic_call_36pt_2x.png in Resources */,
 				E48A9BD61AE016D100CB3EB9 /* tick10.png in Resources */,
 				E490336B1E7C07AB001F9C75 /* Contents.json in Resources */,
+				E44B6E4F1E7C931B00D953D6 /* Contents.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,6 +829,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04B93DF2F9E454C351BB2C98 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Babi/Pods-Babi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		49564B511A176AE5D0A03F37 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Babi/Pods-Babi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D7775458D62ADFB76429796 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97037A83114CCD2C6B56FA5A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A252AF400376888AAA6170A4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B146D7C358A0E75571E56F6A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E453B3951AC6862C00707BA8 /* Sources */ = {
@@ -875,6 +1078,7 @@
 		};
 		E453B3BC1AC6862C00707BA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C5A861606F8B9B638665F83 /* Pods-Babi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -891,6 +1095,7 @@
 		};
 		E453B3BD1AC6862C00707BA8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2DC39A6516AEF42C96940C03 /* Pods-Babi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -907,6 +1112,7 @@
 		};
 		E453B3BF1AC6862D00707BA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 120FAEE139B3FF8193AA815C /* Pods-BabiTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -925,6 +1131,7 @@
 		};
 		E453B3C01AC6862D00707BA8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A8CE88AC2594E7530DC7836 /* Pods-BabiTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "";

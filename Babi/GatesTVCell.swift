@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Material
 
 protocol SwipeableCellDelegate{
     func buttonOneAction(_ cell: SwipeableCellTableViewCell)
@@ -19,6 +20,12 @@ protocol SwipeableCellDelegate{
 class SwipeableCellTableViewCell: UITableViewCell {
     
     
+    @IBOutlet weak var actionsView: UIView!
+    @IBOutlet weak var verticalDeviderView: UIView!
+    @IBOutlet weak var topDeviderView: UIView!
+    @IBOutlet weak var bottomDeviderView: UIView!
+    @IBOutlet weak var distanceUnitLabel: UILabel!
+    @IBOutlet weak var distanceNumberLabel: UILabel!
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
     @IBOutlet weak var button3: UIButton!
@@ -30,12 +37,12 @@ class SwipeableCellTableViewCell: UITableViewCell {
     
     let automaticColor = UIColor.black// UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
     let manualColor = UIColor.black
-
-    
-    
+    let deviderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+    let numberColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+    var automaticButton: IconButton!
     var panRecognizer: UIPanGestureRecognizer!
     var panStartPoint: CGPoint!
-    var startingRightLayoutConstraintConstant: CGFloat! = 0
+    var startingRightLayoutConstraintConstant: CGFloat! = -8
     let kBounceValue: CGFloat = 20.0
     var isOpen: Bool = false {
         didSet{
@@ -66,10 +73,12 @@ class SwipeableCellTableViewCell: UITableViewCell {
             
 
             if sender == self.button1 {
+                //settings
                 delegate.buttonOneAction(self)
                 
             }
             else if sender == self.button2 {
+                //automatic
                 delegate.buttonTwoAction(self)
             }
                 
@@ -208,7 +217,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
             
         case .cancelled:
             
-            if (self.startingRightLayoutConstraintConstant == 0) {
+            if (self.startingRightLayoutConstraintConstant == -8) {
                 //Cell was closed - reset everything to 0
                 self.resetConstraintContstantsToZero(true ,notifyDelegateDidClose:true)
                 animateIconCellCloased()
@@ -251,8 +260,8 @@ class SwipeableCellTableViewCell: UITableViewCell {
             animateIconCellCloased()
         }
         
-        if (self.startingRightLayoutConstraintConstant != nil && self.startingRightLayoutConstraintConstant == 0 &&
-            self.contentViewRightConstraint.constant == 0) {
+        if (self.startingRightLayoutConstraintConstant != nil && self.startingRightLayoutConstraintConstant == -8 &&
+            self.contentViewRightConstraint.constant == -8) {
                 //Already all the way closed, no bounce necessary
                 return;
         }
@@ -261,8 +270,8 @@ class SwipeableCellTableViewCell: UITableViewCell {
         self.contentViewLeftConstraint.constant = kBounceValue;
         
         self.updateConstraintsIfNeeded(animated, completion: { (finished) -> Void in
-            self.contentViewRightConstraint.constant = 0;
-            self.contentViewLeftConstraint.constant = 0;
+            self.contentViewRightConstraint.constant = -8;
+            self.contentViewLeftConstraint.constant = -8;
             
             self.updateConstraintsIfNeeded(animated, completion: { (finished) -> Void in
                 self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant
@@ -332,7 +341,52 @@ class SwipeableCellTableViewCell: UITableViewCell {
         self.panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(SwipeableCellTableViewCell.panThisCell(_:)))
         self.panRecognizer.delegate = self;
         self.myContentView.addGestureRecognizer(self.panRecognizer)
+        topDeviderView.backgroundColor = deviderColor
+        bottomDeviderView.backgroundColor = deviderColor
+        distanceNumberLabel.textColor = numberColor
+        distanceUnitLabel.textColor = numberColor
+        prepareActionsView()
+        
     }
+    
+    func prepareActionsView() {
+        
+        let shareButton = IconButton(image: Icon.cm.moreVertical)
+        let automaticButton = IconButton(image: Icon.cm.play)
+        let callButton = IconButton(image: UIImage(named:"ic_phone.png")!.withRenderingMode(
+            UIImageRenderingMode.alwaysTemplate))
+        actionsView.layout.vertically(shareButton, top: 0, bottom: 0)
+        actionsView.layout.vertically(automaticButton, top: 0, bottom: 0)
+        actionsView.layout.vertically(callButton, top: 0, bottom: 0)
+        actionsView.layout.horizontally([automaticButton, callButton, shareButton], left: 5, right: 5, interimSpace: 5)
+              
+        self.automaticButton = automaticButton
+        shareButton.addTarget(self, action: #selector(verticalMenuAction), for: .touchUpInside)
+        automaticButton.addTarget(self, action: #selector(automaticButtonAction), for: .touchUpInside)
+
+        callButton.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        shareButton.tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        automaticButton.tintColor = .gray
+        
+    }
+    
+    func automaticButtonAction() {
+        
+        let image = gate.automatic == true ? Icon.cm.pause : Icon.cm.play
+        automaticButton.animateToAlphaWithSpring(0.1, alpha: 0)
+        automaticButton.image = image
+        automaticButton.animateToAlphaWithSpring(0.1, alpha: 1)
+        delegate?.buttonTwoAction(self)
+    }
+    
+    func verticalMenuAction() {
+        if self.isOpen {
+            resetConstraintContstantsToZero(true, notifyDelegateDidClose: true)
+        } else {
+         setConstraintsToShowAllButtons(true, notifyDelegateDidOpen: true)
+        }
+    }
+    
     
     func setAutomaticButtonTitle(_ automatic: Bool) {
         UIView.animate(withDuration: 0.3, animations: { () -> Void in

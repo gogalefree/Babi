@@ -51,6 +51,10 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(GatesTableViewController.locationUpdated), name: NSNotification.Name(rawValue: kLocationUpdateNotification), object: nil)
+        
+        let numberColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+        navigationController?.navigationBar.barTintColor = numberColor
+
 
     }
     
@@ -65,9 +69,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         cell.indexPath = indexPath
         cell.delegate = self
         let gate = gates![indexPath.row] as Gate
-        let title = gate.name + "\n\(floor(gate.distanceFromUserLocation() / 1000))"
-        cell.itemText = title
-        
+        setCellDistanceLabels(cell: cell, gate: gate)
         
         if self.cellsCurrentlyEditing.contains(indexPath) {
             cell.openCell()
@@ -254,19 +256,28 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
                     
 
                     if let cell = cell {
-                        
-                        let distance = gate.distanceFromUserLocation()
-                        let distanceInMeters = Int(distance)
-                        let title = gate.name + "\n\(distanceInMeters) m"
-                        cell.itemText = title
+                    
+                        setCellDistanceLabels(cell: cell, gate: gate)
                     }
                 }
                 
-          //      if !Model.shared.isInRegion(Model.shared.userLocation){
-                    reorderGates()
-            //    }
+                reorderGates()
             }
         }
+    }
+    
+    func setCellDistanceLabels(cell: SwipeableCellTableViewCell, gate: Gate) {
+        
+        let title = gate.name
+        
+        
+        var distance = gate.distanceFromUserLocation() / 1000 < 1 ? gate.distanceFromUserLocation() : gate.distanceFromUserLocation() / 1000
+        distance = distance > 1000 ? 999 : distance
+        let unit = distance < 1 ? "m" : "km"
+        
+        cell.itemText = title
+        cell.distanceUnitLabel.text = unit
+        cell.distanceNumberLabel.text = String(Int(distance))
     }
     
     func reorderGates() {

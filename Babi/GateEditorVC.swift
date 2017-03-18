@@ -19,7 +19,7 @@ enum GateEditorState {
     case editGate
 }
 
-class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate, ABPeoplePickerNavigationControllerDelegate, MapVCDelegate {
+class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate, ABPeoplePickerNavigationControllerDelegate, MapVCDelegate, CNContactPickerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -246,7 +246,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             let location = CLLocation(latitude: gate.latitude, longitude: gate.longitude)
             let coder = CLGeocoder()
-            coder.reverseGeocodeLocation(location , completionHandler: { (placemarks: [CLPlacemark]?,error: NSError?) in
+            coder.reverseGeocodeLocation(location) { (placemarks,error) in
                 
                 if error != nil || placemarks?.count == 0 {
                     locationHeader.animateNewText(locationHeaderTitles[1])
@@ -261,7 +261,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     locationHeader.animateNewText(name)
                 }
                 }
-            } as! CLGeocodeCompletionHandler)
+            }
         }
     }
     
@@ -334,24 +334,23 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     func addressBookAction() {
         //show address nav controller
-        
-        let authorizationStatus = ABAddressBookGetAuthorizationStatus()
-        switch authorizationStatus {
-        case .denied, .restricted:
-            promptForAddressBookRequestAccess()
-            
-        case .authorized:
-            presentAddressBook()
-            print("Authorized")
-        case .notDetermined:
-            promptForAddressBookRequestAccess()
-            print("Not Determined")
-        }
+        getContacts()
+//        
+//        let authorizationStatus = ABAddressBookGetAuthorizationStatus()
+//        switch authorizationStatus {
+//        case .denied, .restricted:
+//            promptForAddressBookRequestAccess()
+//            
+//        case .authorized:
+//            presentAddressBook()
+//            print("Authorized")
+//        case .notDetermined:
+//            promptForAddressBookRequestAccess()
+//            print("Not Determined")
+//        }
     }
     
     func promptForAddressBookRequestAccess() {
-        
-       // var err: Unmanaged<CFError>? = nil
         
         ABAddressBookRequestAccessWithCompletion(addressBookRef) {
             (granted, error) in
@@ -484,6 +483,68 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         shouldContinueAfterSelectingPerson person: ABRecord) -> Bool {
         return false
     }
+    
+    //MARK: Contacts
+    
+    func getContacts() {
+        
+        if #available(iOS 9.0, *) {
+            
+            let store = CNContactStore()
+            if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
+                store.requestAccess(for: .contacts, completionHandler: {
+                    (authorized: Bool, error: Error?) -> Void in
+                    if authorized {
+                        self.presentContactsUI(store)
+                    }
+                })
+            } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
+                self.presentContactsUI(store)
+            } else {
+                //no contacts permission
+            }
+            
+        } else {
+            // Fallback on earlier versions
+            promptForAddressBookRequestAccess()
+        }
+    }
+    
+    @available(iOS 9.0, *)
+    func presentContactsUI(_ store: CNContactStore) {
+        
+        let contactPicker = CNContactPickerViewController()
+        contactPicker.delegate = self
+        self.present(contactPicker, animated: true, completion: nil)
+
+    }
+    
+    @available(iOS 9.0, *)
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+    
+        let name = contact.givenName
+        let middleName = contact.middleName
+        let familyName = contact.familyName 
+        let numbers = contact.phoneNumbers
+
+        var gateName = name
+
+        if !middleName.isEmpty {
+            gateName += " " + middleName
+        }
+        if !familyName.isEmpty {
+            gateName += " " + familyName
+        }
+        
+        var phoneNumber = ""
+        
+        if let number = numbers.first?.value.stringValue {
+            phoneNumber = number
+        }
+        
+        updateGateAndUIFromAddressBook(gateName, gatePhoneNumber: phoneNumber)
+    }
+    
     
     // MARK: - Authenticate Gate
     
