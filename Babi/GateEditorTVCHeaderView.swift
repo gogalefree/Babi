@@ -7,17 +7,17 @@
 //
 
 import UIKit
+import Material
 
 protocol GateEditorHeaderViewDelegate: NSObjectProtocol {
     func headerTapped(_ headerView: GateEditorTVCHeaderView)
 }
 
-let initialTitles = ["Gate Name" , "Gate Phone Number" , "Gate Location" , "Automatic"]
-
+let initialTitles = ["Name" , "Phone Number" , "Location" , "Automatic"]
 let locationHeaderTitles = ["Gate Location" , "Location: Defined"]
-
 let automaticHeaderTitles = ["Manual" , "Automatic"]
-
+let automaticHeaderIcons =  [Icon.cm.pause , Icon.cm.play]
+let automaticHeaderTintColors = [ UIColor.gray , #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)]
 
 class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
 
@@ -27,7 +27,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     }
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var textField:  UITextField!
+    @IBOutlet weak var textField:  TextField!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
    
@@ -54,14 +54,26 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
 
         if self.headerRoll == .gateMode {
             titleLabel.textColor = UIColor.darkGray
+            iconImageView.image = Icon.cm.play
         }
-        else if self.headerRoll == .gateName || self.headerRoll == .gatePhoneNumber {
+            
+        else if self.headerRoll == .gateName{
 
-            iconImageView.image = UIImage(named: "ic_edit.png")
+            iconImageView.image = UIImage(named: "ic_edit.png")!.withRenderingMode(
+                UIImageRenderingMode.alwaysTemplate)
         }
+        
+        else if headerRoll ==  .gatePhoneNumber {
+            iconImageView.image = UIImage(named:"ic_phone.png")!.withRenderingMode(
+                UIImageRenderingMode.alwaysTemplate)
+        }
+        
         else if self.headerRoll == .gateLocation {
-            iconImageView.image = UIImage(named: "ic_near_me.png")
+            iconImageView.image = UIImage(named: "ic_near_me.png")!.withRenderingMode(
+                UIImageRenderingMode.alwaysTemplate)
         }
+        
+        setIconTintColor()
     }
     
     func setGateTitles(_ gate: Gate) {
@@ -69,20 +81,27 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         titleLabel.textColor = UIColor.darkGray
         
         switch headerRoll as Roll {
+        
         case .gateName:
             titleLabel.text = gate.name
+        
         case .gatePhoneNumber:
             titleLabel.text = gate.phoneNumber
+        
         case .gateLocation:
             if gate.placemarkName != kGatePlacemarkNameDefaultValue {
                 titleLabel.text = gate.placemarkName
+                
             }
+            
             else{
                 titleLabel.text = locationHeaderTitles[1]
             }
             
         case .gateMode:
-            titleLabel.text = automaticHeaderTitles[gate.automatic.hashValue]
+            let automaticValue = gate.automatic.hashValue
+            titleLabel.text = automaticHeaderTitles[automaticValue]
+            iconImageView.image = automaticHeaderIcons[automaticValue]?.tint(with: automaticHeaderTintColors[automaticValue])
         }
     }
 
@@ -136,7 +155,8 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             break
         }
         
-        animateIcon()
+        setIconTintColor()
+       // animateIcon()
     }
     
     func saveGateData() {
@@ -194,7 +214,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             
             UIView.animate(withDuration: 0.4, animations: {
                 
-                self.iconImageView.transform =  CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
+                self.iconImageView.transform =  CGAffineTransform(rotationAngle: (180.0 * CGFloat.pi) / 180.0)
             })
         }
         else if self.headerRoll == .gateMode {
@@ -231,6 +251,44 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     
         self.textField.delegate = self
         self.hideTextField()
+        
+    
+        textField.clearButtonMode = .whileEditing
+        textField.isVisibilityIconButtonEnabled = false
+        textField.isSecureTextEntry = false
     }
     
+    func setIconTintColor() {
+        
+        
+        var tintColor = UIColor.black
+        
+        guard  let gate = self.gate else {
+            self.iconImageView.tintColor = tintColor
+            return
+        }
+        
+        
+        switch headerRoll as Roll{
+            
+        case .gateName:
+            if gate.name != kGateNameDefaultValue && gate.name != initialTitles[0] {
+                tintColor = .green
+            }
+        case .gatePhoneNumber:
+            if gate.phoneNumber != kGatePhoneNumberDefaultValue && gate.phoneNumber != initialTitles[1] {
+                tintColor = .green
+            }
+            
+        case .gateLocation:
+            if gate.latitude != kGateLatitudeDefaultValue && gate.longitude != kGateLongitudeDefaultValue{
+                tintColor = .green
+            }
+            
+        default:
+            break
+        }
+        
+        self.iconImageView.tintColor = tintColor
+    }
 }

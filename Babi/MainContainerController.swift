@@ -72,8 +72,12 @@ class MainContainerController: UIViewController {
             UIView.animate(withDuration: 0.4, animations: { () -> Void in
                 
                 self.gatesTVCNavigationVC.view.alpha = 1
+                self.noGatesMessageVC.view.alpha = 1
+
                 
-                if Model.shared.gates() != nil {self.noGatesMessageVC.view.alpha = 0}
+                if Model.shared.gates() != nil {
+                    self.noGatesMessageVC.view.alpha = 0
+                }
             })
     }
     

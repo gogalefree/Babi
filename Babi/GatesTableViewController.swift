@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import Contacts
+import ContactsUI
+import MessageUI
+import Firebase
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -32,7 +37,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
+class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     
        
     var cellsCurrentlyEditing :NSMutableSet!
@@ -40,7 +45,9 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
     var selectedIndexPath: IndexPath!
     var shouldUpdateLocation = true
     
-    
+    var sharedGate: Gate?
+    var gateShare: GateShare?
+    var shareId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +57,14 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
             gates = [Gate]()
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(GatesTableViewController.locationUpdated), name: NSNotification.Name(rawValue: kLocationUpdateNotification), object: nil)
         
         let numberColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
         navigationController?.navigationBar.barTintColor = numberColor
-
-
+        
+        let ownerId     = "lto8rQ8GcuQ6Tq10fCrfqB4Ao2v2"
+        let shareToken  = "abcdesgtac"
+        let shareId     =  "share10"
+        FireBaseController.shared.fetchGateShareasGuest(ownerId, shareToken, shareId)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -104,10 +113,11 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
+      /*  tableView.deselectRow(at: indexPath, animated: true)
         let gate = gates![indexPath.row]
         let phoneNumber = gate.phoneNumber
-        PhoneDialer.callGate(phoneNumber)
+         honeDialer.callGate(phoneNumber)
+         */
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -130,36 +140,60 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         self.cellsCurrentlyEditing.remove(self.tableView.indexPath(for: cell)!);
     }
         
-    func buttonOneAction(_ cell: SwipeableCellTableViewCell){
-        //present gate editor for editing
-        Model.shared.stopLocationUpdates()
-
-        let indexPath = tableView.indexPath(for: cell)!
-        self.selectedIndexPath = indexPath
+    func settingsButtonAction(_ cell: SwipeableCellTableViewCell) {
         
-        let gate = gates![indexPath.row]
+        if !cell.gate.isGuest {
         
-        let gateEditorNavController = self.storyboard?.instantiateViewController(withIdentifier: "gateEditorNavController") as! UINavigationController
-        gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        
-        let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
-        gateEditor.gate = gate
-        gateEditor.state = .editGate
-        
-        self.navigationController?.present(gateEditorNavController, animated: true, completion: nil)
-        
-     //   self.cellsCurrentlyEditing.removeObject(indexPath)
-        
-        Model.shared.locationNotifications.cancelLocalNotification(gate)
+            //present gate editor for editing
+            Model.shared.stopLocationUpdates()
+            let indexPath = tableView.indexPath(for: cell)!
+            self.selectedIndexPath = indexPath
+            let gate = gates![indexPath.row]
+            let gateEditorNavController = self.storyboard?.instantiateViewController(withIdentifier: "gateEditorNavController") as! UINavigationController
+            gateEditorNavController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
+            gateEditor.gate = gate
+            gateEditor.state = .editGate
+            self.navigationController?.present(gateEditorNavController, animated: true, completion: nil)
+            Model.shared.locationNotifications.cancelLocalNotification(gate)
+        } else {
+            //Guest Gate. delete the gate
+            
+            print("delete gate as guest")
+            //delete gate
+            let indexPath = cell.indexPath
+            let gate = gates![(indexPath!.row)]
+            if cellsCurrentlyEditing.contains(indexPath!){
+                cellsCurrentlyEditing.remove(indexPath!)
+            }
+            
+            let alert = UIAlertController(title: "Delete ", message: "\(gate.name)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) -> Void in
+                
+                Model.shared.stopLocationUpdates()
+                self.tableView.beginUpdates()
+                self.gates!.remove(at: (indexPath?.row)!)
+                self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+                Model.shared.deleteGate(gate)
+                self.tableView.endUpdates()
+                
+                let container =
+                    self.navigationController?.parent as!MainContainerController
+                container.showNoMessageVCIfNeeded()
+                Model.shared.startLocationUpdates()
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    func buttonTwoAction(_ cell: SwipeableCellTableViewCell) {
-
+    func automaticButtonAction(_ cell: SwipeableCellTableViewCell) {
+        
         let indexPath = tableView.indexPath(for: cell)!
         self.selectedIndexPath = indexPath
         let gate = gates![indexPath.row]
         gate.automatic = !gate.automatic
-        cell.setAutomaticButtonTitle(gate.automatic)
         
         if gate.automatic {
             Model.shared.locationNotifications.registerGateForLocationNotification(gate)
@@ -169,8 +203,13 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         }
     }
     
+    //MARK: Share gate
     func shareButtonClicked(_ cell: SwipeableCellTableViewCell) {
-        print("starting share process")
+        cell.resetConstraintContstantsToZero(true, notifyDelegateDidClose: true)
+        self.selectedIndexPath = cell.indexPath
+        let gate = cell.gate
+        sharedGate = gate
+        getContacts()
     }
     
     @IBAction func presentGateEditor(_ sender: AnyObject) {
@@ -182,6 +221,26 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         let gateEditor = gateEditorNavController.viewControllers[0] as! GateEditorVC
         gateEditor.state = .newGate
         self.navigationController?.present(gateEditorNavController, animated: true, completion: nil)
+    }
+    
+    func presentSharesPopup(indexPath: IndexPath) {
+        print("present popup on table view controller)")
+        let nav = storyboard?.instantiateViewController(withIdentifier: "popnav") as! UINavigationController
+        let vc = nav.viewControllers[0] as! InvitationsPOPTVC
+        vc.shares = gates![indexPath.row].shares
+        nav.modalPresentationStyle = .popover
+        nav.preferredContentSize = CGSize(width: 300, height: 300)
+
+        nav.popoverPresentationController?.permittedArrowDirections = .any
+        nav.popoverPresentationController?.delegate = self
+        nav.popoverPresentationController?.sourceView = (tableView.cellForRow(at: indexPath) as! SwipeableCellTableViewCell).invitationsButton
+        nav.popoverPresentationController?.sourceRect = (tableView.cellForRow(at: indexPath) as! SwipeableCellTableViewCell).invitationsButton.bounds
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // return UIModalPresentationStyle.FullScreen
+        return UIModalPresentationStyle.none
     }
     
     @IBAction func unwindFromGateEditorVC(_ segue: UIStoryboardSegue) {
@@ -206,6 +265,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         if gateEditor.state == GateEditorState.editGate {
             if let selectedIndexPath = self.selectedIndexPath {
                 tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+                self.updateGateSharesForGate(gate)
             }
             
             return
@@ -273,7 +333,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
         
         var distance = gate.distanceFromUserLocation() / 1000 < 1 ? gate.distanceFromUserLocation() : gate.distanceFromUserLocation() / 1000
         distance = distance > 1000 ? 999 : distance
-        let unit = distance < 1 ? "m" : "km"
+        let unit = gate.distanceFromUserLocation() / 1000 < 1 ? "m" : "km"
         
         cell.itemText = title
         cell.distanceUnitLabel.text = unit
@@ -326,9 +386,336 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate {
     @IBAction func toogleSleepMode() {
         //notifies the container that sleep mode button pressed
 
- //       reorderGates()
         let container = self.navigationController?.parent as! MainContainerController
         container.toogleSleepMode()
     }
     
+    //Contacts
+    
+    func getContacts() {
+        
+        if #available(iOS 9.0, *) {
+            
+            let store = CNContactStore()
+            if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
+                store.requestAccess(for: .contacts, completionHandler: {
+                    (authorized: Bool, error: Error?) -> Void in
+                    if authorized {
+                        self.presentContactsUI(store)
+                    }
+                })
+            } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
+                self.presentContactsUI(store)
+            } else {
+                //no contacts permission
+            }
+            
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    @available(iOS 9.0, *)
+    func presentContactsUI(_ store: CNContactStore) {
+        
+        let contactPicker = CNContactPickerViewController()
+        contactPicker.delegate = self
+        self.present(contactPicker, animated: true, completion: nil)
+        
+    }
+    
+    @available(iOS 9.0, *)
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        
+        let name = contact.givenName
+        let middleName = contact.middleName
+        let familyName = contact.familyName
+        let numbers = contact.phoneNumbers
+        
+        var guestName = name
+        
+        if !middleName.isEmpty {
+            guestName += " " + middleName
+        }
+        if !familyName.isEmpty {
+            guestName += " " + familyName
+        }
+        
+        var phoneNumber = ""
+        
+        if let number = numbers.first?.value.stringValue {
+            phoneNumber = number
+        }
+        
+        self.navigationController?.dismiss(animated: true, completion: {
+        
+            self.presentShareCard(guestName, guestPhoneNumber: phoneNumber)
+        })
+        
+    }
+    
+    func presentShareCard(_ guestName: String, guestPhoneNumber: String) {
+        
+        guard let gate = sharedGate else {return}
+        let cardVC = storyboard?.instantiateViewController(withIdentifier: "CardVC") as! CardVC
+        cardVC.delegate = self
+        cardVC.guestName = guestName
+        cardVC.sharedGate = gate
+        cardVC.guestPhoneNumber = guestPhoneNumber
+        let navVC = UINavigationController(rootViewController: cardVC)
+        navVC.modalPresentationStyle = .overFullScreen
+        self.navigationController?.present(navVC, animated: true, completion: nil)
+    }
+
+}
+
+//MARK: CardVC Delegate
+
+extension GatesTableViewController: CardVCDelegate {
+    
+    func cardVCContinueAction(_ cardVC: CardVC) {
+        
+        guard let userUid = FireBaseController.shared.userUid,
+            let gateToShare = cardVC.sharedGate
+            else {
+                print (#function + "no user id. exit!")
+                return
+            }
+        
+        let phoneNumber = cardVC.guestPhoneNumber
+        let gateShare = GateShare(gate: gateToShare, ownerUid: userUid, guestname: cardVC.guestName)
+        self.gateShare = gateShare
+        let message = gateShare.invitationMessage()
+        //let actionSheet = prepareActionSheet(message, phoneNumber)
+        
+        let controller = MFMessageComposeViewController()
+        controller.body = message
+        controller.recipients = [phoneNumber]
+        controller.messageComposeDelegate = self
+        self.present(controller, animated: true, completion: nil)
+      
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+        
+        if result != .sent {
+            print("cancelled)")
+        }
+            
+        else {
+            print("sent")
+
+            guard let gateShare = self.gateShare else {return}
+            FireBaseController.shared.postGateShare(gateShare)
+            //self.sharedGate?.shares.append(gateShare)
+        }
+    }
+
+    /*
+    func prepareActionSheet(_ messageToSend: String, _ phoneNumber: String) -> UIAlertController{
+        
+        let urlString = messageToSend
+        let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        let whatsAppurl  = NSURL(string: "whatsapp://send?text=\(urlStringEncoded!)")!
+        
+        
+        let actionSheet = UIAlertController(title: "Share With: ", message: "send a link to your guest", preferredStyle: .actionSheet)
+        
+        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")!) {
+            
+            let whatssappButton = UIAlertAction(title: "WhatsApp", style: .default, handler: { (action) -> Void in
+                UIApplication.shared.openURL(whatsAppurl as URL)
+            })
+            
+            actionSheet.addAction(whatssappButton)
+        }
+        
+        if (MFMessageComposeViewController.canSendText()) {
+
+            let  messagesButton = UIAlertAction(title: "Messages", style: .default, handler: { (action) -> Void in
+                
+                let controller = MFMessageComposeViewController()
+                controller.body = messageToSend
+                controller.recipients = [phoneNumber]
+                controller.messageComposeDelegate = self
+                self.present(controller, animated: true, completion: nil)
+            })
+            
+            actionSheet.addAction(messagesButton)
+        }
+       
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            print("Cancel button tapped")
+        })
+        
+        actionSheet.addAction(cancelButton)
+        
+        return actionSheet
+    }
+    
+    */
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        sutupFBObservers()
+        setupObserversAsGuest()
+        self.registerAppNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        FireBaseController.shared.currentUserPath.removeAllObservers()
+        self.removeObserversAsGuest()
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension GatesTableViewController {
+    
+    func sutupFBObservers() {
+        
+        let currentUserPath = FireBaseController.shared.currentUserPath
+        print("vurrent user path: " + (currentUserPath?.description())!)
+        //setup Observers
+        //an owner fetches his gate shares and observes them.
+        currentUserPath?.observe(.childAdded) {snapshot in self.gateShareAddedAsOwner(snapshot)}
+        currentUserPath?.observe(.childChanged) {snapshot in self.gateShareChangedAsOwner(snapshot)}
+        currentUserPath?.observe(.childRemoved) {snapshot in self.gateShareRemovedAsOwner(snapshot)}
+        
+        
+        
+        //a guest observs his invitations in case it got cancelled by the owner
+    }
+    
+    //this is where the owner gets his shres as owner in the next run
+    func gateShareAddedAsOwner(_ snapshot: FIRDataSnapshot) {
+        
+        guard let gateShare = GateShare(snapshot: snapshot) else {return}
+        addGateshareAndUpdateUI(gateShare)
+    }
+    
+    func gateShareChangedAsOwner(_ snapshot: FIRDataSnapshot) {
+        print(snapshot.value as Any)
+
+    }
+    
+    func gateShareRemovedAsOwner(_ snapshot: FIRDataSnapshot) {
+        
+        guard let gateShare = GateShare(snapshot: snapshot) else {return}
+        guard let gate = self.gateForGateshare(gateShare) else {return}
+        gate.removeGateShare(gateShare)
+        print(#function + "shareReomed as owner")
+        print(snapshot.key)
+        print(snapshot.value as Any)
+        self.tableView.reloadData()
+    }
+    
+    func addGateshareAndUpdateUI(_ gateshare: GateShare) {
+        guard let gate = self.gateForGateshare(gateshare) else {return}
+        let gateshareExists = gate.hasGateshare(gateshare)
+        if !gateshareExists {
+            gate.shares.append(gateshare)
+            self.tableView.reloadData()
+        }
+    }
+    
+    func gateForGateshare(_ gateShare: GateShare) -> Gate? {
+        let filtered = self.gates?.filter {gate in gateShare.gateUid == gate.uid}
+        return filtered?.first
+    }
+    
+    func updateGateSharesForGate(_ gate: Gate?) {
+        guard let gate = gate else {return}
+        for share in gate.shares {
+            if share.gateName != gate.name ||
+            share.placemarkName != gate.placemarkName ||
+            share.longitude != gate.longitude ||
+            share.latitude != gate.longitude {
+             
+                share.gateName = gate.name
+                share.placemarkName = gate.placemarkName
+                share.longitude = gate.longitude
+                share.latitude = gate.latitude
+                FireBaseController.shared.postGateShare(share)
+            }
+        }
+    }
+    
+    //Mark: Notifications actions 
+    
+    func updateTableWithNewInvitation() {
+        self.removeObserversAsGuest()
+        self.gates = Model.shared.gates()
+        tableView.reloadData()
+        self.setupObserversAsGuest()
+    }
+}
+
+//Mark: setup Firebase Observers as guest
+extension GatesTableViewController {
+    
+    func registerAppNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(GatesTableViewController.locationUpdated), name: NSNotification.Name(rawValue: kLocationUpdateNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTableWithNewInvitation), name: NSNotification.Name(rawValue: knewGateAsGuestNotification), object: nil)
+    }
+    
+    func removeObserversAsGuest() {
+        let dbRef = FIRDatabase.database().reference()
+        guard let gates = self.gates else {return}
+        for gate in gates {
+            
+            if gate.isGuest == false || gate.shareId == "shareId" || gate.ownerUid == "ownerUid" {continue}
+            
+            let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!)
+            path.removeAllObservers()
+        }
+    }
+    
+    func setupObserversAsGuest() {
+    
+        let dbRef = FIRDatabase.database().reference()
+        guard let gates = self.gates else {return}
+        for gate in gates {
+            
+            if gate.isGuest == false || gate.shareId == "shareId" || gate.ownerUid == "ownerUid" {continue}
+            
+            let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!)
+            
+            path.observe(.childChanged) {snapshot in self.gateShareChangedAsGuest(snapshot)}
+            path.observe(.childRemoved) {snapshot in self.gateShareRemovedAsGuest(snapshot)}
+        }
+    }
+    
+    func gateShareChangedAsGuest(_ snapshot: FIRDataSnapshot) {
+        //get notified only with the changes key
+        print(snapshot.value as Any)
+        print(snapshot.key)
+    }
+    
+    func gateShareRemovedAsGuest(_ snapshot: FIRDataSnapshot) {
+        print(snapshot.key)
+        print(snapshot.value as Any)
+        //shareUid
+        //shareToken
+    }
+
+}
+
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
+    }
 }

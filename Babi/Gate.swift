@@ -44,6 +44,7 @@ let kGatePlacemarkNameDefaultValue = "placemarkName"
 class Gate: NSManagedObject {
     
 
+    @NSManaged var uid: Int
     @NSManaged var name: String
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
@@ -51,7 +52,13 @@ class Gate: NSManagedObject {
     @NSManaged var phoneNumber: String
     @NSManaged var fireDistanceFromGate: Int
     @NSManaged var placemarkName: String
+    @NSManaged var isGuest: Bool
+    @NSManaged var ownerUid: String?    //set onlt for gate as guest. default is property name
+    @NSManaged var shareId: String?     //set onlt for gate as guest. default is property name
+    @NSManaged var shareToken: String?  //set onlt for gate as guest. default is property name
+
     
+    var shares: [GateShare] = []
     var shouldCall = false
     var userInRegion = false {
         didSet {
@@ -105,7 +112,7 @@ class Gate: NSManagedObject {
             }
             
             if results?.count > 1 || error != nil {
-                print("error creating Gate: \(error)")
+                print("error creating Gate: \(String(describing: error))")
             }
             else if results?.count == 1 {
                 //we have this gate
@@ -114,6 +121,7 @@ class Gate: NSManagedObject {
             else {
                 //create new gate
                 let newGate = NSEntityDescription.insertNewObject(forEntityName: "Gate", into: context!) as! Gate
+                newGate.uid = IDManager.shared.gataAutoId
                 newGate.name = name
                 newGate.latitude = latitude
                 newGate.longitude = longitude
@@ -130,13 +138,60 @@ class Gate: NSManagedObject {
     class func instansiateWithZero() -> Gate {
         
         let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
-        
         let entity = NSEntityDescription.entity(forEntityName: "Gate", in: context!)
+        let newGate = Gate(entity: entity!, insertInto: context!) 
+        newGate.uid = IDManager.shared.gataAutoId
+        return newGate  
+    }
+    
+    class func gateAsGuest(_ gateShare: GateShare) -> Gate? {
         
-        let newGate = Gate(entity: entity!, insertInto: context!) as Gate!
+        let existstingGate = gateExiststAsGuest(gateShare)
+        if existstingGate == nil{
+            
+            let newGate = Gate.instansiateWithZero()
+            newGate.updateFrom(gateShare)
+            Model.shared.locationNotifications.registerGateForLocationNotification(newGate)
+            return newGate
+        }
         
-        return newGate!
-
+        existstingGate!.updateFrom(gateShare)
+        return existstingGate
+    }
+    
+    func updateFrom(_ gateShare: GateShare) {
+        
+        name = gateShare.gateName
+        uid = gateShare.gateUid
+        latitude = gateShare.latitude
+        longitude = gateShare.longitude
+        automatic = true
+        fireDistanceFromGate = 50
+        placemarkName = gateShare.placemarkName ?? ""
+        isGuest = true
+        ownerUid = gateShare.ownerUID
+        shareId = gateShare.shareId
+        shareToken = gateShare.shareToken ?? "shareToken"
+        
+        do {
+            try Model.shared.context?.save()
+        } catch  {
+            print("cant save gate while creating as Guset: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    class func gateExiststAsGuest(_ gateShare: GateShare) -> Gate? {
+        
+        guard let gates = Model.shared.gates() else {return nil}
+        for gate in gates {
+            
+            if gate.ownerUid == gateShare.ownerUID && gate.isGuest == true && gate.latitude == gateShare.latitude {
+                return gate
+            }
+        }
+        
+        return nil
     }
     
     class func gateDictionary(_ gate: Gate) -> [AnyHashable: Any] {
@@ -145,6 +200,33 @@ class Gate: NSManagedObject {
         let dict = gate.dictionaryWithValues(forKeys: keys)
         print("keys are: \(dict)", terminator: "")
         return dict
+    }
+    
+    func hasGateshare(_ gateshare: GateShare) -> Bool {
+    
+        let gateShareExists = self.shares.filter { aGateshare in
+            aGateshare.gateName == gateshare.gateName && aGateshare.shareId == gateshare.shareId }
+        if gateShareExists.isEmpty {
+            return false
+        }
+        
+      return true
+        
+    }
+    
+    func removeGateShare(_ gateShare: GateShare) {
+    
+        var indexToDelete = -1
+        
+        for (i, share) in shares.enumerated() {
+        
+            if share.shareId == gateShare.shareId {
+                indexToDelete = i
+                break
+            }
+        }
+        
+        if indexToDelete > -1 {shares.remove(at: indexToDelete)}
     }
     
     func toString() {
@@ -162,4 +244,6 @@ class Gate: NSManagedObject {
         super.awakeFromFetch()
         shouldCall = true
     }
+    
+    
 }

@@ -49,7 +49,6 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.tableView.contentInset.top = 68
         addNavigationBarItems()
         configureWithState(state)
-        
     }
     
     func addNavigationBarItems() {
@@ -151,9 +150,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             headerView.headerRoll = GateEditorTVCHeaderView.Roll(rawValue: section)
             headerView.gate = gate
             headerView.delegate = self
+            
             if self.state == .editGate {
                 headerView.setGateTitles(gate)
             }
+            
             headers.append(headerView)
             return headerView
         }
@@ -259,6 +260,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                 if let name = name {
                     self.gate.placemarkName = name
                     locationHeader.animateNewText(name)
+                    locationHeader.setIconTintColor()
                 }
                 }
             }
@@ -270,6 +272,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     //MARK: - AutomaticCell Delegate
     
     func didChangeGateAutomaticMode(_ isAutomatic: Bool) {
+        
         let header = headers[3]
         header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])
         tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
@@ -456,6 +459,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gateNameHeader.titleLabel.text = gateName
             gateNameHeader.titleLabel.textColor = UIColor.darkGray
             gate.name = gateName
+            gateNameHeader.setIconTintColor()
         }
         
         if gatePhoneNumber != "" {
@@ -465,6 +469,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             gatePhoneHeader.titleLabel.text = gatePhoneNumber
             gatePhoneHeader.titleLabel.textColor = UIColor.darkGray
             gate.phoneNumber = gatePhoneNumber
+            gatePhoneHeader.setIconTintColor()
         }
         
         showDoneButtonIfNeeded()

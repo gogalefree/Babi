@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import Material
 
 protocol GateAutomaticCellDelegate: NSObjectProtocol {
     func didChangeGateAutomaticMode(_ isAutomatic: Bool)
 }
 
-class GateEditorAutomaticCell: UITableViewCell {
+class GateEditorAutomaticCell: UITableViewCell, SwitchDelegate {
 
-    @IBOutlet weak var automaticSwitch: UISwitch!
+    @IBOutlet weak var autoSwitch: Switch!
     @IBOutlet weak var titleLabel: UILabel!
    
     weak var delegate: GateAutomaticCellDelegate!
@@ -22,7 +23,9 @@ class GateEditorAutomaticCell: UITableViewCell {
     var gate : Gate! {
         didSet{
             defineTitle()
-            automaticSwitch.isOn = gate.automatic
+            
+            let switchState: SwitchState = gate.automatic ? .on : .off
+            autoSwitch.setSwitchState(state: switchState, animated: false, completion: nil)
         }
     }
     
@@ -31,19 +34,14 @@ class GateEditorAutomaticCell: UITableViewCell {
     override func awakeFromNib() {
        
         super.awakeFromNib()
-        automaticSwitch.addTarget(self, action: #selector(GateEditorAutomaticCell.automaticSwitchMoved(_:)), for: UIControlEvents.valueChanged)
+        autoSwitch.delegate = self
+        autoSwitch.switchSize = .medium
         titleLabel.text = titles[1]
-        automaticSwitch.layer.borderColor = UIColor.black.cgColor
-        automaticSwitch.layer.borderWidth = 1
-        automaticSwitch.layer.cornerRadius = 15
+//        automaticSwitch.layer.borderColor = UIColor.black.cgColor
+//        automaticSwitch.layer.borderWidth = 1
+//        automaticSwitch.layer.cornerRadius = 15
     }
     
-    func automaticSwitchMoved(_ sender: UISwitch) {
-        gate.automatic = automaticSwitch.isOn
-        if let delegate = delegate {
-            delegate.didChangeGateAutomaticMode(gate.automatic)
-        }
-    }
     
     func defineTitle() {
         
@@ -68,4 +66,13 @@ class GateEditorAutomaticCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func switchDidChangeState(control: Switch, state: SwitchState) {
+        
+        let on = state == .on
+        control.setSwitchState(state: state, animated: true, completion: nil)
+        gate.automatic = on
+        if let delegate = delegate {
+            delegate.didChangeGateAutomaticMode(gate.automatic)
+        }        
+    }
 }

@@ -28,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UIApplication.shared.isIdleTimerDisabled = true
         
+       FireBaseController.shared.setup()
+       FireBaseController.shared.signIn()
+  //      FireBaseController.shared.fetchGateShareasGuest("nOXPFicqNIbKpds3vPupibZmMEx2", "sO9RfAM8O8", "10")
         return true
     }
 
@@ -58,9 +61,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        print("url: \(url.scheme)\n") //check if babi babi
-        print("url: \(url.query)\n") //parse the string "id=11&token=mytoken"
+        
+        guard let babi = url.scheme else { return true }
 
+        if babi == "babi" {
+        
+        
+            var dict = [String:String]()
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            if let queryItems = components.queryItems {
+                for item in queryItems {
+                    dict[item.name] = item.value!
+                }
+            }
+            
+            //print(dict) //["id": "1", "token": "x9zUGTE30U"]
+            let ownerId     = dict["od"] ?? ""
+            let shareToken  = dict["token"] ?? ""
+            let shareId     = dict["shareId"] ?? ""
+            if !ownerId.isEmpty && !shareToken.isEmpty && !shareId.isEmpty{
+                
+                FireBaseController.shared.fetchGateShareasGuest(ownerId, shareToken, shareId)
+            }
+        }
+        
+        
+       
         return true
     }
     
@@ -128,7 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            NSLog("Unresolved error \(String(describing: error)), \(error!.userInfo)")
             //abort()
         } catch {
             fatalError()
@@ -160,7 +186,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     error = error1
                     // Replace this implementation with code to handle the error appropriately.
                     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    NSLog("Unresolved error \(String(describing: error)), \(error!.userInfo)")
                   //  abort()
                 }
             }

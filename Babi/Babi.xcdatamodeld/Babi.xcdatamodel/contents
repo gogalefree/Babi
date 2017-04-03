@@ -3,13 +3,18 @@
     <entity name="Gate" representedClassName="Babi.Gate" syncable="YES">
         <attribute name="automatic" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="fireDistanceFromGate" attributeType="Integer 64" defaultValueString="50" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isGuest" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="name" attributeType="String" defaultValueString="Gate" syncable="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString="Gate" spotlightIndexingEnabled="YES" syncable="YES"/>
+        <attribute name="ownerUid" optional="YES" attributeType="String" defaultValueString="ownerUid" syncable="YES"/>
         <attribute name="phoneNumber" attributeType="String" defaultValueString="phoneNumber" syncable="YES"/>
         <attribute name="placemarkName" optional="YES" attributeType="String" defaultValueString="placemarkName" syncable="YES"/>
+        <attribute name="shareId" optional="YES" attributeType="String" defaultValueString="shareId" syncable="YES"/>
+        <attribute name="shareToken" optional="YES" attributeType="String" defaultValueString="shareToken" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Gate" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Gate" positionX="-63" positionY="-18" width="128" height="225"/>
     </elements>
 </model>

@@ -81,7 +81,7 @@ class BabiUsageUpdater: NSObject {
                     self.didReportUUID = true
                 }
                 else {
-                    print("error: \(error)")
+                    print("error: \(String(describing: error))")
                 }
             }
         })
@@ -166,7 +166,7 @@ class BabiUsageUpdater: NSObject {
                         
                                 let recieved = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
                                 
-                                print("receieved: \(recieved)")
+                                print("receieved: \(String(describing: recieved))")
                                 
                             }catch let error as NSError {
                                 print("error: \(error)" + " " + #function)

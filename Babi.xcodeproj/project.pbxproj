@@ -39,6 +39,8 @@
 		E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A81AC6862C00707BA8 /* Images.xcassets */; };
 		E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */; };
 		E453B3B81AC6862C00707BA8 /* BabiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3B71AC6862C00707BA8 /* BabiTests.swift */; };
+		E459304E1E89332000D7F031 /* InvitationsPOPTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459304D1E89332000D7F031 /* InvitationsPOPTVC.swift */; };
+		E45930501E8933E900D7F031 /* InvitationsPOPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459304F1E8933E900D7F031 /* InvitationsPOPCell.swift */; };
 		E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */; };
 		E45F6C961AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E45F6C951AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png */; };
 		E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */; };
@@ -46,6 +48,8 @@
 		E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */; };
 		E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */; };
 		E474E7DE1D44773F00BFD411 /* RemoteNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E474E7DD1D44773F00BFD411 /* RemoteNotificationsController.swift */; };
+		E48580761E853B0800C7E14A /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48580751E853B0800C7E14A /* CardVC.swift */; };
+		E48580781E85C4CF00C7E14A /* IDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48580771E85C4CF00C7E14A /* IDManager.swift */; };
 		E48A9BD41AE016C000CB3EB9 /* address20.png in Resources */ = {isa = PBXBuildFile; fileRef = E48A9BD31AE016C000CB3EB9 /* address20.png */; };
 		E48A9BD61AE016D100CB3EB9 /* tick10.png in Resources */ = {isa = PBXBuildFile; fileRef = E48A9BD51AE016D100CB3EB9 /* tick10.png */; };
 		E48A9BD81AE016E100CB3EB9 /* garbage11.png in Resources */ = {isa = PBXBuildFile; fileRef = E48A9BD71AE016E100CB3EB9 /* garbage11.png */; };
@@ -102,6 +106,8 @@
 		E4981C9E1ADD9C3400F778F5 /* return13.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C9D1ADD9C3400F778F5 /* return13.png */; };
 		E4981CA31ADDB70700F778F5 /* gateEditorFenceImage.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */; };
 		E4981CA51ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */; };
+		E4B2FA501E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B2FA4F1E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift */; };
+		E4C82F9B1E88414F00138939 /* FireBaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C82F9A1E88414F00138939 /* FireBaseObserver.swift */; };
 		E4DDBB571E7BB1490053F89D /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = E4DDBB531E7BB1490053F89D /* Contents.json */; };
 		E4DDBB581E7BB1490053F89D /* ic_import_contacts.png in Resources */ = {isa = PBXBuildFile; fileRef = E4DDBB541E7BB1490053F89D /* ic_import_contacts.png */; };
 		E4DDBB591E7BB1490053F89D /* ic_import_contacts_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4DDBB551E7BB1490053F89D /* ic_import_contacts_2x.png */; };
@@ -120,6 +126,10 @@
 		E4E2E2501ADCE74D006BD949 /* koby_background_cell.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E4E2E24F1ADCE74D006BD949 /* koby_background_cell.jpeg */; };
 		E4E2E2521ADD051B006BD949 /* NoGatesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E2E2511ADD051B006BD949 /* NoGatesVC.swift */; };
 		E4E2E2541ADD07BB006BD949 /* kobi_full.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E4E2E2531ADD07BB006BD949 /* kobi_full.jpg */; };
+		E4EB88B11E845A4300BEC0E8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E4EB88B01E845A4200BEC0E8 /* GoogleService-Info.plist */; };
+		E4EB88B31E845C0800BEC0E8 /* FireBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EB88B21E845C0800BEC0E8 /* FireBaseController.swift */; };
+		E4EB88B51E85287600BEC0E8 /* GateShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EB88B41E85287600BEC0E8 /* GateShare.swift */; };
+		E4EB88B71E852D0900BEC0E8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EB88B61E852D0900BEC0E8 /* StringExtensions.swift */; };
 		E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */; };
 		E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */; };
 		E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */; };
@@ -175,6 +185,8 @@
 		E453B3B11AC6862C00707BA8 /* BabiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B3B61AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B3B71AC6862C00707BA8 /* BabiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabiTests.swift; sourceTree = "<group>"; };
+		E459304D1E89332000D7F031 /* InvitationsPOPTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationsPOPTVC.swift; sourceTree = "<group>"; };
+		E459304F1E8933E900D7F031 /* InvitationsPOPCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationsPOPCell.swift; sourceTree = "<group>"; };
 		E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorDistanceCell.swift; sourceTree = "<group>"; };
 		E45F6C951AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babi_gateEditorHeaderBackground.001.png; sourceTree = "<group>"; };
 		E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gateEditorTextFieldCell.swift; sourceTree = "<group>"; };
@@ -182,6 +194,8 @@
 		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
 		E473E3D11ACFD2190098D77A /* GateEditorAutomaticCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorAutomaticCell.swift; sourceTree = "<group>"; };
 		E474E7DD1D44773F00BFD411 /* RemoteNotificationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteNotificationsController.swift; sourceTree = "<group>"; };
+		E48580751E853B0800C7E14A /* CardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
+		E48580771E85C4CF00C7E14A /* IDManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDManager.swift; sourceTree = "<group>"; };
 		E48A9BD31AE016C000CB3EB9 /* address20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = address20.png; sourceTree = "<group>"; };
 		E48A9BD51AE016D100CB3EB9 /* tick10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick10.png; sourceTree = "<group>"; };
 		E48A9BD71AE016E100CB3EB9 /* garbage11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = garbage11.png; sourceTree = "<group>"; };
@@ -238,6 +252,8 @@
 		E4981C9D1ADD9C3400F778F5 /* return13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = return13.png; sourceTree = "<group>"; };
 		E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorFenceImage.001.png; sourceTree = "<group>"; };
 		E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GateEditorFenceHeaderVIew.xib; sourceTree = "<group>"; };
+		E4B2FA4F1E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GatesTVCell+Swipe.swift"; sourceTree = "<group>"; };
+		E4C82F9A1E88414F00138939 /* FireBaseObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseObserver.swift; sourceTree = "<group>"; };
 		E4DDBB531E7BB1490053F89D /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		E4DDBB541E7BB1490053F89D /* ic_import_contacts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_import_contacts.png; sourceTree = "<group>"; };
 		E4DDBB551E7BB1490053F89D /* ic_import_contacts_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_import_contacts_2x.png; sourceTree = "<group>"; };
@@ -256,6 +272,10 @@
 		E4E2E24F1ADCE74D006BD949 /* koby_background_cell.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koby_background_cell.jpeg; sourceTree = "<group>"; };
 		E4E2E2511ADD051B006BD949 /* NoGatesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoGatesVC.swift; sourceTree = "<group>"; };
 		E4E2E2531ADD07BB006BD949 /* kobi_full.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kobi_full.jpg; sourceTree = "<group>"; };
+		E4EB88B01E845A4200BEC0E8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E4EB88B21E845C0800BEC0E8 /* FireBaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseController.swift; sourceTree = "<group>"; };
+		E4EB88B41E85287600BEC0E8 /* GateShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateShare.swift; sourceTree = "<group>"; };
+		E4EB88B61E852D0900BEC0E8 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koby_header2.jpeg; sourceTree = "<group>"; };
 		E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTableMainHeader.swift; sourceTree = "<group>"; };
 		E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babiMainTVCellImageSkecthGray.001.png; sourceTree = "<group>"; };
@@ -392,6 +412,7 @@
 		E453B39C1AC6862C00707BA8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E4EB88B01E845A4200BEC0E8 /* GoogleService-Info.plist */,
 				E453B39D1AC6862C00707BA8 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -414,9 +435,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E459304C1E8932DA00D7F031 /* InvitationsPopup */ = {
+			isa = PBXGroup;
+			children = (
+				E459304D1E89332000D7F031 /* InvitationsPOPTVC.swift */,
+				E459304F1E8933E900D7F031 /* InvitationsPOPCell.swift */,
+			);
+			name = InvitationsPopup;
+			sourceTree = "<group>";
+		};
 		E473E3C61ACBABB90098D77A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E459304C1E8932DA00D7F031 /* InvitationsPopup */,
 				E473E3C81ACBAC0B0098D77A /* Gates TVC */,
 				E473E3C91ACBAC210098D77A /* Gate Editor */,
 			);
@@ -428,10 +459,13 @@
 			children = (
 				E4375B511AC6D6A000A3D669 /* Model.swift */,
 				E4375B4B1AC6875400A3D669 /* Gate.swift */,
+				E4EB88B41E85287600BEC0E8 /* GateShare.swift */,
 				E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */,
 				E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */,
 				E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */,
 				E48A9BE51AE4110C00CB3EB9 /* BabiUsageUpdater.swift */,
+				E4EB88B21E845C0800BEC0E8 /* FireBaseController.swift */,
+				E4C82F9A1E88414F00138939 /* FireBaseObserver.swift */,
 				E4E2E24F1ADCE74D006BD949 /* koby_background_cell.jpeg */,
 				E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */,
 				E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */,
@@ -447,6 +481,8 @@
 				E4E2E2511ADD051B006BD949 /* NoGatesVC.swift */,
 				E4375B4D1AC6CCEC00A3D669 /* GatesTableViewController.swift */,
 				E4375B4F1AC6CD5300A3D669 /* GatesTVCell.swift */,
+				E4B2FA4F1E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift */,
+				E48580751E853B0800C7E14A /* CardVC.swift */,
 			);
 			name = "Gates TVC";
 			sourceTree = "<group>";
@@ -472,6 +508,8 @@
 			isa = PBXGroup;
 			children = (
 				E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */,
+				E4EB88B61E852D0900BEC0E8 /* StringExtensions.swift */,
+				E48580771E85C4CF00C7E14A /* IDManager.swift */,
 			);
 			name = Functions;
 			sourceTree = "<group>";
@@ -792,6 +830,7 @@
 				E4981C9C1ADD9B7900F778F5 /* leftarrow17.png in Resources */,
 				E48A9BE41AE297B100CB3EB9 /* shut-down.png in Resources */,
 				E4DDBB621E7BB36C0053F89D /* ic_delete_2x.png in Resources */,
+				E4EB88B11E845A4300BEC0E8 /* GoogleService-Info.plist in Resources */,
 				E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */,
 				E44B6E501E7C931B00D953D6 /* ic_call_36pt.png in Resources */,
 				E4DDBB6A1E7BB3E90053F89D /* ic_done.png in Resources */,
@@ -932,23 +971,32 @@
 				E4375B581ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift in Sources */,
 				E41790721ADE96B5002E68D1 /* BabiCallCenter.swift in Sources */,
 				E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */,
+				E459304E1E89332000D7F031 /* InvitationsPOPTVC.swift in Sources */,
 				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
+				E4EB88B31E845C0800BEC0E8 /* FireBaseController.swift in Sources */,
+				E4EB88B51E85287600BEC0E8 /* GateShare.swift in Sources */,
 				E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */,
 				E48A9BE61AE4110C00CB3EB9 /* BabiUsageUpdater.swift in Sources */,
 				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
 				E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
+				E45930501E8933E900D7F031 /* InvitationsPOPCell.swift in Sources */,
 				E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */,
+				E4B2FA501E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift in Sources */,
+				E48580781E85C4CF00C7E14A /* IDManager.swift in Sources */,
 				E474E7DE1D44773F00BFD411 /* RemoteNotificationsController.swift in Sources */,
 				E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */,
 				E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */,
 				E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */,
+				E48580761E853B0800C7E14A /* CardVC.swift in Sources */,
 				E4375B4C1AC6875400A3D669 /* Gate.swift in Sources */,
 				E453B3A21AC6862C00707BA8 /* Babi.xcdatamodeld in Sources */,
 				E473E3D21ACFD2190098D77A /* GateEditorAutomaticCell.swift in Sources */,
 				E4375B541ACA756100A3D669 /* GateEditorVC.swift in Sources */,
+				E4EB88B71E852D0900BEC0E8 /* StringExtensions.swift in Sources */,
 				E4375B4E1AC6CCEC00A3D669 /* GatesTableViewController.swift in Sources */,
+				E4C82F9B1E88414F00138939 /* FireBaseObserver.swift in Sources */,
 				E4E2E2521ADD051B006BD949 /* NoGatesVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

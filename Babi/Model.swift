@@ -16,6 +16,7 @@ let kDissmissActionIdentifier = "DISSMISS_IDENTIFIER"
 let kLaunchBabiActionIdentifier = "LAUNCH_Babi_IDENTIFIER"
 
 let kLocationUpdateNotification = "kLocationUpdateNotification"
+let knewGateAsGuestNotification = "knewGateAsGuestNotification"
 
 class Model: NSObject, CLLocationManagerDelegate {
 
@@ -147,7 +148,7 @@ class Model: NSObject, CLLocationManagerDelegate {
             print("error fetching or no results")
             return nil
         }
-        print("model fetched with count \(results?.count)")
+        print("model fetched with count \(String(describing: results?.count))")
        
         if let results = results {
             return sortGatesByDistanceFromUser(results as! [Gate])
