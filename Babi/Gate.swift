@@ -80,8 +80,10 @@ class Gate: NSManagedObject {
     }
     
     func callGateIfNeeded () {
+        //if guest, call is initiated from GatesTableViewController locationupdate()
+        if self.isGuest {return}
         
-        if self.automatic && self.shouldCall {
+        else if self.automatic && self.shouldCall {
 
             PhoneDialer.callGate(phoneNumber)
             shouldCall = false
@@ -227,6 +229,15 @@ class Gate: NSManagedObject {
         }
         
         if indexToDelete > -1 {shares.remove(at: indexToDelete)}
+    }
+    
+    class func gateAsGuestForToken(_ shareToken: String?) -> Gate? {
+    
+        guard let token = shareToken else {return nil}
+        guard let gates = Model.shared.gates() else { return nil }
+        let filteredGates = gates.filter {gate in gate.shareToken == token}
+        if filteredGates.isEmpty {return nil}
+        return filteredGates.first
     }
     
     func toString() {

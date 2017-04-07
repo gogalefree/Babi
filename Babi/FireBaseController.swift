@@ -70,7 +70,6 @@ class FireBaseController: NSObject {
 
         dbRef.child(ownerId).child(shareId).observeSingleEvent(of: .value, with: { (snap) in
      
-            
             guard let gateShare = GateShare(snapshot: snap) else {return}
             guard let _ = Gate.gateAsGuest(gateShare) else {return}
             if gateShare.pairDate == 0 {
@@ -83,5 +82,15 @@ class FireBaseController: NSObject {
             }
         })
     }
+    
+    func removeObserverAsGuest(_ gateToDelete: Gate) {
+        
+        let dbRef = FIRDatabase.database().reference()
+        if gateToDelete.isGuest == false || gateToDelete.shareId == "shareId" || gateToDelete.ownerUid == "ownerUid" {return}
+        let path = dbRef.child("users").child(gateToDelete.ownerUid!).child(gateToDelete.shareId!)
+            path.removeAllObservers()
+    }
+
+    
     
 }

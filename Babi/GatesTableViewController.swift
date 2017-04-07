@@ -44,6 +44,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
     var gates = Model.shared.gates() as [Gate]?
     var selectedIndexPath: IndexPath!
     var shouldUpdateLocation = true
+    var guestOwnerDialogVC: GusetOwnerDialogVC?
     
     var sharedGate: Gate?
     var gateShare: GateShare?
@@ -60,11 +61,6 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
         
         let numberColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
         navigationController?.navigationBar.barTintColor = numberColor
-        
-        let ownerId     = "lto8rQ8GcuQ6Tq10fCrfqB4Ao2v2"
-        let shareToken  = "abcdesgtac"
-        let shareId     =  "share10"
-        FireBaseController.shared.fetchGateShareasGuest(ownerId, shareToken, shareId)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -316,7 +312,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
                     
 
                     if let cell = cell {
-                    
+                        informOwnerIfNeeded(cell, gate, gateShare: nil)
                         setCellDistanceLabels(cell: cell, gate: gate)
                     }
                 }
@@ -379,6 +375,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
 //        Model.shared.setUserRegion()
     }
 
+    
     @IBAction func unwindeWithCancelButtonFromGateEditor(_ segue: UIStoryboardSegue) {
         print("canceked and back to gates table view controller", terminator: "")
     }
@@ -463,7 +460,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
         cardVC.sharedGate = gate
         cardVC.guestPhoneNumber = guestPhoneNumber
         let navVC = UINavigationController(rootViewController: cardVC)
-        navVC.modalPresentationStyle = .overFullScreen
+        navVC.modalPresentationStyle = .overCurrentContext
         self.navigationController?.present(navVC, animated: true, completion: nil)
     }
 
@@ -513,55 +510,27 @@ extension GatesTableViewController: CardVCDelegate {
         }
     }
 
-    /*
-    func prepareActionSheet(_ messageToSend: String, _ phoneNumber: String) -> UIAlertController{
-        
-        let urlString = messageToSend
-        let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-        let whatsAppurl  = NSURL(string: "whatsapp://send?text=\(urlStringEncoded!)")!
-        
-        
-        let actionSheet = UIAlertController(title: "Share With: ", message: "send a link to your guest", preferredStyle: .actionSheet)
-        
-        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")!) {
-            
-            let whatssappButton = UIAlertAction(title: "WhatsApp", style: .default, handler: { (action) -> Void in
-                UIApplication.shared.openURL(whatsAppurl as URL)
-            })
-            
-            actionSheet.addAction(whatssappButton)
-        }
-        
-        if (MFMessageComposeViewController.canSendText()) {
-
-            let  messagesButton = UIAlertAction(title: "Messages", style: .default, handler: { (action) -> Void in
-                
-                let controller = MFMessageComposeViewController()
-                controller.body = messageToSend
-                controller.recipients = [phoneNumber]
-                controller.messageComposeDelegate = self
-                self.present(controller, animated: true, completion: nil)
-            })
-            
-            actionSheet.addAction(messagesButton)
-        }
-       
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
-            print("Cancel button tapped")
-        })
-        
-        actionSheet.addAction(cancelButton)
-        
-        return actionSheet
-    }
-    
-    */
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sutupFBObservers()
         setupObserversAsGuest()
         self.registerAppNotifications()
+        
+        let ownerId     = "lto8rQ8GcuQ6Tq10fCrfqB4Ao2v2"
+        let shareToken  = "abcdesgtac"
+        let shareId     =  "share10"
+        FireBaseController.shared.fetchGateShareasGuest(ownerId, shareToken, shareId)
+    
+        //TODO: Delete in prod
+        let kNavVCID = "guestOwnerNav"
+        let nav = storyboard?.instantiateViewController(withIdentifier:kNavVCID) as! UINavigationController
+        let vc = nav.viewControllers[0] as! GusetOwnerDialogVC
+        vc.gate = self.gates![1]
+        self.guestOwnerDialogVC = vc
+        nav.modalTransitionStyle = .crossDissolve
+        nav.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(nav, animated: true) 
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -598,7 +567,30 @@ extension GatesTableViewController {
     
     func gateShareChangedAsOwner(_ snapshot: FIRDataSnapshot) {
         print(snapshot.value as Any)
+        guard let gateShare = GateShare(snapshot: snapshot) else {
+            
+            print("cant create gate shate: " + #function)
+            return
+        }
+        
+        guard let gate = self.gateForGateshare(gateShare) else {
+            
+            print("cant find gate: " + #function)
 
+            return
+        }
+
+        guard let index = self.gates?.index(of: gate) else {
+           
+            print("cant find gate index: " + #function)
+            return
+        }
+        if gateShare.ownerShouldFireCall {
+           
+            let cell  = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! SwipeableCellTableViewCell
+            presentOpenGateVCAsGuest(cell, gate, gateShare: gateShare)
+            snapshot.ref.child(kOwnerShouldFireKey).setValue(false)
+        }
     }
     
     func gateShareRemovedAsOwner(_ snapshot: FIRDataSnapshot) {
@@ -692,13 +684,113 @@ extension GatesTableViewController {
         //get notified only with the changes key
         print(snapshot.value as Any)
         print(snapshot.key)
+        
+        let components = String(describing: snapshot.ref).components(separatedBy: "/")
+        let share = components.filter { item in item.hasPrefix("share")}
+        guard let shareId = share.first else {return}
+        let ownerUidIndex = components.count - 3
+        let ownerUid = components[ownerUidIndex]
+        guard let gates = Model.shared.gates() else {return}
+        let gatesToUpdate = gates.filter { gate in gate.shareId == shareId && gate.ownerUid == ownerUid }
+        guard let gateToUpdate = gatesToUpdate.first else {return}
+        
+        switch snapshot.key {
+            
+        case kGateNamekey:
+            gateToUpdate.name = snapshot.value as! String
+            
+        case kLatitudeKey:
+            gateToUpdate.latitude = snapshot.value as! Double
+        
+        case kLongitudeKey:
+            gateToUpdate.longitude  = snapshot.value as! Double
+            
+        case kPlacemarkNameKey:
+            gateToUpdate.placemarkName = snapshot.value as? String ?? ""
+            
+        case kOwnerShouldFireKey:
+            let shouldFire = snapshot.value as? Bool ?? false
+            if !shouldFire {
+                self.guestOwnerDialogVC!.ownerDailing()
+            }
+            default:
+            break
+        }
+        
+        
+        
+        do {
+            try Model.shared.context?.save()
+        } catch  {
+            print("cant save gate while creating as Guset: \(error.localizedDescription)")
+        }
+        
+        self.gates = Model.shared.gates()
+        self.tableView.reloadData()
     }
     
     func gateShareRemovedAsGuest(_ snapshot: FIRDataSnapshot) {
+        //delete the gate by the share token
         print(snapshot.key)
-        print(snapshot.value as Any)
-        //shareUid
-        //shareToken
+        if snapshot.key == kShareTokenKey {
+            
+            guard let gateToDelete = Gate.gateAsGuestForToken(snapshot.value as? String) else {return}
+            FireBaseController.shared.removeObserverAsGuest(gateToDelete)
+            
+            let alert = UIAlertController(title: "Invitation cancelled by owner for: ", message: "\(gateToDelete.name)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action) -> Void in
+                
+                Model.shared.deleteGate(gateToDelete)
+                let indexToDelete = self.gates?.index(of: gateToDelete)
+                guard let index = indexToDelete else {return}
+                self.tableView.beginUpdates()
+                self.gates?.remove(at: index)
+                let ipToDelete = IndexPath(row: index, section: 0)
+                self.tableView.deleteRows(at: [ipToDelete], with: .fade)
+                self.tableView.endUpdates()
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    //this is called when a guest arrives at the gate region
+    func informOwnerIfNeeded(_ cell: SwipeableCellTableViewCell, _ gate: Gate, gateShare: GateShare?) {
+        
+        if gate.isGuest && gate.shouldCall && gate.userInRegion {
+        
+            //set firebase to Should call = true
+            let dbRef = FIRDatabase.database().reference()
+            let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(kOwnerShouldFireKey)
+            path.setValue(true)
+            gate.shouldCall = false
+            
+            
+            //show UI for calling owner
+            //show the cell's call button to let uaera initiate dialog with owner
+            cell.callButton.alpha = 1
+            presentOpenGateVCAsGuest(cell, gate, gateShare: gateShare)
+        }
+        
+        else if gate.isGuest && !gate.userInRegion{
+            cell.callButton.animateToAlphaWithSpring(0.2, alpha: 0)
+        }
+    }
+    
+    func presentOpenGateVCAsGuest(_ cell: SwipeableCellTableViewCell, _ gate: Gate, gateShare: GateShare?) {
+        let kNavVCID = "guestOwnerNav"
+        let nav = storyboard?.instantiateViewController(withIdentifier:kNavVCID) as! UINavigationController
+        let vc = nav.viewControllers[0] as! GusetOwnerDialogVC
+        vc.gate = gate
+        vc.gateShare = gateShare
+        self.guestOwnerDialogVC = vc
+        nav.modalTransitionStyle = .crossDissolve
+        nav.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(nav, animated: true) { (finished) in}
+    }
+    
+    func callActionAsGuest(_ cell: SwipeableCellTableViewCell) {
+        informOwnerIfNeeded(cell, cell.gate, gateShare: nil)
     }
 
 }

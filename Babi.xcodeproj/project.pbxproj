@@ -106,6 +106,11 @@
 		E4981C9E1ADD9C3400F778F5 /* return13.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981C9D1ADD9C3400F778F5 /* return13.png */; };
 		E4981CA31ADDB70700F778F5 /* gateEditorFenceImage.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */; };
 		E4981CA51ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */; };
+		E4B289401E966B19007BD6FC /* GusetOwnerDialogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B2893F1E966B19007BD6FC /* GusetOwnerDialogVC.swift */; };
+		E4B289471E96D9BE007BD6FC /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = E4B289431E96D9BE007BD6FC /* Contents.json */; };
+		E4B289481E96D9BE007BD6FC /* ic_call_end_white_36pt.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B289441E96D9BE007BD6FC /* ic_call_end_white_36pt.png */; };
+		E4B289491E96D9BE007BD6FC /* ic_call_end_white_36pt_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B289451E96D9BE007BD6FC /* ic_call_end_white_36pt_2x.png */; };
+		E4B2894A1E96D9BE007BD6FC /* ic_call_end_white_36pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B289461E96D9BE007BD6FC /* ic_call_end_white_36pt_3x.png */; };
 		E4B2FA501E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B2FA4F1E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift */; };
 		E4C82F9B1E88414F00138939 /* FireBaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C82F9A1E88414F00138939 /* FireBaseObserver.swift */; };
 		E4DDBB571E7BB1490053F89D /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = E4DDBB531E7BB1490053F89D /* Contents.json */; };
@@ -252,6 +257,11 @@
 		E4981C9D1ADD9C3400F778F5 /* return13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = return13.png; sourceTree = "<group>"; };
 		E4981CA21ADDB70700F778F5 /* gateEditorFenceImage.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gateEditorFenceImage.001.png; sourceTree = "<group>"; };
 		E4981CA41ADDB76000F778F5 /* GateEditorFenceHeaderVIew.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GateEditorFenceHeaderVIew.xib; sourceTree = "<group>"; };
+		E4B2893F1E966B19007BD6FC /* GusetOwnerDialogVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GusetOwnerDialogVC.swift; sourceTree = "<group>"; };
+		E4B289431E96D9BE007BD6FC /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		E4B289441E96D9BE007BD6FC /* ic_call_end_white_36pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_end_white_36pt.png; sourceTree = "<group>"; };
+		E4B289451E96D9BE007BD6FC /* ic_call_end_white_36pt_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_end_white_36pt_2x.png; sourceTree = "<group>"; };
+		E4B289461E96D9BE007BD6FC /* ic_call_end_white_36pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_end_white_36pt_3x.png; sourceTree = "<group>"; };
 		E4B2FA4F1E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GatesTVCell+Swipe.swift"; sourceTree = "<group>"; };
 		E4C82F9A1E88414F00138939 /* FireBaseObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseObserver.swift; sourceTree = "<group>"; };
 		E4DDBB531E7BB1490053F89D /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
@@ -374,6 +384,7 @@
 				E473E3C71ACBABC50098D77A /* Model */,
 				E473E3CA1ACBAC600098D77A /* Functions */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
+				E4B289421E96D9BD007BD6FC /* ic_call_end_white_36pt.imageset */,
 				E44B6E531E7C94B900D953D6 /* ic_phone.imageset */,
 				E44B6E4A1E7C931A00D953D6 /* ic_call_36pt.imageset */,
 				E490336F1E7C0D5B001F9C75 /* ic_settings_36pt.imageset */,
@@ -447,6 +458,7 @@
 		E473E3C61ACBABB90098D77A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E4B289411E966B2A007BD6FC /* GuestOwnerDialog */,
 				E459304C1E8932DA00D7F031 /* InvitationsPopup */,
 				E473E3C81ACBAC0B0098D77A /* Gates TVC */,
 				E473E3C91ACBAC210098D77A /* Gate Editor */,
@@ -641,6 +653,25 @@
 			path = gateEditorFenceImage;
 			sourceTree = "<group>";
 		};
+		E4B289411E966B2A007BD6FC /* GuestOwnerDialog */ = {
+			isa = PBXGroup;
+			children = (
+				E4B2893F1E966B19007BD6FC /* GusetOwnerDialogVC.swift */,
+			);
+			name = GuestOwnerDialog;
+			sourceTree = "<group>";
+		};
+		E4B289421E96D9BD007BD6FC /* ic_call_end_white_36pt.imageset */ = {
+			isa = PBXGroup;
+			children = (
+				E4B289431E96D9BE007BD6FC /* Contents.json */,
+				E4B289441E96D9BE007BD6FC /* ic_call_end_white_36pt.png */,
+				E4B289451E96D9BE007BD6FC /* ic_call_end_white_36pt_2x.png */,
+				E4B289461E96D9BE007BD6FC /* ic_call_end_white_36pt_3x.png */,
+			);
+			path = ic_call_end_white_36pt.imageset;
+			sourceTree = "<group>";
+		};
 		E4DDBB521E7BB1490053F89D /* ic_import_contacts.imageset */ = {
 			isa = PBXGroup;
 			children = (
@@ -775,6 +806,7 @@
 				E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */,
 				E49033521E7BCA65001F9C75 /* ic_chevron_left_2x.png in Resources */,
 				E4DDBB5A1E7BB1490053F89D /* ic_import_contacts_3x.png in Resources */,
+				E4B289481E96D9BE007BD6FC /* ic_call_end_white_36pt.png in Resources */,
 				E4DDBB571E7BB1490053F89D /* Contents.json in Resources */,
 				E49033641E7C0664001F9C75 /* ic_near_me_2x.png in Resources */,
 				E44B6E521E7C931B00D953D6 /* ic_call_36pt_3x.png in Resources */,
@@ -823,6 +855,7 @@
 				E49033401E7BC2A0001F9C75 /* ic_undo_2x.png in Resources */,
 				E49033411E7BC2A0001F9C75 /* ic_undo_3x.png in Resources */,
 				E49033751E7C0D5B001F9C75 /* ic_settings_36pt.png in Resources */,
+				E4B289491E96D9BE007BD6FC /* ic_call_end_white_36pt_2x.png in Resources */,
 				E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */,
 				E4981C9E1ADD9C3400F778F5 /* return13.png in Resources */,
 				E49033471E7BC343001F9C75 /* Contents.json in Resources */,
@@ -830,6 +863,8 @@
 				E4981C9C1ADD9B7900F778F5 /* leftarrow17.png in Resources */,
 				E48A9BE41AE297B100CB3EB9 /* shut-down.png in Resources */,
 				E4DDBB621E7BB36C0053F89D /* ic_delete_2x.png in Resources */,
+				E4B2894A1E96D9BE007BD6FC /* ic_call_end_white_36pt_3x.png in Resources */,
+				E4B289471E96D9BE007BD6FC /* Contents.json in Resources */,
 				E4EB88B11E845A4300BEC0E8 /* GoogleService-Info.plist in Resources */,
 				E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */,
 				E44B6E501E7C931B00D953D6 /* ic_call_36pt.png in Resources */,
@@ -982,6 +1017,7 @@
 				E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
 				E45930501E8933E900D7F031 /* InvitationsPOPCell.swift in Sources */,
+				E4B289401E966B19007BD6FC /* GusetOwnerDialogVC.swift in Sources */,
 				E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */,
 				E4B2FA501E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift in Sources */,
 				E48580781E85C4CF00C7E14A /* IDManager.swift in Sources */,

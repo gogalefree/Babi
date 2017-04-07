@@ -61,8 +61,8 @@ class CardVC: UIViewController {
     }
     
     fileprivate func prepareToolbar() {
-        toolbar = Toolbar(rightViews: [cancelButton])
         
+        toolbar = Toolbar(rightViews: [cancelButton])
         toolbar.title = sharedGate.name
         toolbar.titleLabel.textAlignment = .left
         toolbar.titleLabel.font = RobotoFont.regular(with: 22)

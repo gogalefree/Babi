@@ -13,6 +13,7 @@ protocol SwipeableCellDelegate{
     func settingsButtonAction(_ cell: SwipeableCellTableViewCell)
     func automaticButtonAction(_ cell: SwipeableCellTableViewCell)
     func shareButtonClicked(_ cell: SwipeableCellTableViewCell)
+    func callActionAsGuest(_ cell: SwipeableCellTableViewCell)
     func presentSharesPopup(indexPath: IndexPath)
     func cellDidOpen(_ cell: UITableViewCell)
     func cellDidClose(_ cell: UITableViewCell)
@@ -37,7 +38,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
     @IBOutlet weak var contentViewRightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var arrowImageView: UIImageView!
-    
+    var callButton: IconButton!
     var guestButton: FlatButton!
     let automaticColor = UIColor.black// UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
     let manualColor = UIColor.black
@@ -156,6 +157,12 @@ class SwipeableCellTableViewCell: UITableViewCell {
     
     func callButtonAction() {
         
+        if self.gate.isGuest {
+          
+            delegate?.callActionAsGuest(self)
+            return
+        }
+        
         PhoneDialer.callGate(gate?.phoneNumber)
     }
         
@@ -185,6 +192,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
         let automaticButton = IconButton(image: Icon.cm.play)
         let callButton = IconButton(image: UIImage(named:"ic_phone.png")!.withRenderingMode(
             UIImageRenderingMode.alwaysTemplate))
+        self.callButton = callButton
         self.automaticButton = automaticButton
 
         //buttons layout
