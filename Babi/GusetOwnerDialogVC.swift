@@ -8,6 +8,7 @@
 
 import UIKit
 import Material
+import Firebase
 
 class GusetOwnerDialogVC: UIViewController {
 
@@ -22,7 +23,7 @@ class GusetOwnerDialogVC: UIViewController {
     
     private let ownerOpenGateMessage = "Open? "
     private let ownerOpenningGateMessage = "Openning"
-    private let ownerCallAgainGateMessage = "Call Again? "
+    private let ownerCallAgainGateMessage = "Gate opened. Call Again? "
     private let ownerHasArrivedMessage = " has arrived."
     private var ownerMessages = [String]()
     private var ownerIndex = 0
@@ -35,6 +36,7 @@ class GusetOwnerDialogVC: UIViewController {
     @IBOutlet weak var gateNameLable: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var stopCallButton: IconButton!
+    @IBOutlet weak var guestReportOpenButton: FlatButton!
     @IBOutlet weak var callButton: IconButton!
     var cancelButton: IconButton!
     var activity: UIActivityIndicatorView!
@@ -59,6 +61,7 @@ class GusetOwnerDialogVC: UIViewController {
         prepareToolbar()
         prepareActionButtons()
         setupLabels()
+        prepareGuestReportOpenButton()
     }
   
     override func viewDidAppear(_ animated: Bool) {
@@ -67,9 +70,37 @@ class GusetOwnerDialogVC: UIViewController {
 
     //MARK: Actions
     
+    @IBAction func guestReportOpen(_ sender: Any) {
+  
+        //dismiss
+        self.dismiss(animated: true, completion: nil)
+        print("guest reported open")
+        //report to firebase as guest
+        // set cancelled key to true
+        let dbRef = FIRDatabase.database().reference()
+        let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(isCancelledKey)
+        path.setValue(true)
+    }
+  
+    func informOwnerGateOpen() {
+        
+        let name = gateShare?.guestName ?? ""
+        gateNameLable?.text = name + " " + "is arriving."
+        messageLabel?.text = "Gate is Open."
+        dissableCallButton()
+        stopTimer()
+        stopBlinkAnimation()
+    }
+    
+    func reloadAsOwner() {
+        stopBlinkAnimation()
+        gateNameLable.text =  (gateShare?.guestName)! + " asks to open again."
+        messageLabel.text = ownerMessages[0]
+    }
+    
     func ownerDailing() {
     
-        callButton.isEnabled = false
+        dissableCallButton()
         stopBlinkAnimation()
         stopTimer()
         messageLabel.animateToAlphaWithSpring(0.1, alpha: 0)
@@ -80,9 +111,10 @@ class GusetOwnerDialogVC: UIViewController {
     }
 
     func ownerCallingTimerAction() {
-        self.callButton.isEnabled = true
+        enableCallButton()
         self.messageLabel.text = ownerMessages[2]
         stopBlinkAnimation()
+        guestReportOpenButton.animateToAlphaWithSpring(0.2, alpha: 1)
     }
 
     func timerAction() {
@@ -96,7 +128,7 @@ class GusetOwnerDialogVC: UIViewController {
                 messageLabel.text = guestMessages[guestMessageIndex]
                 messageLabel.animateToAlphaWithSpring(0.1, alpha: 1)
                 if guestMessageIndex == guestMessages.count - 1 {
-                    callButton.isEnabled = true
+                    enableCallButton()
                     guestMessageIndex = 0
                     stopTimer()
                     stopBlinkAnimation()
@@ -109,22 +141,27 @@ class GusetOwnerDialogVC: UIViewController {
             messageLabel.text = ownerMessages[2]
             messageLabel.animateToAlphaWithSpring(0.1, alpha:1)
             stopBlinkAnimation()
-            callButton.isEnabled = true
+            enableCallButton()
         }
     }
     
     @IBAction func callAction(_ sender: Any) {
         
         if gate!.isGuest {
-            callButton.isEnabled = false
-            gate!.shouldCall = true
+            guestReportOpenButton.animateToAlphaWithSpring(0.1, alpha: 0)
+            dissableCallButton()
+            let dbRef = FIRDatabase.database().reference()
+            let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(kOwnerShouldFireKey)
+            path.setValue(true)
+
+            //gate!.shouldCall = true
             messageLabel.animateToAlphaWithSpring(0.1, alpha: 0)
             messageLabel.text = guestMessages[0]
             messageLabel.animateToAlphaWithSpring(0.1, alpha: 1)
-            startTimer(secconds: 5, shouldRepeat: true)
+            startTimer(secconds: 10, shouldRepeat: true)
             startBlinkAnimation()
         } else {
-            self.callButton.isEnabled = false
+            dissableCallButton()
             ownerIndex = 1
             startBlinkAnimation()
             startTimer(secconds: 12, shouldRepeat: false)
@@ -157,7 +194,7 @@ class GusetOwnerDialogVC: UIViewController {
             gateNameLable.text = gate!.name
             messageLabel.text = guestOpeningMessage
             startBlinkAnimation()
-            startTimer(secconds: 5, shouldRepeat: true)
+            startTimer(secconds: 7, shouldRepeat: true)
         }
         
         else {
@@ -194,9 +231,18 @@ class GusetOwnerDialogVC: UIViewController {
         stopCallButton.backgroundColor = .white
         callButton.image = UIImage(named:"ic_call_36pt.png")!.withRenderingMode(
             UIImageRenderingMode.alwaysTemplate)
-        callButton.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         callButton.backgroundColor = .white
-        callButton.isEnabled = gate.isGuest ? false : true
+        
+        if gate.isGuest {
+            dissableCallButton()
+        } else {
+            enableCallButton()
+        }
+    }
+
+    func prepareGuestReportOpenButton() {
+        guestReportOpenButton.title = "Gate's Open, Thanks."
+        guestReportOpenButton.alpha = 0
     }
 
     //MARK: Animations
@@ -210,9 +256,9 @@ class GusetOwnerDialogVC: UIViewController {
     func stopBlinkAnimation() {
         shouldAnimateBlink = false
         for dot in [dot1Label , dot2Label, dot3Label] {
-            dot!.animateToAlphaWithSpring(0.1 , alpha: 0)
+            dot?.animateToAlphaWithSpring(0.1 , alpha: 0)
         }
-        activity.stopAnimating()
+        activity?.stopAnimating()
     }
     
     private func animateBlink() {
@@ -248,13 +294,23 @@ class GusetOwnerDialogVC: UIViewController {
     //MARK: Timer
     
     func startTimer(secconds: TimeInterval, shouldRepeat: Bool) {
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: shouldRepeat)
+        timer = Timer.scheduledTimer(timeInterval: secconds, target: self, selector: #selector(timerAction), userInfo: nil, repeats: shouldRepeat)
     }
     
     func stopTimer() {
         timer?.invalidate()
     }
     
+    func enableCallButton() {
+        self.callButton?.isEnabled = true
+        self.callButton?.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+    }
+    
+    func dissableCallButton() {
+        self.callButton?.isEnabled = false
+        self.callButton?.tintColor = .gray
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

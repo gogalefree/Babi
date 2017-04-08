@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
        FireBaseController.shared.setup()
        FireBaseController.shared.signIn()
-  //      FireBaseController.shared.fetchGateShareasGuest("nOXPFicqNIbKpds3vPupibZmMEx2", "sO9RfAM8O8", "10")
         return true
     }
 

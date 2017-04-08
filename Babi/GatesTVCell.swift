@@ -40,11 +40,13 @@ class SwipeableCellTableViewCell: UITableViewCell {
     @IBOutlet weak var arrowImageView: UIImageView!
     var callButton: IconButton!
     var guestButton: FlatButton!
+    var shareButton: IconButton!
+    var automaticButton: IconButton!
+
     let automaticColor = UIColor.black// UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.9)
     let manualColor = UIColor.black
     let deviderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
     let numberColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
-    var automaticButton: IconButton!
     var panRecognizer: UIPanGestureRecognizer!
     var panStartPoint: CGPoint!
     var startingRightLayoutConstraintConstant: CGFloat! = -8
@@ -139,11 +141,11 @@ class SwipeableCellTableViewCell: UITableViewCell {
     
     func automaticButtonAction() {
         
-        let image = gate.automatic == true ? Icon.cm.pause : Icon.cm.play
+        delegate?.automaticButtonAction(self)
+        let image = gate.automatic == true ? Icon.cm.play : Icon.cm.pause 
         automaticButton.animateToAlphaWithSpring(0.1, alpha: 0)
         automaticButton.image = image
         automaticButton.animateToAlphaWithSpring(0.1, alpha: 1)
-        delegate?.automaticButtonAction(self)
         setAutomaticButtonTint()
     }
     
@@ -188,32 +190,36 @@ class SwipeableCellTableViewCell: UITableViewCell {
     
     private func prepareActionsView() {
         
-        let shareButton = IconButton(image: Icon.cm.moreVertical)
-        let automaticButton = IconButton(image: Icon.cm.play)
-        let callButton = IconButton(image: UIImage(named:"ic_phone.png")!.withRenderingMode(
-            UIImageRenderingMode.alwaysTemplate))
-        self.callButton = callButton
-        self.automaticButton = automaticButton
-
-        //buttons layout
-        actionsView.layout.vertically(shareButton, top: 0, bottom: 0)
-        actionsView.layout.vertically(automaticButton, top: 0, bottom: 0)
-        actionsView.layout.vertically(callButton, top: 0, bottom: 0)
-        actionsView.layout.horizontally([automaticButton, callButton, shareButton], left: 5, right: 5, interimSpace: 5)
-        
-        //button actions
-        shareButton.addTarget(self, action: #selector(verticalMenuAction), for: .touchUpInside)
-        automaticButton.addTarget(self, action: #selector(automaticButtonAction), for: .touchUpInside)
-        callButton.addTarget(self, action: #selector(callButtonAction), for: .touchUpInside)
-        invitationsButton.addTarget(self, action: #selector(presentSharesPopup), for: .touchUpInside)
-        
-        callButton.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        shareButton.tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        setAutomaticButtonTint()
-        invitationsButton.image = Icon.cm.share
-        
-        let callButtonAlpha: CGFloat = self.gate.isGuest == true ? 0 : 1
-        callButton.alpha = callButtonAlpha
+        if self.automaticButton == nil {
+         
+            let shareButton = IconButton(image: Icon.cm.moreVertical)
+            self.shareButton = shareButton
+            let automaticButton = IconButton(image: Icon.cm.play)
+            let callButton = IconButton(image: UIImage(named:"ic_phone.png")!.withRenderingMode(
+                UIImageRenderingMode.alwaysTemplate))
+            self.callButton = callButton
+            self.automaticButton = automaticButton
+            
+            //buttons layout
+            actionsView.layout.vertically(shareButton, top: 0, bottom: 0)
+            actionsView.layout.vertically(automaticButton, top: 0, bottom: 0)
+            actionsView.layout.vertically(callButton, top: 0, bottom: 0)
+            actionsView.layout.horizontally([automaticButton, callButton, shareButton], left: 5, right: 5, interimSpace: 5)
+            
+            //button actions
+            shareButton.addTarget(self, action: #selector(verticalMenuAction), for: .touchUpInside)
+            automaticButton.addTarget(self, action: #selector(automaticButtonAction), for: .touchUpInside)
+            callButton.addTarget(self, action: #selector(callButtonAction), for: .touchUpInside)
+            invitationsButton.addTarget(self, action: #selector(presentSharesPopup), for: .touchUpInside)
+            
+            callButton.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            shareButton.tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+            setAutomaticButtonTint()
+            invitationsButton.image = Icon.cm.share
+            
+            let callButtonAlpha: CGFloat = self.gate.isGuest == true ? 0 : 1
+            callButton.alpha = callButtonAlpha
+        }
         
     }
     

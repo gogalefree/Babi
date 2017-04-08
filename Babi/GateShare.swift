@@ -60,7 +60,7 @@ class GateShare: NSObject {
     init?(snapshot: FIRDataSnapshot) {
         
         print(snapshot.key)
-        print(snapshot.value)
+        print(snapshot.value as Any)
         
         guard let dict = snapshot.value as? [String: Any] else {
             print(#function + "cant peocess gate share data as guest")
