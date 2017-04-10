@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 import CoreLocation
+import Firebase
 
 let kCallActionIdentifier = "CALL_IDENTIFIER"
 let kDissmissActionIdentifier = "DISSMISS_IDENTIFIER"
@@ -41,41 +42,6 @@ class Model: NSObject, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             self.setupLocationManager()
         }
-        
-        
-        let callAction = UIMutableUserNotificationAction()
-        callAction.identifier = kCallActionIdentifier
-        callAction.title = "Open Gate"
-        callAction.activationMode = UIUserNotificationActivationMode.foreground
-        callAction.isDestructive = false
-        callAction.isAuthenticationRequired = true
-        
-        let launchAction = UIMutableUserNotificationAction()
-        launchAction.identifier = kLaunchBabiActionIdentifier
-        launchAction.title = "Launch BaBi"
-        launchAction.activationMode = UIUserNotificationActivationMode.foreground
-        launchAction.isDestructive = false
-        launchAction.isAuthenticationRequired = false
-        
-        let cancelAction = UIMutableUserNotificationAction()
-        cancelAction.identifier = kDissmissActionIdentifier
-        cancelAction.title = "Cancel"
-        cancelAction.activationMode = UIUserNotificationActivationMode.background
-        cancelAction.isDestructive = false
-        cancelAction.isAuthenticationRequired = false
-        
-        
-        let arrivedToGateCategory = UIMutableUserNotificationCategory()
-        
-        // Identifier to include in your push payload and local notification
-        arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
-        arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], for: UIUserNotificationActionContext.default)
-        
-        let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
-        let types: UIUserNotificationType = [UIUserNotificationType.badge, UIUserNotificationType.alert, UIUserNotificationType.sound]
-        let settings = UIUserNotificationSettings(types: types, categories: categoriesSet)
-      
-        UIApplication.shared.registerUserNotificationSettings(settings)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

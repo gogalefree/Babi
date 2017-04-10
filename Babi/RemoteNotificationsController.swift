@@ -16,7 +16,9 @@ class RemoteNotificationsController: NSObject {
     fileprivate override init () {}
     
     var remoteNotificationToken: String? {
-        return UserDefaults.standard.string(forKey: kRemoteNotificationTokenKey)
+        let token = UserDefaults.standard.string(forKey: kRemoteNotificationTokenKey)
+        print(String(describing: token))
+        return token
     }
     
     func savePushNotificationsTokenInUD(_ newToken:String) {

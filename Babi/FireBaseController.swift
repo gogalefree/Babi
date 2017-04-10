@@ -67,16 +67,18 @@ class FireBaseController: NSObject {
     func  fetchGateShareasGuest(_ ownerId: String, _ shareToken: String, _ shareId: String) {
         
         let dbRef = FIRDatabase.database().reference(withPath: "users")
-
         dbRef.child(ownerId).child(shareId).observeSingleEvent(of: .value, with: { (snap) in
      
             guard let gateShare = GateShare(snapshot: snap) else {return}
+            if Gate.gateExiststAsGuest(gateShare) !=  nil {return}
+            
             guard let _ = Gate.gateAsGuest(gateShare) else {return}
             if gateShare.pairDate == 0 {
                 
                 gateShare.pairDate = Date().timeIntervalSince1970
                 var snap = gateShare.toSnapshot()
                 snap[kGuestUidKey] = FIRAuth.auth()!.currentUser!.uid
+                snap[kGuestPushToken] = FIRInstanceID.instanceID().token() ?? kGuestPushToken
                 dbRef.child(ownerId).child(shareId).setValue(snap)
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: knewGateAsGuestNotification), object: nil)
             }
@@ -90,7 +92,4 @@ class FireBaseController: NSObject {
         let path = dbRef.child("users").child(gateToDelete.ownerUid!).child(gateToDelete.shareId!)
             path.removeAllObservers()
     }
-
-    
-    
 }

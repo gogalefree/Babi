@@ -21,6 +21,8 @@ let kisPairedKey        = "isPaired"
 let kPairDateKey        = "pairDate"
 let kShareUidKry        = "shareUid"
 let kGuestNameKey       = "guestName"
+let kOwnerPushToken     = "ownerPushToken"
+let kGuestPushToken     = "guestPushToken"
 
 import UIKit
 import Firebase
@@ -40,7 +42,8 @@ class GateShare: NSObject {
     var ownerShouldFireCall = false
     var shareId = ""
     var guestName = ""
-
+    var ownerPushToken = kOwnerPushToken
+    var guestPushToken = kGuestPushToken
     
     init(gate: Gate, ownerUid: String, guestname: String?) {
         gateName        = gate.name
@@ -54,6 +57,8 @@ class GateShare: NSObject {
         shareId         = IDManager.shared.shareAutoId
         guestName       = guestname ?? ""
         pairDate        = 0
+        ownerPushToken  = FIRInstanceID.instanceID().token() ?? kOwnerPushToken
+
         super.init()
     }
     
@@ -81,6 +86,8 @@ class GateShare: NSObject {
         let shareToken          = (dict[kShareTokenKey] as? String) ?? ""
         let shareUid            = (dict[kShareUidKry] as? String) ?? ""
         let guestName           = (dict[kGuestNameKey] as? String) ?? ""
+        let aOwnerPushToken      = (dict[kOwnerPushToken] as? String) ?? kOwnerPushToken
+        let aGuestPushToken      = (dict[kGuestPushToken] as? String) ?? kGuestPushToken
         
         self.gateName = gateName.removingPercentEncoding
         self.gateUid = gateUID
@@ -95,6 +102,8 @@ class GateShare: NSObject {
         self.shareToken = shareToken
         self.shareId = shareUid
         self.guestName = guestName
+        self.ownerPushToken = aOwnerPushToken
+        self.guestPushToken = aGuestPushToken
         super.init()
     }
     
@@ -115,8 +124,10 @@ class GateShare: NSObject {
             kisPairedKey        : pairDate == 0 ? false : true,
             kPairDateKey        : pairDate ?? 0.0,
             kGuestNameKey       : guestName,
-            kShareUidKry        : shareId
-
+            kShareUidKry        : shareId,
+            kOwnerPushToken     : ownerPushToken,
+            kGuestPushToken     : guestPushToken 
+            
         ] as [String : Any]
         
         return snapshot

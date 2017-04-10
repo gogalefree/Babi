@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import Firebase
+import AVFoundation
 
 class GusetOwnerDialogVC: UIViewController {
 
@@ -23,7 +24,7 @@ class GusetOwnerDialogVC: UIViewController {
     
     private let ownerOpenGateMessage = "Open? "
     private let ownerOpenningGateMessage = "Openning"
-    private let ownerCallAgainGateMessage = "Gate opened. Call Again? "
+    private let ownerCGateOpenedMessage = "Gate opened."
     private let ownerHasArrivedMessage = " has arrived."
     private var ownerMessages = [String]()
     private var ownerIndex = 0
@@ -35,8 +36,8 @@ class GusetOwnerDialogVC: UIViewController {
     @IBOutlet weak var dot3Label: UILabel!
     @IBOutlet weak var gateNameLable: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var stopCallButton: IconButton!
     @IBOutlet weak var guestReportOpenButton: FlatButton!
+    @IBOutlet weak var guestWantsOpenAgainButton: FlatButton!
     @IBOutlet weak var callButton: IconButton!
     var cancelButton: IconButton!
     var activity: UIActivityIndicatorView!
@@ -44,10 +45,12 @@ class GusetOwnerDialogVC: UIViewController {
     private var animationIndex = 0
     private var toAlpha:CGFloat = 1
     private var shouldAnimateBlink = true
+    var didPlay = false
 
     var timer: Timer!
     var gate: Gate!
     var gateShare: GateShare?
+    var player: AVAudioPlayer?
     
     //MARK: Lifecycle
     override func viewDidLoad() {
@@ -55,19 +58,38 @@ class GusetOwnerDialogVC: UIViewController {
         modalTransitionStyle = .crossDissolve
         modalPresentationStyle = .overCurrentContext
         guestMessages = [guestOpeningMessage ,guestWaitingMessage, guestStillWaitinggMessage , guestCallAgainMessage]
-        ownerMessages = [ownerOpenGateMessage, ownerOpenningGateMessage, ownerCallAgainGateMessage]
+        ownerMessages = [ownerOpenGateMessage, ownerOpenningGateMessage, ownerCGateOpenedMessage]
         prepareCancelButton()
         prepareCtivityIndicator()
         prepareToolbar()
         prepareActionButtons()
         setupLabels()
-        prepareGuestReportOpenButton()
+        prepareGuestReportButtons()
+        sendPushToOwnerAsGuest()
     }
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+       // playSoundOnce()
     }
 
+    func playSoundOnce() {
+
+        if !didPlay {
+        let url = Bundle.main.url(forResource: "Phone_Ringing", withExtension:"mp3")!
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else {return}
+            player.volume = 1
+            player.prepareToPlay()
+            player.play()
+            didPlay = true
+        } catch {
+            // couldn't load file :(
+            print("error playing: "  + error.localizedDescription)
+        }
+        }
+    }
     //MARK: Actions
     
     @IBAction func guestReportOpen(_ sender: Any) {
@@ -81,21 +103,31 @@ class GusetOwnerDialogVC: UIViewController {
         let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(isCancelledKey)
         path.setValue(true)
     }
+    
+    @IBAction func guestWantsCallAgainButton(_ sender: Any) {
+        callAction(sender)
+    }
   
     func informOwnerGateOpen() {
         
         let name = gateShare?.guestName ?? ""
-        gateNameLable?.text = name + " " + "is arriving."
-        messageLabel?.text = "Gate is Open."
+        gateNameLable?.text = "Gate is Open."
+        messageLabel?.text =  "\(name) is arriving."
         dissableCallButton()
         stopTimer()
         stopBlinkAnimation()
+        
+        //set is cancelled to false again
+        let dbRef = FIRDatabase.database().reference()
+        let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(isCancelledKey)
+        path.setValue(false)
     }
     
     func reloadAsOwner() {
         stopBlinkAnimation()
         gateNameLable.text =  (gateShare?.guestName)! + " asks to open again."
         messageLabel.text = ownerMessages[0]
+        enableCallButton()
     }
     
     func ownerDailing() {
@@ -112,9 +144,13 @@ class GusetOwnerDialogVC: UIViewController {
 
     func ownerCallingTimerAction() {
         enableCallButton()
-        self.messageLabel.text = ownerMessages[2]
+        callButton.alpha = 0
+        messageLabel.text = ""
+        gateNameLable.text = "Opened?"
         stopBlinkAnimation()
         guestReportOpenButton.animateToAlphaWithSpring(0.2, alpha: 1)
+        guestWantsOpenAgainButton.animateToAlphaWithSpring(0.2, alpha: 1)
+
     }
 
     func timerAction() {
@@ -129,16 +165,20 @@ class GusetOwnerDialogVC: UIViewController {
                 messageLabel.animateToAlphaWithSpring(0.1, alpha: 1)
                 if guestMessageIndex == guestMessages.count - 1 {
                     enableCallButton()
+                    callButton.animateToAlphaWithSpring(0.1, alpha: 1)
                     guestMessageIndex = 0
                     stopTimer()
                     stopBlinkAnimation()
+                    sendPushToOwnerAsGuest()
                 }
             }
         }
         
         else {
             messageLabel.animateToAlphaWithSpring(0.1, alpha: 0)
-            messageLabel.text = ownerMessages[2]
+            let guestName = gateShare?.guestName ?? "Someone"
+            self.gateNameLable.text = ownerMessages[2]
+            self.messageLabel.text = " Waiting for \(guestName)"
             messageLabel.animateToAlphaWithSpring(0.1, alpha:1)
             stopBlinkAnimation()
             enableCallButton()
@@ -149,19 +189,20 @@ class GusetOwnerDialogVC: UIViewController {
         
         if gate!.isGuest {
             guestReportOpenButton.animateToAlphaWithSpring(0.1, alpha: 0)
+            guestWantsOpenAgainButton.animateToAlphaWithSpring(0.1, alpha: 0)
             dissableCallButton()
             let dbRef = FIRDatabase.database().reference()
             let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(kOwnerShouldFireKey)
             path.setValue(true)
 
             //gate!.shouldCall = true
+            gateNameLable.text = "Calling"
             messageLabel.animateToAlphaWithSpring(0.1, alpha: 0)
             messageLabel.text = guestMessages[0]
             messageLabel.animateToAlphaWithSpring(0.1, alpha: 1)
             startTimer(secconds: 10, shouldRepeat: true)
             startBlinkAnimation()
         } else {
-            dissableCallButton()
             ownerIndex = 1
             startBlinkAnimation()
             startTimer(secconds: 12, shouldRepeat: false)
@@ -170,11 +211,6 @@ class GusetOwnerDialogVC: UIViewController {
             messageLabel.animateToAlphaWithSpring(0.1, alpha: 1)
             PhoneDialer.callGate(gate.phoneNumber)
         }
-    }
-    
-    @IBAction func stopCallAction(_ sender: Any) {
-        stopBlinkAnimation()
-        self.dismiss(animated: true, completion: nil)
     }
     
     func cancelButtonAction() {
@@ -190,7 +226,6 @@ class GusetOwnerDialogVC: UIViewController {
         }
         
         if gate.isGuest {
-            
             gateNameLable.text = gate!.name
             messageLabel.text = guestOpeningMessage
             startBlinkAnimation()
@@ -202,7 +237,6 @@ class GusetOwnerDialogVC: UIViewController {
             gateNameLable.text =  (gateShare?.guestName)! + ownerHasArrivedMessage
             messageLabel.text = ownerMessages[0]
         }
-       
     }
     
     fileprivate func prepareCtivityIndicator() {
@@ -225,10 +259,10 @@ class GusetOwnerDialogVC: UIViewController {
     }
     
     fileprivate func prepareActionButtons(){
-        stopCallButton.image = UIImage(named: "ic_call_end_white_36pt.png")!.withRenderingMode(
-            UIImageRenderingMode.alwaysTemplate)
-        stopCallButton.tintColor = Color.red.base
-        stopCallButton.backgroundColor = .white
+//        stopCallButton.image = UIImage(named: "ic_call_end_white_36pt.png")!.withRenderingMode(
+//            UIImageRenderingMode.alwaysTemplate)
+//        stopCallButton.tintColor = Color.red.base
+//        stopCallButton.backgroundColor = .white
         callButton.image = UIImage(named:"ic_call_36pt.png")!.withRenderingMode(
             UIImageRenderingMode.alwaysTemplate)
         callButton.backgroundColor = .white
@@ -240,9 +274,21 @@ class GusetOwnerDialogVC: UIViewController {
         }
     }
 
-    func prepareGuestReportOpenButton() {
-        guestReportOpenButton.title = "Gate's Open, Thanks."
+    func prepareGuestReportButtons() {
+        guestReportOpenButton.title = "Gate's Open"
         guestReportOpenButton.alpha = 0
+        guestWantsOpenAgainButton.title = "Call again"
+        guestWantsOpenAgainButton.alpha = 0
+    }
+    
+    func enableCallButton() {
+        self.callButton?.isEnabled = true
+        self.callButton?.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+    }
+    
+    func dissableCallButton() {
+        self.callButton?.isEnabled = false
+        self.callButton?.tintColor = .gray
     }
 
     //MARK: Animations
@@ -301,30 +347,45 @@ class GusetOwnerDialogVC: UIViewController {
         timer?.invalidate()
     }
     
-    func enableCallButton() {
-        self.callButton?.isEnabled = true
-        self.callButton?.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+    //MARK: Push Notifications to owner
+    private func sendPushToOwnerAsGuest() {
+        let pushToken = gate.ownerPushToken
+        if pushToken == kOwnerPushToken || pushToken.isEmpty {return}
+        let badge =  1
+        let gateName = gate.name 
+        let title =  "Your guest arrived to \(gateName)"
+        let body = "Launch BaBi?"
+        print(title)
+        var request = URLRequest(url: URL(string: "https://fcm.googleapis.com/fcm/send")!)
+        request.httpMethod = "POST"
+        let payload: [String: Any] = [
+            "notification": [
+                "title": title,
+                "body": body,
+                "badge" : badge,
+                "click_action": "Launch",
+                "sound" : "default",
+                "content-available" : 1
+            ],
+            
+            "to" : pushToken]
+        
+        request.httpBody = try! JSONSerialization.data(withJSONObject: payload, options: .prettyPrinted)
+        request.setValue("key=AAAAF0fIu3w:APA91bHI7Jue-5BpTzYZ-90FF-nE5NZTsCP0IXvm6E52T_fqWgDM7dDe6mnTl1aAqq38fUWoBlr_lUJLHIU_pG__TcXxEbEx66xjfqYhv3AyQt2OU0HVw1TURLluhMb9gOhOWJCtqmJB", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(String(describing: error))")
+                return
+            }
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(String(describing: response))")
+            }
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(String(describing: responseString))")
+        }
+        task.resume()
     }
-    
-    func dissableCallButton() {
-        self.callButton?.isEnabled = false
-        self.callButton?.tintColor = .gray
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

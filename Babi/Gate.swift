@@ -8,6 +8,8 @@
 import CoreData
 import UIKit
 import CoreLocation
+import Firebase
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -56,6 +58,7 @@ class Gate: NSManagedObject {
     @NSManaged var ownerUid: String?    //set onlt for gate as guest. default is property name
     @NSManaged var shareId: String?     //set onlt for gate as guest. default is property name
     @NSManaged var shareToken: String?  //set onlt for gate as guest. default is property name
+    @NSManaged var ownerPushToken: String
 
     
     var shares: [GateShare] = []
@@ -130,10 +133,10 @@ class Gate: NSManagedObject {
                 newGate.automatic = automatic ?? true
                 newGate.phoneNumber = phoneNumber
                 newGate.fireDistanceFromGate = fireDistanceFromGate ?? 0
+                let token = FIRInstanceID.instanceID().token() ?? kOwnerPushToken
+                newGate.ownerPushToken = token
                 gate = newGate
             }
-        
-    
             return gate
     }
     
@@ -157,7 +160,7 @@ class Gate: NSManagedObject {
             return newGate
         }
         
-        existstingGate!.updateFrom(gateShare)
+        //existstingGate!.updateFrom(gateShare)
         return existstingGate
     }
     
@@ -174,7 +177,7 @@ class Gate: NSManagedObject {
         ownerUid = gateShare.ownerUID
         shareId = gateShare.shareId
         shareToken = gateShare.shareToken ?? "shareToken"
-        
+        ownerPushToken = gateShare.ownerPushToken
         do {
             try Model.shared.context?.save()
         } catch  {
@@ -186,14 +189,12 @@ class Gate: NSManagedObject {
     class func gateExiststAsGuest(_ gateShare: GateShare) -> Gate? {
         
         guard let gates = Model.shared.gates() else {return nil}
-        for gate in gates {
-            
-            if gate.ownerUid == gateShare.ownerUID && gate.isGuest == true && gate.latitude == gateShare.latitude {
-                return gate
-            }
+        let found = gates.filter { gate in gateShare.shareToken == gate.shareToken && gate.isGuest }
+        guard let existingGate = found.first  else {
+            return nil
         }
         
-        return nil
+        return existingGate
     }
     
     class func gateDictionary(_ gate: Gate) -> [AnyHashable: Any] {
@@ -248,6 +249,7 @@ class Gate: NSManagedObject {
         print("mode: \(self.automatic)")
         print("phone Number: \(phoneNumber)")
         print("distance: \(fireDistanceFromGate)")
+        print("owner Push Token: \(ownerPushToken)")
         print("***************")
     }
 

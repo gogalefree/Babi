@@ -8,28 +8,31 @@
 
 import UIKit
 import CoreData
+import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        Model.shared.setUp()
         
       //  let barColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
         
-       UINavigationBar.appearance().tintColor = UIColor.black
-        
+        UINavigationBar.appearance().tintColor = UIColor.black
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), for: .default)
-
         UIApplication.shared.isIdleTimerDisabled = true
-        
-       FireBaseController.shared.setup()
-       FireBaseController.shared.signIn()
+        FireBaseController.shared.setup()
+        Model.shared.setUp()
+        registerUserNotifications(application: application)
+        FireBaseController.shared.signIn()
+        //let token = FIRInstanceID.instanceID().token()
+        //print(String(describing:token))
+        //sendPush()
         return true
     }
 
@@ -73,19 +76,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     dict[item.name] = item.value!
                 }
             }
-            
-            //print(dict) //["id": "1", "token": "x9zUGTE30U"]
             let ownerId     = dict["od"] ?? ""
             let shareToken  = dict["token"] ?? ""
             let shareId     = dict["shareId"] ?? ""
             if !ownerId.isEmpty && !shareToken.isEmpty && !shareId.isEmpty{
-                
                 FireBaseController.shared.fetchGateShareasGuest(ownerId, shareToken, shareId)
             }
         }
-        
-        
-       
         return true
     }
     
@@ -100,11 +97,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        UIApplication.shared.applicationIconBadgeNumber = 0
+
         if UserDefaults.standard.bool(forKey: kSleepModeKey) {
             let container = window?.rootViewController as! MainContainerController
             container.wakeUpFromSleepMode()
@@ -192,5 +191,129 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    func registerUserNotifications(application: UIApplication) {
+        
+        if #available(iOS 10.0, *) {
+
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+            
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+        options: authOptions,
+        completionHandler: {_, _ in })
+        
+        // For iOS 10 data message (sent via FCM)
+        FIRMessaging.messaging().remoteMessageDelegate = self
+        
+        } else {
+            
+            let callAction = UIMutableUserNotificationAction()
+            callAction.identifier = kCallActionIdentifier
+            callAction.title = "Open Gate"
+            callAction.activationMode = UIUserNotificationActivationMode.foreground
+            callAction.isDestructive = false
+            callAction.isAuthenticationRequired = true
+            
+            let launchAction = UIMutableUserNotificationAction()
+            launchAction.identifier = kLaunchBabiActionIdentifier
+            launchAction.title = "Launch BaBi"
+            launchAction.activationMode = UIUserNotificationActivationMode.foreground
+            launchAction.isDestructive = false
+            launchAction.isAuthenticationRequired = false
+            
+            let cancelAction = UIMutableUserNotificationAction()
+            cancelAction.identifier = kDissmissActionIdentifier
+            cancelAction.title = "Cancel"
+            cancelAction.activationMode = UIUserNotificationActivationMode.background
+            cancelAction.isDestructive = false
+            cancelAction.isAuthenticationRequired = false
+            
+            
+            let arrivedToGateCategory = UIMutableUserNotificationCategory()
+            
+            // Identifier to include in your push payload and local notification
+            arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
+            arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], for: UIUserNotificationActionContext.default)
+            
+            let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
+            let types: UIUserNotificationType = [.badge, .alert, .sound]
+            let settings = UIUserNotificationSettings(types: types, categories: categoriesSet)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+    }
+    
+    func tokenRefreshNotification(_ notification: Notification) {
+        if let refreshedToken = FIRInstanceID.instanceID().token() {
+            RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(refreshedToken)
+            print("InstanceID token: \(refreshedToken)")
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("did recive remote notification: ")
+        for (key , value) in userInfo.enumerated() {
+            print("key: \(key)")
+            print("value: \(value)")
+            //key: 5
+            //value: (key: AnyHashable("aps"), value: {
+            //alert = "this is the message text";
+            //})
+        }
+        
+    }
+    public func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print("application recieve remote: " + String(describing:remoteMessage))
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        if application.applicationState != .active {
+            let badge = UIApplication.shared.applicationIconBadgeNumber + 1
+            application.applicationIconBadgeNumber = badge
+        }
+        completionHandler(.newData)
+    }
+
+    func sendPush() {
+        let pushToken = "dKV2Ob5JzNY:APA91bGp9q5eTehW-YqVYyzQu6YdHZnjEBZ8-D5RIXcfscaDQGh--1dh2kgpASUeBTHgKt28Zt2PJmeFhQzPNNjkiLhSTVduoH_kReGGCBRcsNPzoeu0QiOkmRyawbz-IVIcdsEQOePa"
+        let badge = UIApplication.shared.applicationIconBadgeNumber + 1
+        var request = URLRequest(url: URL(string: "https://fcm.googleapis.com/fcm/send")!)
+        request.httpMethod = "POST"
+        let payload: [String: Any] = [
+            "notification": [
+                "title": "First iOS inapp Push",
+                "body": "messageBody",
+                "badge" : badge,
+                "click_action": "Launch",
+                "sound" : "default"
+            ],
+            "to" : pushToken
+        ]
+        
+        request.httpBody = try! JSONSerialization.data(withJSONObject: payload, options: .prettyPrinted)
+        
+        request.setValue("key=AAAAF0fIu3w:APA91bHI7Jue-5BpTzYZ-90FF-nE5NZTsCP0IXvm6E52T_fqWgDM7dDe6mnTl1aAqq38fUWoBlr_lUJLHIU_pG__TcXxEbEx66xjfqYhv3AyQt2OU0HVw1TURLluhMb9gOhOWJCtqmJB", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(String(describing: error))")
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(String(describing: response))")
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(String(describing: responseString))")
+        }
+        task.resume()
+    }
 }
 
