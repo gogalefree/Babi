@@ -9,311 +9,182 @@
 import UIKit
 import CoreData
 import Firebase
-import UserNotifications
+import SwiftyBeaver
+let log = SwiftyBeaver.self
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate {
-
-    var window: UIWindow?
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-        
-      //  let barColor = UIColor(red: 134.0/255.0, green: 46.0/255.0, blue: 73.0/255.0, alpha: 0.1)
-        
-        UINavigationBar.appearance().tintColor = UIColor.black
-        UINavigationBar.appearance().isTranslucent = true
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), for: .default)
-        UIApplication.shared.isIdleTimerDisabled = true
-        FireBaseController.shared.setup()
-        Model.shared.setUp()
-        registerUserNotifications(application: application)
-        FireBaseController.shared.signIn()
-        //let token = FIRInstanceID.instanceID().token()
-        //print(String(describing:token))
-        //sendPush()
-        return true
-    }
-
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
-        var token = deviceToken.description as NSString
-        token = token.trimmingCharacters(in: CharacterSet(charactersIn: "<>")) as NSString
-        token = token.replacingOccurrences(of: " ", with: "") as NSString
-        RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(token as String)
-    }
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  
+  var window: UIWindow?
+  
+  
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        
-    }
+    UINavigationBar.appearance().tintColor = UIColor.black
+    UINavigationBar.appearance().isTranslucent = true
+    UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), for: .default)
+    UIApplication.shared.isIdleTimerDisabled = true
+    FireBaseController.shared.setup()
+    Model.shared.setUp()
+    LocationNotifications.shared.registerUserNotifications(application: application)
+    FireBaseController.shared.signIn()
+    registerSwiftyBeaver()
+    return true
+  }
+  
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     
-    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Void) {
-        if let id = identifier {
-            if id == kCallActionIdentifier {
-                let userInfo = notification.userInfo as [AnyHashable: Any]?
-                
-                if let userInfo = userInfo{
-                    
-                    let phoneNumber = userInfo["phoneNumber"] as! String
-                    PhoneDialer.callGate(phoneNumber)
-                }
-            }
+    var token = deviceToken.description as NSString
+    token = token.trimmingCharacters(in: CharacterSet(charactersIn: "<>")) as NSString
+    token = token.replacingOccurrences(of: " ", with: "") as NSString
+    RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(token as String)
+  }
+  
+  func application(_ application: UIApplication, didReceive notification: UILocalNotification) {}
+  
+  func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Void) {
+    if let id = identifier {
+      if id == kCallActionIdentifier {
+        let userInfo = notification.userInfo as [AnyHashable: Any]?
+        
+        if let userInfo = userInfo{
+          
+          let phoneNumber = userInfo["phoneNumber"] as! String
+          PhoneDialer.callGate(phoneNumber)
         }
+      }
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        
-        guard let babi = url.scheme else { return true }
-
-        if babi == "babi" {
-        
-        
-            var dict = [String:String]()
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            if let queryItems = components.queryItems {
-                for item in queryItems {
-                    dict[item.name] = item.value!
-                }
-            }
-            let ownerId     = dict["od"] ?? ""
-            let shareToken  = dict["token"] ?? ""
-            let shareId     = dict["shareId"] ?? ""
-            if !ownerId.isEmpty && !shareToken.isEmpty && !shareId.isEmpty{
-                FireBaseController.shared.fetchGateShareasGuest(ownerId, shareToken, shareId)
-            }
-        }
-        return true
+  }
+  
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+    return URLController.shared.open(url, options: options)
+  }
+  
+  func applicationWillEnterForeground(_ application: UIApplication) {
+    UIApplication.shared.applicationIconBadgeNumber = 0
+  }
+  
+  func applicationDidBecomeActive(_ application: UIApplication) {
+    UIApplication.shared.applicationIconBadgeNumber = 0
+    if UserDefaults.standard.bool(forKey: kSleepModeKey) {
+      let container = window?.rootViewController as! MainContainerController
+      container.wakeUpFromSleepMode()
     }
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    Model.shared.usageUpdater.incrementDidBecomeActive()
+  }
+  
+  func applicationWillTerminate(_ application: UIApplication) {
+    self.saveContext()
+  }
+  
+  // MARK: - Core Data stack
+  
+  lazy var applicationDocumentsDirectory: URL = {
+    // The directory the application uses to store the Core Data store file. This code uses a directory named "com.gogalefree.Babi" in the application's documents Application Support directory.
+    let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return urls[urls.count-1]
+  }()
+  
+  lazy var managedObjectModel: NSManagedObjectModel = {
+    // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
+    let modelURL = Bundle.main.url(forResource: "Babi", withExtension: "momd")!
+    return NSManagedObjectModel(contentsOf: modelURL)!
+  }()
+  
+  lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
+    // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
+    // Create the coordinator and store
+    var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+    let url = self.applicationDocumentsDirectory.appendingPathComponent("Babi.sqlite")
+    var error: NSError? = nil
+    var failureReason = "There was an error creating or loading the application's saved data."
+    do {
+      try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+    } catch var error1 as NSError {
+      error = error1
+      coordinator = nil
+      // Report any error we got.
+      var dict = [String: AnyObject]()
+      dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+      dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
+      dict[NSUnderlyingErrorKey] = error
+      error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+      // Replace this with code to handle the error appropriately.
+      // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+      NSLog("Unresolved error \(String(describing: error)), \(error!.userInfo)")
+      //abort()
+    } catch {
+      log.error("could not initiate core data stack")
+      fatalError()
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    return coordinator
+  }()
+  
+  lazy var managedObjectContext: NSManagedObjectContext? = {
+    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
+    let coordinator = self.persistentStoreCoordinator
+    if coordinator == nil {
+      return nil
     }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        UIApplication.shared.applicationIconBadgeNumber = 0
-
-        if UserDefaults.standard.bool(forKey: kSleepModeKey) {
-            let container = window?.rootViewController as! MainContainerController
-            container.wakeUpFromSleepMode()
-        }
-        
-        Model.shared.usageUpdater.incrementDidBecomeActive()
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
-    }
-
-    // MARK: - Core Data stack
-
-    lazy var applicationDocumentsDirectory: URL = {
-        // The directory the application uses to store the Core Data store file. This code uses a directory named "com.gogalefree.Babi" in the application's documents Application Support directory.
-        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return urls[urls.count-1] 
-    }()
-
-    lazy var managedObjectModel: NSManagedObjectModel = {
-        // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = Bundle.main.url(forResource: "Babi", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOf: modelURL)!
-    }()
-
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
-        // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
-        // Create the coordinator and store
-        var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.appendingPathComponent("Babi.sqlite")
-        var error: NSError? = nil
-        var failureReason = "There was an error creating or loading the application's saved data."
+    var managedObjectContext = NSManagedObjectContext()
+    managedObjectContext.persistentStoreCoordinator = coordinator
+    return managedObjectContext
+  }()
+  
+  // MARK: - Core Data Saving support
+  
+  func saveContext () {
+    if let moc = self.managedObjectContext {
+      var error: NSError? = nil
+      if moc.hasChanges {
         do {
-            try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
-        } catch var error1 as NSError {
-            error = error1
-            coordinator = nil
-            // Report any error we got.
-            var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
-            dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
-            // Replace this with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(String(describing: error)), \(error!.userInfo)")
-            //abort()
-        } catch {
-            fatalError()
+          try moc.save()
+        } catch let error1 as NSError {
+          error = error1
+          // Replace this implementation with code to handle the error appropriately.
+          // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+          log.error("Unresolved error \(String(describing: error)), \(error!.userInfo)")
+          //  abort()
         }
-        
-        return coordinator
-    }()
-
-    lazy var managedObjectContext: NSManagedObjectContext? = {
-        // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
-        let coordinator = self.persistentStoreCoordinator
-        if coordinator == nil {
-            return nil
-        }
-        var managedObjectContext = NSManagedObjectContext()
-        managedObjectContext.persistentStoreCoordinator = coordinator
-        return managedObjectContext
-    }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
-        if let moc = self.managedObjectContext {
-            var error: NSError? = nil
-            if moc.hasChanges {
-                do {
-                    try moc.save()
-                } catch let error1 as NSError {
-                    error = error1
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    NSLog("Unresolved error \(String(describing: error)), \(error!.userInfo)")
-                  //  abort()
-                }
-            }
-        }
+      }
     }
-
-    func registerUserNotifications(application: UIApplication) {
-        
-        if #available(iOS 10.0, *) {
-
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self
-            
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-        options: authOptions,
-        completionHandler: {_, _ in })
-        
-        // For iOS 10 data message (sent via FCM)
-        FIRMessaging.messaging().remoteMessageDelegate = self
-        
-        } else {
-            
-            let callAction = UIMutableUserNotificationAction()
-            callAction.identifier = kCallActionIdentifier
-            callAction.title = "Open Gate"
-            callAction.activationMode = UIUserNotificationActivationMode.foreground
-            callAction.isDestructive = false
-            callAction.isAuthenticationRequired = true
-            
-            let launchAction = UIMutableUserNotificationAction()
-            launchAction.identifier = kLaunchBabiActionIdentifier
-            launchAction.title = "Launch BaBi"
-            launchAction.activationMode = UIUserNotificationActivationMode.foreground
-            launchAction.isDestructive = false
-            launchAction.isAuthenticationRequired = false
-            
-            let cancelAction = UIMutableUserNotificationAction()
-            cancelAction.identifier = kDissmissActionIdentifier
-            cancelAction.title = "Cancel"
-            cancelAction.activationMode = UIUserNotificationActivationMode.background
-            cancelAction.isDestructive = false
-            cancelAction.isAuthenticationRequired = false
-            
-            
-            let arrivedToGateCategory = UIMutableUserNotificationCategory()
-            
-            // Identifier to include in your push payload and local notification
-            arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
-            arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], for: UIUserNotificationActionContext.default)
-            
-            let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
-            let types: UIUserNotificationType = [.badge, .alert, .sound]
-            let settings = UIUserNotificationSettings(types: types, categories: categoriesSet)
-            UIApplication.shared.registerUserNotificationSettings(settings)
-        }
-        
-        application.registerForRemoteNotifications()
-    }
+  }
     
-    func tokenRefreshNotification(_ notification: Notification) {
-        if let refreshedToken = FIRInstanceID.instanceID().token() {
-            RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(refreshedToken)
-            print("InstanceID token: \(refreshedToken)")
-        }
+  func tokenRefreshNotification(_ notification: Notification) {
+    if let refreshedToken = FIRInstanceID.instanceID().token() {
+      RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(refreshedToken)
+      print("InstanceID token: \(refreshedToken)")
     }
+  }
+  
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    print("did recive remote notification: ")
+  }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("did recive remote notification: ")
-        for (key , value) in userInfo.enumerated() {
-            print("key: \(key)")
-            print("value: \(value)")
-            //key: 5
-            //value: (key: AnyHashable("aps"), value: {
-            //alert = "this is the message text";
-            //})
-        }
-        
-    }
-    public func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print("application recieve remote: " + String(describing:remoteMessage))
-    }
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        if application.applicationState != .active {
-            let badge = UIApplication.shared.applicationIconBadgeNumber + 1
-            application.applicationIconBadgeNumber = badge
-        }
-        completionHandler(.newData)
+    if application.applicationState != .active {
+      let badge = UIApplication.shared.applicationIconBadgeNumber + 1
+      application.applicationIconBadgeNumber = badge
     }
-
-    func sendPush() {
-        let pushToken = "dKV2Ob5JzNY:APA91bGp9q5eTehW-YqVYyzQu6YdHZnjEBZ8-D5RIXcfscaDQGh--1dh2kgpASUeBTHgKt28Zt2PJmeFhQzPNNjkiLhSTVduoH_kReGGCBRcsNPzoeu0QiOkmRyawbz-IVIcdsEQOePa"
-        let badge = UIApplication.shared.applicationIconBadgeNumber + 1
-        var request = URLRequest(url: URL(string: "https://fcm.googleapis.com/fcm/send")!)
-        request.httpMethod = "POST"
-        let payload: [String: Any] = [
-            "notification": [
-                "title": "First iOS inapp Push",
-                "body": "messageBody",
-                "badge" : badge,
-                "click_action": "Launch",
-                "sound" : "default"
-            ],
-            "to" : pushToken
-        ]
-        
-        request.httpBody = try! JSONSerialization.data(withJSONObject: payload, options: .prettyPrinted)
-        
-        request.setValue("key=AAAAF0fIu3w:APA91bHI7Jue-5BpTzYZ-90FF-nE5NZTsCP0IXvm6E52T_fqWgDM7dDe6mnTl1aAqq38fUWoBlr_lUJLHIU_pG__TcXxEbEx66xjfqYhv3AyQt2OU0HVw1TURLluhMb9gOhOWJCtqmJB", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(String(describing: error))")
-                return
-            }
-            
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(String(describing: response))")
-            }
-            
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(String(describing: responseString))")
-        }
-        task.resume()
-    }
+    completionHandler(.newData)
+  }
+  
+  func registerSwiftyBeaver() {
+    
+    let console = ConsoleDestination()
+    log.addDestination(console)
+    let cloud = SBPlatformDestination(appID: "7eZroO",
+                                      appSecret: "fAag0inofy6ylw1alr19v9ccorlmnoCd",
+                                      encryptionKey: "r0gq0zcmuawrwJcgecgzpQraz8e2dGbv")
+    log.addDestination(cloud)
+    // the second file with different properties and custom filename
+    //let file2 = FileDestination()
+    //file2.logFileURL = URL(fileURLWithPath: "/tmp/babiLog.log")  // tmp is just possible for a macOS app
+    //log.addDestination(file2)
+    //let token = FIRInstanceID.instanceID().token()
+    //print(String(describing:token))
+    //sendPush()
+  }
 }
 

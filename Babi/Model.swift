@@ -11,6 +11,7 @@ import CoreData
 import UIKit
 import CoreLocation
 import Firebase
+import UserNotifications
 
 let kCallActionIdentifier = "CALL_IDENTIFIER"
 let kDissmissActionIdentifier = "DISSMISS_IDENTIFIER"
@@ -27,10 +28,6 @@ class Model: NSObject, CLLocationManagerDelegate {
     let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
     let locationManager = CLLocationManager()
     var userLocation = CLLocation()
-    lazy var locationNotifications: LocationNotifications = {
-        return LocationNotifications()
-    }()
-    
     let callCenter = BabiCallCenter()
     let usageUpdater = BabiUsageUpdater()
     var userRegion = CLCircularRegion()
@@ -41,6 +38,20 @@ class Model: NSObject, CLLocationManagerDelegate {
     
         if CLLocationManager.locationServicesEnabled() {
             self.setupLocationManager()
+        }
+        
+        if #available(iOS 10.0, *) {
+       //   printCurrentNotifications()
+          UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+          UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.cancelAllLocalNotifications()
+        }
+        
+        guard let gates = self.gates() else {return}
+        for gate in gates {
+            LocationNotifications.shared.registerGateForLocationNotification(gate)
         }
     }
     
@@ -124,7 +135,7 @@ class Model: NSObject, CLLocationManagerDelegate {
     }
     
     func deleteGate(_ gate: Gate) {
-        self.locationNotifications.cancelLocalNotification(gate)
+        LocationNotifications.shared.cancelLocalNotification(gate)
         context?.delete(gate)
         do {
             try context?.save()
@@ -159,6 +170,37 @@ class Model: NSObject, CLLocationManagerDelegate {
     
     func isInRegion(_ location: CLLocation) -> Bool {
         return userRegion.contains(location.coordinate)
+    }
+    
+    func printCurrentNotifications() {
+        
+        if #available(iOS 10.0, *) {
+
+        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (nots) in
+            
+            for not in nots {
+                print("delivered:")
+                print(String(describing: not))
+            }
+        })
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { (nots) in
+            for not in nots {
+                print("Request:")
+                print(String(describing: not))
+            }
+        })
+        }
+    }
+    
+    func saveGates() {
+        guard let contex = self.context else { return }
+        do {
+             try contex.save()
+        } catch {
+        
+            print("Model error saving gates: \(error.localizedDescription)")
+        }
     }
 }
 

@@ -196,7 +196,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             self.textField.alpha = 1
             self.titleLabel.alpha = 0
         }, completion: { (completion) -> Void in
-            self.textField.becomeFirstResponder()
+            _ = self.textField.becomeFirstResponder()
         }) 
     }
     

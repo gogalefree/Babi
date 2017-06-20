@@ -51,22 +51,15 @@ class SwipeableCellTableViewCell: UITableViewCell {
     var panStartPoint: CGPoint!
     var startingRightLayoutConstraintConstant: CGFloat! = -8
     let kBounceValue: CGFloat = 20.0
-    var isOpen: Bool = false {
-        didSet{
-            print("gate open: \(isOpen)")
-        }
-    }
-    
+    var isOpen: Bool = false
     var gate: Gate!{
+        
         didSet{
-            
             if !gate.isGuest {
                 setupAsOwner()
+                return
             }
-            
-            else {
-                setupAsGuest()
-            }
+            setupAsGuest()
         }
     }
     
@@ -142,11 +135,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
     func automaticButtonAction() {
         
         delegate?.automaticButtonAction(self)
-        let image = gate.automatic == true ? Icon.cm.play : Icon.cm.pause 
-        automaticButton.animateToAlphaWithSpring(0.1, alpha: 0)
-        automaticButton.image = image
-        automaticButton.animateToAlphaWithSpring(0.1, alpha: 1)
-        setAutomaticButtonTint()
+        setAutomaticButton(animated: true)
     }
     
     func verticalMenuAction() {
@@ -214,19 +203,28 @@ class SwipeableCellTableViewCell: UITableViewCell {
             
             callButton.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
             shareButton.tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-            setAutomaticButtonTint()
+            setAutomaticButton(animated: false)
             invitationsButton.image = Icon.cm.share
-            
-            let callButtonAlpha: CGFloat = self.gate.isGuest == true ? 0 : 1
-            callButton.alpha = callButtonAlpha
         }
-        
+      
+      let callButtonAlpha: CGFloat = self.gate.isGuest == true ? 0 : 1
+      callButton.alpha = callButtonAlpha
     }
     
-    func setAutomaticButtonTint() {
-        print("automatic: " + String(describing: gate?.automatic))
-        let tint  = gate?.automatic == false ? UIColor.gray : #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
-        automaticButton.tintColor = tint
+    func setAutomaticButton(animated: Bool) {
+        guard let gate = self.gate else {return}
+        let image = gate.automatic == true ? Icon.cm.play : Icon.cm.pause
+        let tint  = gate.automatic == false ? UIColor.gray : #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
+        
+        if animated {
+            automaticButton.animateToAlphaWithSpring(0.1, alpha: 0)
+            automaticButton.tintColor = tint
+            automaticButton.image = image
+            automaticButton.animateToAlphaWithSpring(0.1, alpha: 1)
+        } else {
+            automaticButton.tintColor = tint
+            automaticButton.image = image
+        }
     }
     
     

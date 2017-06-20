@@ -10,31 +10,6 @@ import UIKit
 import CoreLocation
 import Firebase
 
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-
 let kGateNameDefaultValue = "Gate"
 let kGatePhoneNumberDefaultValue = "phoneNumber"
 let kGateLatitudeDefaultValue = 0.0
@@ -115,29 +90,32 @@ class Gate: NSManagedObject {
                 error = error1
                 results = nil
             }
+        
+        guard let someResults = results else {
+            log.error("error creating Gate: \(String(describing: error))")
+            return nil
+        }
+        
+        if someResults.count >= 1  {
+           gate = (someResults.first! as! Gate)
+        }
+          
+        else {
             
-            if results?.count > 1 || error != nil {
-                print("error creating Gate: \(String(describing: error))")
-            }
-            else if results?.count == 1 {
-                //we have this gate
-                gate = results?.last as? Gate
-            }
-            else {
-                //create new gate
-                let newGate = NSEntityDescription.insertNewObject(forEntityName: "Gate", into: context!) as! Gate
-                newGate.uid = IDManager.shared.gataAutoId
-                newGate.name = name
-                newGate.latitude = latitude
-                newGate.longitude = longitude
-                newGate.automatic = automatic ?? true
-                newGate.phoneNumber = phoneNumber
-                newGate.fireDistanceFromGate = fireDistanceFromGate ?? 0
-                let token = FIRInstanceID.instanceID().token() ?? kOwnerPushToken
-                newGate.ownerPushToken = token
-                gate = newGate
-            }
-            return gate
+            //create new gate
+            let newGate = NSEntityDescription.insertNewObject(forEntityName: "Gate", into: context!) as! Gate
+            newGate.uid = IDManager.shared.gataAutoId
+            newGate.name = name
+            newGate.latitude = latitude
+            newGate.longitude = longitude
+            newGate.automatic = automatic ?? true
+            newGate.phoneNumber = phoneNumber
+            newGate.fireDistanceFromGate = fireDistanceFromGate ?? 0
+            let token = FIRInstanceID.instanceID().token() ?? kOwnerPushToken
+            newGate.ownerPushToken = token
+            gate = newGate
+        }
+        return gate
     }
     
     class func instansiateWithZero() -> Gate {
@@ -156,7 +134,7 @@ class Gate: NSManagedObject {
             
             let newGate = Gate.instansiateWithZero()
             newGate.updateFrom(gateShare)
-            Model.shared.locationNotifications.registerGateForLocationNotification(newGate)
+            LocationNotifications.shared.registerGateForLocationNotification(newGate)
             return newGate
         }
         

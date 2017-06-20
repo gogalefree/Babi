@@ -15,9 +15,9 @@ import Material
 
 class BabiCallCenter: NSObject {
     
-    var callController: AnyObject?
-    var callProvider: AnyObject?
-    var callObserver: AnyObject?
+ //   var callController: AnyObject?
+ //   var callProvider: AnyObject?
+ //   var callObserver: AnyObject?
     let callCenter = CTCallCenter()
     
     override init () {

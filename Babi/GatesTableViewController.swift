@@ -12,30 +12,6 @@ import ContactsUI
 import MessageUI
 import Firebase
 
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     
@@ -46,7 +22,6 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
     var shouldUpdateLocation = true
     weak var guestOwnerDialogVC: GusetOwnerDialogVC?
     weak var guestOwnerDialogNav: UINavigationController?
-    
     var sharedGate: Gate?
     var gateShare: GateShare?
     var shareId: String?
@@ -81,12 +56,12 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
         self.selectedIndexPath = indexPath
         let gate = gates![indexPath.row]
         gate.automatic = !gate.automatic
-        
+        Model.shared.saveGates()
         if gate.automatic {
-            Model.shared.locationNotifications.registerGateForLocationNotification(gate)
+            LocationNotifications.shared.registerGateForLocationNotification(gate)
         }
         else {
-            Model.shared.locationNotifications.cancelLocalNotification(gate)
+            LocationNotifications.shared.cancelLocalNotification(gate)
         }
     }
     
@@ -125,8 +100,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
         Model.shared.startLocationUpdates()
         
         //register notification if needed
-        //we dont register local notifications for now
-        Model.shared.locationNotifications.registerGateForLocationNotification(gate!)
+        LocationNotifications.shared.registerGateForLocationNotification(gate!)
         
         if gateEditor.state == GateEditorState.editGate {
             if let selectedIndexPath = self.selectedIndexPath {
@@ -538,13 +512,20 @@ extension GatesTableViewController {
                 store.requestAccess(for: .contacts, completionHandler: {
                     (authorized: Bool, error: Error?) -> Void in
                     if authorized {
+                        log.info("Did  Authorize contacts for iOS < 9")
                         self.presentContactsUI(store)
+                    } else {
+                        log.warning("Did Not Authorize contacts for iOS < 9")
                     }
                 })
             } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
+                log.info("Did Authorize contacts for iOS > 9")
+
                 self.presentContactsUI(store)
             } else {
                 //no contacts permission
+                log.warning("Did Not Authorize contacts for iOS > 9")
+
             }
             
         } else {

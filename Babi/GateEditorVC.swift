@@ -359,9 +359,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             (granted, error) in
             DispatchQueue.main.async {
                 if !granted {
-                    print("Just denied")
+                    log.warning("Did Not Authorize contacts for iOS < 9")
                 } else {
                     self.presentAddressBook()
+                    log.info("Authorized contacts for iOS < 9")
+
                 }
             }
         }
@@ -501,17 +503,22 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     (authorized: Bool, error: Error?) -> Void in
                     if authorized {
                         self.presentContactsUI(store)
+                        log.info("authorized contacts iOS > 9")
+
                     }
                 })
             } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
                 self.presentContactsUI(store)
             } else {
                 //no contacts permission
+                log.warning("DID NOT authorize contacts iOS > 9")
+
             }
             
         } else {
             // Fallback on earlier versions
             promptForAddressBookRequestAccess()
+            log.info("request contacts for iOS < 9")
         }
     }
     
@@ -607,7 +614,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     } catch _ {
                     }
                 }
-            }
+            } 
         }
     }
 }

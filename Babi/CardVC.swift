@@ -10,11 +10,7 @@ import UIKit
 import Material
 
 protocol CardVCDelegate: NSObjectProtocol {
-    
     func cardVCContinueAction(_ carrdVC: CardVC)
-  //  func cardVCCancelAction(_ carrdVC: CardVC)
-
-    
 }
 
 class CardVC: UIViewController {
@@ -22,7 +18,7 @@ class CardVC: UIViewController {
     var sharedGate: Gate!
     var guestPhoneNumber = ""
     var guestName = ""
-    var instructions = String.localizedStringWithFormat("This share will expire in 24 hours.\nYou can cancel it anytime from from Gates screen.")
+    var instructions = String.localizedStringWithFormat("This Invitation is valid untill you cancell it. You can do so at anytime by clicking the blue share icon in Gates screen.")
     
     var card: Card!
     weak var delegate: CardVCDelegate!
@@ -63,10 +59,10 @@ class CardVC: UIViewController {
     fileprivate func prepareToolbar() {
         
         toolbar = Toolbar(rightViews: [cancelButton])
-        toolbar.title = sharedGate.name
+        toolbar.title = "Invite " + guestName
         toolbar.titleLabel.textAlignment = .left
         toolbar.titleLabel.font = RobotoFont.regular(with: 22)
-        toolbar.detail = "Invite " + guestName
+        toolbar.detail = sharedGate.name
         toolbar.detailLabel.textAlignment = .left
         toolbar.detailLabel.textColor = Color.grey.base
         toolbar.detailLabel.font = RobotoFont.regular(with: 18)
@@ -91,11 +87,12 @@ class CardVC: UIViewController {
         card.toolbarEdgeInsets.bottom = 0
         card.toolbarEdgeInsets.right = 8
         contentView.text = instructions
-        contentView.height = CGFloat(contentView.intrinsicContentSize.height + 30.0)
+        contentView.height = CGFloat(contentView.intrinsicContentSize.height + 50.0)
         card.contentView = contentView
         card.contentViewEdgeInsetsPreset = .wideRectangle3
         card.bottomBar = bottomBar
         card.bottomBarEdgeInsetsPreset = .wideRectangle2
+       // card.layou
         view.layout(card).horizontally(left: 20, right: 20).center()
         print("height: \(contentView.bounds.size.height)")
         

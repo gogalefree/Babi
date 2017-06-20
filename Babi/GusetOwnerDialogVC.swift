@@ -70,13 +70,16 @@ class GusetOwnerDialogVC: UIViewController {
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       // playSoundOnce()
+        playSoundOnce()
     }
 
     func playSoundOnce() {
 
         if !didPlay {
-        let url = Bundle.main.url(forResource: "Phone_Ringing", withExtension:"mp3")!
+        
+            let aUrl = Bundle.main.url(forResource: "arrived_sound", withExtension:"mp3")
+            guard let url = aUrl else {return}
+            
         do {
             player = try AVAudioPlayer(contentsOf: url)
             guard let player = player else {return}

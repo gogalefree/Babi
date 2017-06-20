@@ -138,7 +138,7 @@ class GateShare: NSObject {
         
         let partA = String.localizedStringWithFormat("Hey,\nI invite you as a guest to this gate.\n")
         let partB = String.localizedStringWithFormat("If you don't have BaBi Gate app, first install it from the app store:\n")
-        let partC = String.localizedStringWithFormat("link to app store\n")
+        let partC = String.localizedStringWithFormat("https://itunes.apple.com/il/app/babi-gate/id988280641?mt=8" + "/n")
         let partD = String.localizedStringWithFormat("To accept please click the link:\n")
         let partE = "babi://?od=\(ownerUID!)&token=\(shareToken!)&shareId=\(shareId)"
         return partA + partB + partC + partD + partE

@@ -41,6 +41,7 @@
 		E45930501E8933E900D7F031 /* InvitationsPOPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459304F1E8933E900D7F031 /* InvitationsPOPCell.swift */; };
 		E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */; };
 		E45F6C961AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E45F6C951AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png */; };
+		E46953431EF8441500FB1A28 /* URLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46953421EF8441500FB1A28 /* URLController.swift */; };
 		E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */; };
 		E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */; };
 		E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */; };
@@ -121,10 +122,10 @@
 		E4EB88B31E845C0800BEC0E8 /* FireBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EB88B21E845C0800BEC0E8 /* FireBaseController.swift */; };
 		E4EB88B51E85287600BEC0E8 /* GateShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EB88B41E85287600BEC0E8 /* GateShare.swift */; };
 		E4EB88B71E852D0900BEC0E8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EB88B61E852D0900BEC0E8 /* StringExtensions.swift */; };
+		E4EF5A8E1E9BA8E70077A237 /* arrived_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E4EF5A8D1E9BA8E70077A237 /* arrived_sound.mp3 */; };
 		E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */; };
 		E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */; };
 		E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */; };
-		E4F884361E9AC800005EDF01 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F884351E9AC800005EDF01 /* UserNotifications.framework */; };
 		E4F884371E9AC8A0005EDF01 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F884351E9AC800005EDF01 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
@@ -180,6 +181,7 @@
 		E459304F1E8933E900D7F031 /* InvitationsPOPCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationsPOPCell.swift; sourceTree = "<group>"; };
 		E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorDistanceCell.swift; sourceTree = "<group>"; };
 		E45F6C951AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babi_gateEditorHeaderBackground.001.png; sourceTree = "<group>"; };
+		E46953421EF8441500FB1A28 /* URLController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLController.swift; sourceTree = "<group>"; };
 		E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gateEditorTextFieldCell.swift; sourceTree = "<group>"; };
 		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
 		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		E4EB88B21E845C0800BEC0E8 /* FireBaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseController.swift; sourceTree = "<group>"; };
 		E4EB88B41E85287600BEC0E8 /* GateShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateShare.swift; sourceTree = "<group>"; };
 		E4EB88B61E852D0900BEC0E8 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		E4EF5A8D1E9BA8E70077A237 /* arrived_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = arrived_sound.mp3; sourceTree = "<group>"; };
 		E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koby_header2.jpeg; sourceTree = "<group>"; };
 		E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTableMainHeader.swift; sourceTree = "<group>"; };
 		E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babiMainTVCellImageSkecthGray.001.png; sourceTree = "<group>"; };
@@ -273,7 +276,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4F884361E9AC800005EDF01 /* UserNotifications.framework in Frameworks */,
 				36957F87B78A29F699B34D57 /* Pods_Babi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,6 +364,7 @@
 				E473E3C71ACBABC50098D77A /* Model */,
 				E473E3CA1ACBAC600098D77A /* Functions */,
 				E453B3A81AC6862C00707BA8 /* Images.xcassets */,
+				E4EF5A8D1E9BA8E70077A237 /* arrived_sound.mp3 */,
 				E4E8639A1E99F6D60018840A /* Phone_Ringing.mp3 */,
 				E4B289421E96D9BD007BD6FC /* ic_call_end_white_36pt.imageset */,
 				E44B6E531E7C94B900D953D6 /* ic_phone.imageset */,
@@ -453,6 +456,7 @@
 				E4EB88B41E85287600BEC0E8 /* GateShare.swift */,
 				E41BE7EE1AD66A4100AD7531 /* PhoneDialer.swift */,
 				E41BE7EC1AD3D5B000AD7531 /* LocationNotifications.swift */,
+				E46953421EF8441500FB1A28 /* URLController.swift */,
 				E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */,
 				E48A9BE51AE4110C00CB3EB9 /* BabiUsageUpdater.swift */,
 				E4EB88B21E845C0800BEC0E8 /* FireBaseController.swift */,
@@ -815,6 +819,7 @@
 				E49033631E7C0664001F9C75 /* ic_near_me.png in Resources */,
 				E4DDBB631E7BB36C0053F89D /* ic_delete_3x.png in Resources */,
 				E4E2E24E1ADCE490006BD949 /* shuneet_10_oblique_v21.OTF in Resources */,
+				E4EF5A8E1E9BA8E70077A237 /* arrived_sound.mp3 in Resources */,
 				E49033401E7BC2A0001F9C75 /* ic_undo_2x.png in Resources */,
 				E49033411E7BC2A0001F9C75 /* ic_undo_3x.png in Resources */,
 				E49033751E7C0D5B001F9C75 /* ic_settings_36pt.png in Resources */,
@@ -977,6 +982,7 @@
 				E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */,
 				E4B2FA501E8BF3A1007F25F3 /* GatesTVCell+Swipe.swift in Sources */,
 				E48580781E85C4CF00C7E14A /* IDManager.swift in Sources */,
+				E46953431EF8441500FB1A28 /* URLController.swift in Sources */,
 				E4E863991E995FE20018840A /* GatesTableViewController+TableviewSetup.swift in Sources */,
 				E474E7DE1D44773F00BFD411 /* RemoteNotificationsController.swift in Sources */,
 				E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */,

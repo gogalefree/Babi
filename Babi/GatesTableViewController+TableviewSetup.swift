@@ -101,7 +101,7 @@ extension GatesTableViewController {
             gateEditor.gate = gate
             gateEditor.state = .editGate
             self.navigationController?.present(gateEditorNavController, animated: true, completion: nil)
-            Model.shared.locationNotifications.cancelLocalNotification(gate)
+            LocationNotifications.shared.cancelLocalNotification(gate)
         } else {
             //Guest Gate. delete the gate
             

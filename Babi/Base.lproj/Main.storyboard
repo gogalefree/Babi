@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,7 +36,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sleep Mode" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4r-zd-PpF">
-                                        <rect key="frame" x="104.5" y="70" width="167.5" height="107"/>
+                                        <rect key="frame" x="104" y="70" width="167.5" height="107"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="107" id="doX-Ux-WnO"/>
                                         </constraints>
@@ -45,7 +45,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEq-OC-icO">
-                                        <rect key="frame" x="113" y="264" width="150" height="30"/>
+                                        <rect key="frame" x="112" y="264" width="150" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="150" id="hQa-yr-hyI"/>
                                             <constraint firstAttribute="height" constant="30" id="ycP-uB-usE"/>
@@ -484,14 +484,14 @@
                                             <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <prototypes>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gateEditorTextFieldCell" id="7un-QD-zku" customClass="gateEditorTextFieldCell" customModule="Babi" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="56" width="328" height="66"/>
+                                                    <rect key="frame" x="0.0" y="55.5" width="328" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7un-QD-zku" id="yrc-MC-xYo">
                                                         <rect key="frame" x="0.0" y="0.0" width="328" height="66"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ff" borderStyle="roundedRect" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="x4T-P7-eLT" customClass="TextField" customModule="Material">
-                                                                <rect key="frame" x="8" y="36.5" width="298" height="30"/>
+                                                                <rect key="frame" x="8" y="33" width="298" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="aOn-vO-3Zo"/>
                                                                 </constraints>
@@ -499,7 +499,7 @@
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fad" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTj-YP-Rd8">
-                                                                <rect key="frame" x="8" y="8" width="312" height="23.5"/>
+                                                                <rect key="frame" x="8" y="8" width="312" height="20"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="Pwm-lJ-mF7"/>
                                                                 </constraints>
@@ -536,7 +536,7 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GateEditorLocationCell" id="SdQ-Ed-krY" customClass="GateEditorLocationCell" customModule="Babi" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="122" width="328" height="66"/>
+                                                    <rect key="frame" x="0.0" y="121.5" width="328" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SdQ-Ed-krY" id="oY2-A1-V6g">
                                                         <rect key="frame" x="0.0" y="0.0" width="328" height="66"/>
@@ -566,7 +566,7 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GateEditorAutomaticCell" id="dL9-Ue-C1T" customClass="GateEditorAutomaticCell" customModule="Babi" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="188" width="328" height="66"/>
+                                                    <rect key="frame" x="0.0" y="187.5" width="328" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dL9-Ue-C1T" id="YHV-Ow-kBX">
                                                         <rect key="frame" x="0.0" y="0.0" width="328" height="66"/>
@@ -609,7 +609,7 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GateEditorDistanceToCallCell" id="HGc-v7-rlc" customClass="GateEditorDistanceCell" customModule="Babi" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="254" width="328" height="66"/>
+                                                    <rect key="frame" x="0.0" y="253.5" width="328" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HGc-v7-rlc" id="U2p-1U-riv">
                                                         <rect key="frame" x="0.0" y="0.0" width="328" height="66"/>
