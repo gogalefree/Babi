@@ -182,6 +182,7 @@
 		E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorDistanceCell.swift; sourceTree = "<group>"; };
 		E45F6C951AD8527300596A12 /* babi_gateEditorHeaderBackground.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = babi_gateEditorHeaderBackground.001.png; sourceTree = "<group>"; };
 		E46953421EF8441500FB1A28 /* URLController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLController.swift; sourceTree = "<group>"; };
+		E46953441EF9592B00FB1A28 /* Babi v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Babi v2.xcdatamodel"; sourceTree = "<group>"; };
 		E473E3CB1ACBC09C0098D77A /* gateEditorTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gateEditorTextFieldCell.swift; sourceTree = "<group>"; };
 		E473E3CD1ACBEA280098D77A /* GateEditorLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorLocationCell.swift; sourceTree = "<group>"; };
 		E473E3CF1ACEBEDA0098D77A /* MapViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewVC.swift; sourceTree = "<group>"; };
@@ -1229,9 +1230,10 @@
 		E453B3A01AC6862C00707BA8 /* Babi.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E46953441EF9592B00FB1A28 /* Babi v2.xcdatamodel */,
 				E453B3A11AC6862C00707BA8 /* Babi.xcdatamodel */,
 			);
-			currentVersion = E453B3A11AC6862C00707BA8 /* Babi.xcdatamodel */;
+			currentVersion = E46953441EF9592B00FB1A28 /* Babi v2.xcdatamodel */;
 			path = Babi.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
