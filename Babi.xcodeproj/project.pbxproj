@@ -24,6 +24,10 @@
 		E4375B561ACA770200A3D669 /* GateEditorTVCHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */; };
 		E4375B581ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */; };
 		E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */; };
+		E442D6061F4598BE0048249E /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E442D6051F4598BE0048249E /* ProviderDelegate.swift */; };
+		E442D6081F459E540048249E /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E442D6071F459E540048249E /* CallManager.swift */; };
+		E442D60A1F459E990048249E /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = E442D6091F459E990048249E /* Call.swift */; };
+		E442D60C1F45A00F0048249E /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = E442D60B1F45A00F0048249E /* Audio.swift */; };
 		E44B6E501E7C931B00D953D6 /* ic_call_36pt.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4C1E7C931B00D953D6 /* ic_call_36pt.png */; };
 		E44B6E511E7C931B00D953D6 /* ic_call_36pt_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4D1E7C931B00D953D6 /* ic_call_36pt_2x.png */; };
 		E44B6E521E7C931B00D953D6 /* ic_call_36pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E44B6E4E1E7C931B00D953D6 /* ic_call_36pt_3x.png */; };
@@ -160,6 +164,10 @@
 		E4375B551ACA770200A3D669 /* GateEditorTVCHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GateEditorTVCHeaderView.xib; sourceTree = "<group>"; };
 		E4375B571ACA7A0300A3D669 /* GateEditorTVCHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GateEditorTVCHeaderView.swift; sourceTree = "<group>"; };
 		E4375B591ACA82FA00A3D669 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		E442D6051F4598BE0048249E /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
+		E442D6071F459E540048249E /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		E442D6091F459E990048249E /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		E442D60B1F45A00F0048249E /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		E44B6E4C1E7C931B00D953D6 /* ic_call_36pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_36pt.png; sourceTree = "<group>"; };
 		E44B6E4D1E7C931B00D953D6 /* ic_call_36pt_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_36pt_2x.png; sourceTree = "<group>"; };
 		E44B6E4E1E7C931B00D953D6 /* ic_call_36pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call_36pt_3x.png; sourceTree = "<group>"; };
@@ -314,6 +322,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E442D6041F45988D0048249E /* CallKit */ = {
+			isa = PBXGroup;
+			children = (
+				E442D6051F4598BE0048249E /* ProviderDelegate.swift */,
+				E442D6071F459E540048249E /* CallManager.swift */,
+				E442D6091F459E990048249E /* Call.swift */,
+				E442D60B1F45A00F0048249E /* Audio.swift */,
+			);
+			name = CallKit;
+			sourceTree = "<group>";
+		};
 		E44B6E4A1E7C931A00D953D6 /* ic_call_36pt.imageset */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +471,7 @@
 		E473E3C71ACBABC50098D77A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E442D6041F45988D0048249E /* CallKit */,
 				E4375B511AC6D6A000A3D669 /* Model.swift */,
 				E4375B4B1AC6875400A3D669 /* Gate.swift */,
 				E4EB88B41E85287600BEC0E8 /* GateShare.swift */,
@@ -970,14 +990,17 @@
 				E4375B5A1ACA82FA00A3D669 /* UIView+Extensions.swift in Sources */,
 				E459304E1E89332000D7F031 /* InvitationsPOPTVC.swift in Sources */,
 				E453B3A41AC6862C00707BA8 /* MainContainerController.swift in Sources */,
+				E442D60A1F459E990048249E /* Call.swift in Sources */,
 				E4EB88B31E845C0800BEC0E8 /* FireBaseController.swift in Sources */,
 				E4EB88B51E85287600BEC0E8 /* GateShare.swift in Sources */,
 				E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */,
+				E442D6061F4598BE0048249E /* ProviderDelegate.swift in Sources */,
 				E48A9BE61AE4110C00CB3EB9 /* BabiUsageUpdater.swift in Sources */,
 				E473E3CE1ACBEA280098D77A /* GateEditorLocationCell.swift in Sources */,
 				E453B39F1AC6862C00707BA8 /* AppDelegate.swift in Sources */,
 				E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */,
 				E4375B501AC6CD5300A3D669 /* GatesTVCell.swift in Sources */,
+				E442D6081F459E540048249E /* CallManager.swift in Sources */,
 				E45930501E8933E900D7F031 /* InvitationsPOPCell.swift in Sources */,
 				E4B289401E966B19007BD6FC /* GusetOwnerDialogVC.swift in Sources */,
 				E41BE7EF1AD66A4100AD7531 /* PhoneDialer.swift in Sources */,
@@ -987,6 +1010,7 @@
 				E4E863991E995FE20018840A /* GatesTableViewController+TableviewSetup.swift in Sources */,
 				E474E7DE1D44773F00BFD411 /* RemoteNotificationsController.swift in Sources */,
 				E473E3D01ACEBEDA0098D77A /* MapViewVC.swift in Sources */,
+				E442D60C1F45A00F0048249E /* Audio.swift in Sources */,
 				E41BE7ED1AD3D5B000AD7531 /* LocationNotifications.swift in Sources */,
 				E473E3CC1ACBC09C0098D77A /* gateEditorTextFieldCell.swift in Sources */,
 				E48580761E853B0800C7E14A /* CardVC.swift in Sources */,
@@ -1077,7 +1101,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1116,7 +1140,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1133,7 +1157,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Babi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gogalefree.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1151,7 +1175,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Babi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gogalefree.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

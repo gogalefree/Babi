@@ -41,13 +41,15 @@
 		<true/>
 	</dict>
 	<key>NSContactsUsageDescription</key>
-	<string>Allow Contacts so you can add the gate's name and phone number </string>
+	<string>Allow Contacts so you can add the gate&apos;s name and phone number </string>
 	<key>NSLocationUsageDescription</key>
-	<string>Automatically Opens Gates when you're near</string>
+	<string>Automatically Opens Gates when you&apos;re near</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Automatically Opens Gates when you're near</string>
+	<string>Automatically Opens Gates when you&apos;re near</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>voip</string>
+		<string>audio</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
