@@ -16,7 +16,7 @@ class GateEditorDistanceCell: UITableViewCell {
     @IBOutlet weak var stepper: UIStepper!
     
     
-    var gate: Gate? {
+    @objc var gate: Gate? {
         didSet{ if let gate = gate{
             self.updateLabel()
             self.stepper.value = Double(gate.fireDistanceFromGate)
@@ -24,18 +24,18 @@ class GateEditorDistanceCell: UITableViewCell {
         }
     }
     
-    func updateLabel() {
+    @objc func updateLabel() {
         
         self.distanceLabel.text = "\(gate!.fireDistanceFromGate)"
     }
     
-    func stepperPressed(){
+    @objc func stepperPressed(){
         
         self.gate?.fireDistanceFromGate = Int(stepper.value)
         updateLabel()
     }
     
-    func configButtons() {
+    @objc func configButtons() {
         
         stepper.addTarget(self, action: #selector(GateEditorDistanceCell.stepperPressed), for: UIControlEvents.valueChanged)
     }

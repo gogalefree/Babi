@@ -11,7 +11,7 @@ import Material
 import Firebase
 import AVFoundation
 
-class GusetOwnerDialogVC: UIViewController {
+@objc public class GusetOwnerDialogVC: UIViewController {
 
     private let kSBdentifier = "guestOwnerDialogVC"
     private let kNavVCID = "guestOwnerNav"
@@ -53,7 +53,7 @@ class GusetOwnerDialogVC: UIViewController {
     var player: AVAudioPlayer?
     
     //MARK: Lifecycle
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         modalTransitionStyle = .crossDissolve
         modalPresentationStyle = .overCurrentContext
@@ -68,7 +68,7 @@ class GusetOwnerDialogVC: UIViewController {
         sendPushToOwnerAsGuest()
     }
   
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         playSoundOnce()
     }
@@ -102,7 +102,7 @@ class GusetOwnerDialogVC: UIViewController {
         print("guest reported open")
         //report to firebase as guest
         // set cancelled key to true
-        let dbRef = FIRDatabase.database().reference()
+        let dbRef =  Database.database().reference()
         let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(isCancelledKey)
         path.setValue(true)
     }
@@ -111,7 +111,7 @@ class GusetOwnerDialogVC: UIViewController {
         callAction(sender)
     }
   
-    func informOwnerGateOpen() {
+    public func informOwnerGateOpen() {
         
         let name = gateShare?.guestName ?? ""
         gateNameLable?.text = "Gate is Open."
@@ -121,7 +121,7 @@ class GusetOwnerDialogVC: UIViewController {
         stopBlinkAnimation()
         
         //set is cancelled to false again
-        let dbRef = FIRDatabase.database().reference()
+        let dbRef = Database.database().reference()
         let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(isCancelledKey)
         path.setValue(false)
     }
@@ -142,10 +142,10 @@ class GusetOwnerDialogVC: UIViewController {
         messageLabel.text = "Owner Dailing"
         messageLabel.animateToAlphaWithSpring(0.1, alpha: 1)
         startBlinkAnimation()
-        let _ = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(ownerCallingTimerAction), userInfo: nil, repeats: false)
+        let _ = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(self.ownerCallingTimerAction), userInfo: nil, repeats: false)
     }
 
-    func ownerCallingTimerAction() {
+    @objc public func ownerCallingTimerAction() {
         enableCallButton()
         callButton.alpha = 0
         messageLabel.text = ""
@@ -156,7 +156,7 @@ class GusetOwnerDialogVC: UIViewController {
 
     }
 
-    func timerAction() {
+    @objc public func timerAction() {
         
         if gate!.isGuest {
             //change the maon label text
@@ -194,7 +194,7 @@ class GusetOwnerDialogVC: UIViewController {
             guestReportOpenButton.animateToAlphaWithSpring(0.1, alpha: 0)
             guestWantsOpenAgainButton.animateToAlphaWithSpring(0.1, alpha: 0)
             dissableCallButton()
-            let dbRef = FIRDatabase.database().reference()
+            let dbRef = Database.database().reference()
             let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(kOwnerShouldFireKey)
             path.setValue(true)
 
@@ -216,7 +216,7 @@ class GusetOwnerDialogVC: UIViewController {
         }
     }
     
-    func cancelButtonAction() {
+   @objc public func cancelButtonAction() {
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -244,8 +244,8 @@ class GusetOwnerDialogVC: UIViewController {
     
     fileprivate func prepareCtivityIndicator() {
         activity = UIActivityIndicatorView()
-        activity.width = 40
-        activity.height = 40
+        activity.bounds.size.width = 40
+        activity.bounds.size.height = 40
         activity.activityIndicatorViewStyle = .gray
         activity.color = .purple
         activity.hidesWhenStopped = true
@@ -253,7 +253,7 @@ class GusetOwnerDialogVC: UIViewController {
 
     fileprivate func prepareCancelButton() {
         cancelButton = IconButton(image: Icon.cm.close, tintColor: Color.red.base)
-        cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(self.cancelButtonAction), for: .touchUpInside)
     }
 
     fileprivate func prepareToolbar() {
@@ -343,7 +343,7 @@ class GusetOwnerDialogVC: UIViewController {
     //MARK: Timer
     
     func startTimer(secconds: TimeInterval, shouldRepeat: Bool) {
-        timer = Timer.scheduledTimer(timeInterval: secconds, target: self, selector: #selector(timerAction), userInfo: nil, repeats: shouldRepeat)
+        timer = Timer.scheduledTimer(timeInterval: secconds, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: shouldRepeat)
     }
     
     func stopTimer() {

@@ -19,7 +19,7 @@ enum GateEditorState {
     case editGate
 }
 
-class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate, ABPeoplePickerNavigationControllerDelegate, MapVCDelegate, CNContactPickerDelegate {
+@objc public class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate, GateEditorHeaderViewDelegate, GateAutomaticCellDelegate,UIScrollViewDelegate, ABPeoplePickerNavigationControllerDelegate, MapVCDelegate, CNContactPickerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,7 +41,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var gate: Gate!
     var state: GateEditorState!
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         
         super.viewDidLoad()
         self.tableView.delegate = self
@@ -59,19 +59,19 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         //let deleteImage = UIImage(named: "garbage11.png")
         let gmdDeleteImage = UIImage(named: "ic_delete.png")
-        self.deleteButton = UIBarButtonItem(image: gmdDeleteImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(GateEditorVC.deleteAction))
+        self.deleteButton = UIBarButtonItem(image: gmdDeleteImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.deleteAction))
         
         //let addressBookImage = UIImage(named: "address20.png")
         let gmdAddressBookImage = UIImage(named: "ic_import_contacts.png")
 
-        self.addressBookButton = UIBarButtonItem(image: gmdAddressBookImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(GateEditorVC.addressBookAction))
+        self.addressBookButton = UIBarButtonItem(image: gmdAddressBookImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addressBookAction))
         
         self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton, self.addressBookButton]
     }
     
     //MARK: - Table View delegate datasource
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+     @objc public func numberOfSections(in tableView: UITableView) -> Int {
         /*
            0 gate name
            1 gate phone number
@@ -82,15 +82,15 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         return 4
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+     @objc public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 66
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    @objc public  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 66
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    @objc public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let sectionIsVisible = visibleSections[section]
         if !sectionIsVisible {return 0}
@@ -105,7 +105,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     @objc public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
         switch indexPath.section {
@@ -134,7 +134,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+     @objc public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if section == 4 {
             //fence view
@@ -315,18 +315,16 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     //MARK: - Button Actions
-    func doneButtonClicked(_ sender: AnyObject) {
-        
+   @objc public func doneButtonClicked(_ sender: AnyObject) {
         let gateAuthenticated = authenticateGate()
         if !gateAuthenticated.authenticated {showAlert(gateAuthenticated.section!)}
         else {self.performSegue(withIdentifier: "unwindToGatesTVC", sender:self)}
     }
     
-    func deleteAction() {
+   @objc public func deleteAction() {
         let alert = UIAlertController(title: "Sure you want to delete?", message: "\(gate.name)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) -> Void in
-            
             self.performSegue(withIdentifier: "unwindwithdeletesegue", sender: self)
         }))
         
@@ -335,7 +333,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     //MARK: - Address Book
     
-    func addressBookAction() {
+    @objc public func addressBookAction() {
         //show address nav controller
         getContacts()
 //        
@@ -376,11 +374,11 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.present(addressBookController, animated: true, completion: nil)
     }
     
-    func peoplePickerNavigationControllerDidCancel(_ peoplePicker: ABPeoplePickerNavigationController) {
+    @objc public func peoplePickerNavigationControllerDidCancel(_ peoplePicker: ABPeoplePickerNavigationController) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func peoplePickerNavigationController(_ peoplePicker: ABPeoplePickerNavigationController,
+     @objc public func peoplePickerNavigationController(_ peoplePicker: ABPeoplePickerNavigationController,
                                           didSelectPerson person: ABRecord) {
         
         
@@ -478,14 +476,14 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     
-    func peoplePickerNavigationController(
+     @objc public func peoplePickerNavigationController(
         _ peoplePicker: ABPeoplePickerNavigationController,
         shouldContinueAfterSelectingPerson person: ABRecord,
         property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
         return false
     }
     
-    func peoplePickerNavigationController(
+     @objc public func peoplePickerNavigationController(
         _ peoplePicker: ABPeoplePickerNavigationController,
         shouldContinueAfterSelectingPerson person: ABRecord) -> Bool {
         return false
@@ -532,7 +530,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     @available(iOS 9.0, *)
-    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+     @objc public func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
     
         let name = contact.givenName
         let middleName = contact.middleName
@@ -600,7 +598,7 @@ class GateEditorVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     // MARK: - Navigation
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "cancelButtonSegue" {
             //if state is .NewGate and the user has canceled

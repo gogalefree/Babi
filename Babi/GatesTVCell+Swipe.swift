@@ -11,7 +11,7 @@ import UIKit
 
 extension SwipeableCellTableViewCell {
     
-    func panThisCell(_ recognizer: UIPanGestureRecognizer) {
+   @objc func panThisCell(_ recognizer: UIPanGestureRecognizer) {
         
         switch recognizer.state {
             

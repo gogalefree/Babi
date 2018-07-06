@@ -9,7 +9,7 @@
 import UIKit
 import CoreTelephony
 import Material
-
+import CallKit
 
 
 
@@ -18,18 +18,20 @@ class BabiCallCenter: NSObject {
  //   var callController: AnyObject?
  //   var callProvider: AnyObject?
  //   var callObserver: AnyObject?
-    let callCenter = CTCallCenter()
+    @objc let callCenter = CXCallObserver()//CTCallCenter()
     
     override init () {
         super.init()
         setUp()
     }
     
-    func setUp() {
+    @objc func setUp() {
     
-            callCenter.callEventHandler = { [weak self] (call:CTCall!) in
+            callCenter.setDelegate(self, queue: nil)
+                /*
+                = { [weak self] (call:CTCall!) in //CXCallObserver
                 
-                print("call state before handler: \(call.callState)")
+                print("call state before handler: \(call.callState)") //CXCall
                 
                 switch call.callState {
                 case CTCallStateConnected:
@@ -42,16 +44,27 @@ class BabiCallCenter: NSObject {
                 }
             }
 
-        
+        */
     }
     
-    func callConnected() {
+    @objc func callConnected() {
         print("CTCallStateConnected")
     }
     
-    func callDisconnected() {
+    @objc func callDisconnected() {
         print("CTCallStateDisconnected")
         let url = URL(string: "babi://")
-        UIApplication.shared.openURL(url!)
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
+}
+extension BabiCallCenter: CXCallObserverDelegate{
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        
+        if call.hasConnected {
+            self.callConnected()
+            
+        } else if call.hasEnded {
+            self.callDisconnected()
+        }
     }
 }

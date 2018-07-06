@@ -12,18 +12,18 @@ import Firebase
 class FireBaseController: NSObject {
     
     static let shared = FireBaseController()
-    var currentUserPath: FIRDatabaseReference!
+    var currentUserPath: DatabaseReference!
     var userUid: String?
     
     public func setup() {
-        FIRApp.configure()
+        FirebaseApp.configure()
     }
     
     func signIn() {
         
-        if FIRAuth.auth()?.currentUser == nil {
+        if Auth.auth().currentUser == nil {
             
-            FIRAuth.auth()?.signInAnonymously(completion: { (user: FIRUser?, error: Error?) in
+            Auth.auth().signInAnonymously(completion: { (authResult, error) in
                 
                 if error != nil {
                     print("error logging in: \(error!.localizedDescription)")
@@ -31,8 +31,8 @@ class FireBaseController: NSObject {
                 }
                 
                 
-                let uid  = user?.uid
-                let some = user?.displayName
+                let uid  = authResult?.user.uid
+                let some = authResult?.user.displayName
                 self.setUserRef()
                 print("authenticated!\nuser uid: \(String(describing: uid))\n\nuser display name: \(String(describing: some))")
                 
@@ -44,8 +44,8 @@ class FireBaseController: NSObject {
     }
     
     func setUserRef() {
-        let dbRef = FIRDatabase.database().reference()
-        let currentUserUID = FIRAuth.auth()!.currentUser!.uid
+        let dbRef = Database.database().reference()
+        let currentUserUID = Auth.auth().currentUser!.uid
         print("user id: " + currentUserUID)
         userUid = currentUserUID
         currentUserPath = dbRef.child("users").child(currentUserUID)
@@ -66,7 +66,7 @@ class FireBaseController: NSObject {
         
     func  fetchGateShareasGuest(_ ownerId: String, _ shareToken: String, _ shareId: String) {
         
-        let dbRef = FIRDatabase.database().reference(withPath: "users")
+        let dbRef = Database.database().reference(withPath: "users")
         dbRef.child(ownerId).child(shareId).observeSingleEvent(of: .value, with: { (snap) in
      
             guard let gateShare = GateShare(snapshot: snap) else {return}
@@ -74,20 +74,28 @@ class FireBaseController: NSObject {
             
             guard let _ = Gate.gateAsGuest(gateShare) else {return}
             if gateShare.pairDate == 0 {
+
+               
+                InstanceID.instanceID().instanceID(handler: { (result, error) in
                 
-                gateShare.pairDate = Date().timeIntervalSince1970
-                var snap = gateShare.toSnapshot()
-                snap[kGuestUidKey] = FIRAuth.auth()!.currentUser!.uid
-                snap[kGuestPushToken] = FIRInstanceID.instanceID().token() ?? kGuestPushToken
-                dbRef.child(ownerId).child(shareId).setValue(snap)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: knewGateAsGuestNotification), object: nil)
+                    if (error != nil) {
+                        print("error in \(#function)/n error: \(error.debugDescription)")
+                    }
+                    
+                    gateShare.pairDate = Date().timeIntervalSince1970
+                    var snap = gateShare.toSnapshot()
+                    snap[kGuestUidKey] = Auth.auth().currentUser!.uid
+                    snap[kGuestPushToken] = result?.instanceID ?? kGuestPushToken
+                    dbRef.child(ownerId).child(shareId).setValue(snap)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: knewGateAsGuestNotification), object: nil)
+                })
             }
         })
     }
     
     func removeObserverAsGuest(_ gateToDelete: Gate) {
         
-        let dbRef = FIRDatabase.database().reference()
+        let dbRef = Database.database().reference()
         if gateToDelete.isGuest == false || gateToDelete.shareId == "shareId" || gateToDelete.ownerUid == "ownerUid" {return}
         let path = dbRef.child("users").child(gateToDelete.ownerUid!).child(gateToDelete.shareId!)
             path.removeAllObservers()

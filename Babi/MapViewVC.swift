@@ -10,11 +10,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
-protocol MapVCDelegate: NSObjectProtocol {
+@objc protocol MapVCDelegate: NSObjectProtocol {
     func didFinishPickingLocation(_ gateAnnotation: MKPointAnnotation?)
 }
 
-class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
+@objc public class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelegate{
 
     @IBOutlet weak var mapView:         MKMapView!
     @IBOutlet weak var trackUserButton: UIButton!
@@ -27,7 +27,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     var gate: Gate?
     var trackingUserLocation = false
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         addTapGestureToMap()
@@ -78,7 +78,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.blureView.layer.borderColor = UIColor.gray.cgColor
     }
     
-    func didDragMap(_ recognizer: UIPanGestureRecognizer) {
+    @objc func didDragMap(_ recognizer: UIPanGestureRecognizer) {
         
         if (recognizer.state == UIGestureRecognizerState.began) {
                 
@@ -96,13 +96,13 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
     }
     
 
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 
 
     
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+  @objc public   func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
         if trackingUserLocation {
             
@@ -119,16 +119,16 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         }
     }
     
-    func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
+    @objc public func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
         print("will start rendernig")
     }
     
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+    @objc public func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         print("did finish rendernig")
 
     }
     
-    func mapTapped(_ recognizer: UITapGestureRecognizer) {
+   @objc func mapTapped(_ recognizer: UITapGestureRecognizer) {
         
         if let gateAnnotation = gateAnnotation {
             mapView.removeAnnotation(gateAnnotation)
@@ -165,7 +165,7 @@ class MapViewVC: UIViewController , UIGestureRecognizerDelegate, MKMapViewDelega
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

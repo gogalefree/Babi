@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		36957F87B78A29F699B34D57 /* Pods_Babi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8748867E8B6C7532A1D9A3F /* Pods_Babi.framework */; };
-		B2EF84787E0C29E0CC7772FD /* Pods_BabiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457DCD2A31374287A039CFD6 /* Pods_BabiTests.framework */; };
 		E40B2C4C1ADD8DA000F81D58 /* kob_navBar_normal.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4A1ADD8DA000F81D58 /* kob_navBar_normal.jpeg */; };
 		E40B2C4D1ADD8DA000F81D58 /* kobi_navBar_Blured.png in Resources */ = {isa = PBXBuildFile; fileRef = E40B2C4B1ADD8DA000F81D58 /* kobi_navBar_Blured.png */; };
 		E41790721ADE96B5002E68D1 /* BabiCallCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41790711ADE96B5002E68D1 /* BabiCallCenter.swift */; };
@@ -36,7 +35,6 @@
 		E453B3A71AC6862C00707BA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A51AC6862C00707BA8 /* Main.storyboard */; };
 		E453B3A91AC6862C00707BA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E453B3A81AC6862C00707BA8 /* Images.xcassets */; };
 		E453B3AC1AC6862C00707BA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E453B3AA1AC6862C00707BA8 /* LaunchScreen.xib */; };
-		E453B3B81AC6862C00707BA8 /* BabiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E453B3B71AC6862C00707BA8 /* BabiTests.swift */; };
 		E459304E1E89332000D7F031 /* InvitationsPOPTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459304D1E89332000D7F031 /* InvitationsPOPTVC.swift */; };
 		E45930501E8933E900D7F031 /* InvitationsPOPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459304F1E8933E900D7F031 /* InvitationsPOPCell.swift */; };
 		E45F6C8A1AD71EAC00596A12 /* GateEditorDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45F6C891AD71EAC00596A12 /* GateEditorDistanceCell.swift */; };
@@ -126,18 +124,7 @@
 		E4F1A8631ADBBA9200973C51 /* koby_header2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8621ADBBA9200973C51 /* koby_header2.jpeg */; };
 		E4F1A8651ADBBC1D00973C51 /* GateEditorTableMainHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F1A8641ADBBC1D00973C51 /* GateEditorTableMainHeader.swift */; };
 		E4F1A8671ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png in Resources */ = {isa = PBXBuildFile; fileRef = E4F1A8661ADC517600973C51 /* babiMainTVCellImageSkecthGray.001.png */; };
-		E4F884371E9AC8A0005EDF01 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F884351E9AC800005EDF01 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E453B3B21AC6862C00707BA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E453B3911AC6862C00707BA8 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E453B3981AC6862C00707BA8;
-			remoteInfo = Babi;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		120FAEE139B3FF8193AA815C /* Pods-BabiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabiTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -174,7 +161,6 @@
 		E453B3A61AC6862C00707BA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E453B3A81AC6862C00707BA8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E453B3AB1AC6862C00707BA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		E453B3B11AC6862C00707BA8 /* BabiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E453B3B61AC6862C00707BA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E453B3B71AC6862C00707BA8 /* BabiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabiTests.swift; sourceTree = "<group>"; };
 		E459304D1E89332000D7F031 /* InvitationsPOPTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationsPOPTVC.swift; sourceTree = "<group>"; };
@@ -281,15 +267,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E453B3AE1AC6862C00707BA8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E4F884371E9AC8A0005EDF01 /* UserNotifications.framework in Frameworks */,
-				B2EF84787E0C29E0CC7772FD /* Pods_BabiTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -350,7 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				E453B3991AC6862C00707BA8 /* Babi.app */,
-				E453B3B11AC6862C00707BA8 /* BabiTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -688,7 +664,6 @@
 				E453B3961AC6862C00707BA8 /* Frameworks */,
 				E453B3971AC6862C00707BA8 /* Resources */,
 				49564B511A176AE5D0A03F37 /* [CP] Embed Pods Frameworks */,
-				04B93DF2F9E454C351BB2C98 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -699,27 +674,6 @@
 			productReference = E453B3991AC6862C00707BA8 /* Babi.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E453B3B01AC6862C00707BA8 /* BabiTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E453B3BE1AC6862D00707BA8 /* Build configuration list for PBXNativeTarget "BabiTests" */;
-			buildPhases = (
-				97037A83114CCD2C6B56FA5A /* [CP] Check Pods Manifest.lock */,
-				E453B3AD1AC6862C00707BA8 /* Sources */,
-				E453B3AE1AC6862C00707BA8 /* Frameworks */,
-				E453B3AF1AC6862C00707BA8 /* Resources */,
-				8D7775458D62ADFB76429796 /* [CP] Embed Pods Frameworks */,
-				A252AF400376888AAA6170A4 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E453B3B31AC6862C00707BA8 /* PBXTargetDependency */,
-			);
-			name = BabiTests;
-			productName = BabiTests;
-			productReference = E453B3B11AC6862C00707BA8 /* BabiTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -728,23 +682,18 @@
 			attributes = {
 				LastSwiftMigration = 0730;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Guy Freeman";
 				TargetAttributes = {
 					E453B3981AC6862C00707BA8 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 58NS37C8VA;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0940;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
 							};
 						};
-					};
-					E453B3B01AC6862C00707BA8 = {
-						CreatedOnToolsVersion = 6.2;
-						LastSwiftMigration = 0820;
-						TestTargetID = E453B3981AC6862C00707BA8;
 					};
 				};
 			};
@@ -762,7 +711,6 @@
 			projectRoot = "";
 			targets = (
 				E453B3981AC6862C00707BA8 /* Babi */,
-				E453B3B01AC6862C00707BA8 /* BabiTests */,
 			);
 		};
 /* End PBXProject section */
@@ -857,89 +805,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E453B3AF1AC6862C00707BA8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04B93DF2F9E454C351BB2C98 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Babi/Pods-Babi-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		49564B511A176AE5D0A03F37 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Babi/Pods-Babi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Babi/Pods-Babi-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8D7775458D62ADFB76429796 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		97037A83114CCD2C6B56FA5A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A252AF400376888AAA6170A4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BabiTests/Pods-BabiTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B146D7C358A0E75571E56F6A /* [CP] Check Pods Manifest.lock */ = {
@@ -948,13 +846,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Babi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1001,23 +902,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E453B3AD1AC6862C00707BA8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E453B3B81AC6862C00707BA8 /* BabiTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E453B3B31AC6862C00707BA8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E453B3981AC6862C00707BA8 /* Babi */;
-			targetProxy = E453B3B21AC6862C00707BA8 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E453B3A51AC6862C00707BA8 /* Main.storyboard */ = {
@@ -1047,14 +932,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1077,7 +970,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1093,14 +986,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1116,7 +1017,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1132,13 +1033,14 @@
 				CODE_SIGN_ENTITLEMENTS = Babi/Babi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 58NS37C8VA;
 				INFOPLIST_FILE = Babi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gogalefree.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1150,47 +1052,14 @@
 				CODE_SIGN_ENTITLEMENTS = Babi/Babi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 58NS37C8VA;
 				INFOPLIST_FILE = Babi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gogalefree.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		E453B3BF1AC6862D00707BA8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 120FAEE139B3FF8193AA815C /* Pods-BabiTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = BabiTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.gogalefree.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Babi.app/Babi";
-			};
-			name = Debug;
-		};
-		E453B3C01AC6862D00707BA8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A8CE88AC2594E7530DC7836 /* Pods-BabiTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = "";
-				INFOPLIST_FILE = BabiTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.gogalefree.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Babi.app/Babi";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1211,15 +1080,6 @@
 			buildConfigurations = (
 				E453B3BC1AC6862C00707BA8 /* Debug */,
 				E453B3BD1AC6862C00707BA8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E453B3BE1AC6862D00707BA8 /* Build configuration list for PBXNativeTarget "BabiTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E453B3BF1AC6862D00707BA8 /* Debug */,
-				E453B3C01AC6862D00707BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

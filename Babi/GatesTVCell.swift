@@ -9,7 +9,7 @@
 import UIKit
 import Material
 
-protocol SwipeableCellDelegate{
+@objc protocol SwipeableCellDelegate{
     func settingsButtonAction(_ cell: SwipeableCellTableViewCell)
     func automaticButtonAction(_ cell: SwipeableCellTableViewCell)
     func shareButtonClicked(_ cell: SwipeableCellTableViewCell)
@@ -88,7 +88,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
             guestButton = FlatButton(title: "Guest", titleColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
             guestButton.frame = invitationsButton.frame
             guestButton.frame.size = CGSize(width: 80, height: 40)
-            guestButton.frame.origin.x = (verticalDeviderView.x - 80) / 2
+            guestButton.frame.origin.x = (verticalDeviderView.frame.origin.x - 80) / 2
             myContentView.addSubview(guestButton)
         }
         
@@ -127,18 +127,18 @@ class SwipeableCellTableViewCell: UITableViewCell {
         }
     }
     
-    func presentSharesPopup() {
+    @objc func presentSharesPopup() {
         print(#function + "present popup in gates cell")
         delegate?.presentSharesPopup(indexPath: indexPath)
     }
     
-    func automaticButtonAction() {
+    @objc func automaticButtonAction() {
         
         delegate?.automaticButtonAction(self)
         setAutomaticButton(animated: true)
     }
     
-    func verticalMenuAction() {
+    @objc func verticalMenuAction() {
         if self.isOpen {
             resetConstraintContstantsToZero(true, notifyDelegateDidClose: true)
         } else {
@@ -146,7 +146,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
         }
     }
     
-    func callButtonAction() {
+    @objc func callButtonAction() {
         
         if self.gate.isGuest {
           

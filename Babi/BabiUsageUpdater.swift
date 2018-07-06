@@ -36,7 +36,7 @@ let localhostUrlString = "http://localhost:8080/babiUser"
 class BabiUsageUpdater: NSObject {
   
   
-  var deviceUUID : String? =  UserDefaults.standard.object(forKey: kDeviceUUIDKey) as? String
+  @objc var deviceUUID : String? =  UserDefaults.standard.object(forKey: kDeviceUUIDKey) as? String
   var didReportUUID: Bool? = UserDefaults.standard.bool(forKey: kDidReportUUID)
   var didBecomeActiveCounter: Int? = UserDefaults.standard.integer(forKey: kDidBecomeActiveCounterKey)
   
@@ -45,7 +45,7 @@ class BabiUsageUpdater: NSObject {
     setup()
   }
   
-  func setup() {
+  @objc func setup() {
     
     deviceUUID = deviceUUID ?? {
       
@@ -61,7 +61,7 @@ class BabiUsageUpdater: NSObject {
     }
   }
   
-  func reportUUID() {
+  @objc func reportUUID() {
     
     let params = paramsForInitialReport()
     let jsonData = try? JSONSerialization.data(withJSONObject: params, options: [])
@@ -98,7 +98,7 @@ class BabiUsageUpdater: NSObject {
     task.resume()
   }
   
-  func paramsForInitialReport() -> [String: Any] {
+  @objc func paramsForInitialReport() -> [String: Any] {
     
     let countryCode = getCountryCode()
     let installationDate = dateInstalled()
@@ -111,7 +111,7 @@ class BabiUsageUpdater: NSObject {
     return params
   }
   
-  func getCountryCode() -> String {
+  @objc func getCountryCode() -> String {
     
     var countryCode: String = "NotPhone"
     let local = Locale.current
@@ -120,7 +120,7 @@ class BabiUsageUpdater: NSObject {
     return countryCode
   }
   
-  func dateInstalled() -> String {
+  @objc func dateInstalled() -> String {
     
     var dateInstalled = ""
     let dateFormatter = DateFormatter()
@@ -131,7 +131,7 @@ class BabiUsageUpdater: NSObject {
     return dateInstalled
   }
   
-  func incrementDidBecomeActive() {
+  @objc func incrementDidBecomeActive() {
     
     var storedCounter = UserDefaults.standard.integer(forKey: kDidBecomeActiveCounterKey)
     storedCounter += 1
@@ -144,11 +144,11 @@ class BabiUsageUpdater: NSObject {
     }
   }
   
-  func reportActivityCounter(_ storedCounter: Int) {
+  @objc func reportActivityCounter(_ storedCounter: Int) {
     
     if let deviceUUID = deviceUUID {
       
-      let pushToken = FIRInstanceID.instanceID().token() ?? ""
+      let pushToken = InstanceID.instanceID().token() ?? ""
       let gatesCount = Model.shared.gates()?.count ?? 0
       
       let params = [kAppIdKey:kAppIdValue,

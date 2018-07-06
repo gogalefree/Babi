@@ -54,7 +54,7 @@ class InvitationsPOPCell: UITableViewCell {
         
     }
 
-    func cancellShareAction() {
+    @objc func cancellShareAction() {
         print("cancel action)")
         delegate?.didCancellGateshareAsOwner(share: share!, indexPath: indexPath!)
         FireBaseController.shared.currentUserPath.child(share!.shareId).removeValue()

@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if coordinator == nil {
       return nil
     }
-    var managedObjectContext = NSManagedObjectContext()
+    var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     managedObjectContext.persistentStoreCoordinator = coordinator
     return managedObjectContext
   }()
@@ -151,9 +151,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
     
   func tokenRefreshNotification(_ notification: Notification) {
-    if let refreshedToken = FIRInstanceID.instanceID().token() {
-      RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(refreshedToken)
-      print("InstanceID token: \(refreshedToken)")
+    InstanceID.instanceID().instanceID { (result, error) in
+        if let refreshedToken = result?.instanceID {
+            RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(refreshedToken)
+            print("InstanceID token: \(refreshedToken)")
+        }
     }
   }
   

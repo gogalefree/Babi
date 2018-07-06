@@ -29,7 +29,7 @@ class LocationNotifications: NSObject {
         completionHandler: {_, _ in })
       
       // For iOS 10 data message (sent via FCM)
-      FIRMessaging.messaging().remoteMessageDelegate = self
+        Messaging.messaging().delegate = self
     }
     
     let callAction = UIMutableUserNotificationAction()
@@ -158,8 +158,8 @@ extension LocationNotifications: UNUserNotificationCenterDelegate {
   }
 }
 
-extension LocationNotifications: FIRMessagingDelegate {
-  public func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+extension LocationNotifications: MessagingDelegate {
+    public func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {
     print("application recieve remote: " + String(describing:remoteMessage))
   }
 }

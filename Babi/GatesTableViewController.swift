@@ -13,7 +13,7 @@ import MessageUI
 import Firebase
 
 
-class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
+ @objc public class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     
 //    var i = true
     var cellsCurrentlyEditing :NSMutableSet!
@@ -26,7 +26,7 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
     var gateShare: GateShare?
     var shareId: String?
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.cellsCurrentlyEditing = NSMutableSet()
         if gates == nil || gates?.count == 0 {
@@ -34,14 +34,14 @@ class GatesTableViewController: UITableViewController, SwipeableCellDelegate, CN
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sutupFBObservers()
         setupObserversAsGuest()
         self.registerAppNotifications()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         FireBaseController.shared.currentUserPath.removeAllObservers()
         self.removeObserversAsGuest()
@@ -191,7 +191,7 @@ extension GatesTableViewController: CardVCDelegate {
         self.present(controller, animated: true, completion: nil)
     }
     
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+    public func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         //... handle sms screen actions
         self.dismiss(animated: true, completion: nil)
         
@@ -223,13 +223,13 @@ extension GatesTableViewController {
     }
     
     //this is where the owner gets his shres as owner in the next run
-    func gateShareAddedAsOwner(_ snapshot: FIRDataSnapshot) {
+    func gateShareAddedAsOwner(_ snapshot: DataSnapshot) {
         
         guard let gateShare = GateShare(snapshot: snapshot) else {return}
         addGateshareAndUpdateUI(gateShare)
     }
     
-    func gateShareChangedAsOwner(_ snapshot: FIRDataSnapshot) {
+    func gateShareChangedAsOwner(_ snapshot: DataSnapshot) {
         print(snapshot.value as Any)
         guard let gateShare = GateShare(snapshot: snapshot) else {return}
         guard let gate = self.gateForGateshare(gateShare) else {return        }
@@ -248,7 +248,7 @@ extension GatesTableViewController {
         }
     }
     
-    func gateShareRemovedAsOwner(_ snapshot: FIRDataSnapshot) {
+    func gateShareRemovedAsOwner(_ snapshot: DataSnapshot) {
         guard let gateShare = GateShare(snapshot: snapshot) else {return}
         guard let gate = self.gateForGateshare(gateShare) else {return}
         gate.removeGateShare(gateShare)
@@ -266,7 +266,7 @@ extension GatesTableViewController {
             self.tableView.reloadData()
             if gateshare.ownerShouldFireCall {
                 presentGuestOwnerDialog(gate: gate)
-                let dbRef = FIRDatabase.database().reference()
+                let dbRef = Database.database().reference()
                 let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(kOwnerShouldFireKey)
                 path.setValue(false)
             }
@@ -279,7 +279,8 @@ extension GatesTableViewController {
             let cell  = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! SwipeableCellTableViewCell
             presentOpenGateVC(cell, gate, gateShare: gateShare)
         } else if (self.guestOwnerDialogNav?.presentingViewController == nil) {
-            self.navigationController?.present(guestOwnerDialogNav!, animated: true) { (finished) in
+            
+            self.navigationController?.present(guestOwnerDialogNav!, animated: true) {
                 self.guestOwnerDialogVC?.reloadAsOwner()
             }
         } else {
@@ -326,7 +327,7 @@ extension GatesTableViewController {
     
     //Mark: Notifications actions 
     
-    func updateTableWithNewInvitation() {
+    @objc public func updateTableWithNewInvitation() {
         self.removeObserversAsGuest()
         self.gates = Model.shared.gates()
         tableView.reloadData()
@@ -341,7 +342,7 @@ extension GatesTableViewController {
     
     
     func removeObserversAsGuest() {
-        let dbRef = FIRDatabase.database().reference()
+        let dbRef = Database.database().reference()
         guard let gates = self.gates else {return}
         for gate in gates {
             
@@ -354,7 +355,7 @@ extension GatesTableViewController {
     
     func setupObserversAsGuest() {
     
-        let dbRef = FIRDatabase.database().reference()
+        let dbRef = Database.database().reference()
         guard let gates = self.gates else {return}
         for gate in gates {
             
@@ -367,7 +368,7 @@ extension GatesTableViewController {
         }
     }
     
-    func gateShareChangedAsGuest(_ snapshot: FIRDataSnapshot) {
+    func gateShareChangedAsGuest(_ snapshot: DataSnapshot) {
         //get notified only with the changes key
         print(snapshot.value as Any)
         print(snapshot.key)
@@ -413,7 +414,7 @@ extension GatesTableViewController {
         self.tableView.reloadData()
     }
     
-    func gateShareRemovedAsGuest(_ snapshot: FIRDataSnapshot) {
+    func gateShareRemovedAsGuest(_ snapshot: DataSnapshot) {
         //delete the gate by the share token
         print(snapshot.key)
         if snapshot.key == kShareTokenKey {
@@ -467,7 +468,7 @@ extension GatesTableViewController {
         self.guestOwnerDialogNav = nav
         nav.modalTransitionStyle = .crossDissolve
         nav.modalPresentationStyle = .overCurrentContext
-        self.navigationController?.present(nav, animated: true) { (finished) in}
+        self.navigationController?.present(nav, animated: true) {}
     }
 
     
@@ -482,7 +483,7 @@ extension GatesTableViewController {
         if (gate.isGuest && gate.shouldCall && gate.userInRegion) {
             
             //set firebase to Should call = true
-            let dbRef = FIRDatabase.database().reference()
+            let dbRef = Database.database().reference()
             let path = dbRef.child("users").child(gate.ownerUid!).child(gate.shareId!).child(kOwnerShouldFireKey)
             path.setValue(true)
             gate.shouldCall = false
@@ -542,7 +543,7 @@ extension GatesTableViewController {
     }
     
     @available(iOS 9.0, *)
-    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+    public func  contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         
         let name = contact.givenName
         let middleName = contact.middleName
@@ -588,7 +589,7 @@ extension GatesTableViewController {
     
 }
 extension GatesTableViewController {
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+   public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         // return UIModalPresentationStyle.FullScreen
         return UIModalPresentationStyle.none
     }

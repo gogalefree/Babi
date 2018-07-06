@@ -13,7 +13,7 @@ protocol CardVCDelegate: NSObjectProtocol {
     func cardVCContinueAction(_ carrdVC: CardVC)
 }
 
-class CardVC: UIViewController {
+@objc public class CardVC: UIViewController {
     
     var sharedGate: Gate!
     var guestPhoneNumber = ""
@@ -28,7 +28,7 @@ class CardVC: UIViewController {
     fileprivate var bottomBar: Bar!
     fileprivate var continueButton: IconButton!
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         //view.backgroundColor = Color.grey.lighten5
         modalTransitionStyle = .crossDissolve
@@ -87,7 +87,7 @@ class CardVC: UIViewController {
         card.toolbarEdgeInsets.bottom = 0
         card.toolbarEdgeInsets.right = 8
         contentView.text = instructions
-        contentView.height = CGFloat(contentView.intrinsicContentSize.height + 50.0)
+        contentView.bounds.size.height = CGFloat(contentView.intrinsicContentSize.height + 50.0)
         card.contentView = contentView
         card.contentViewEdgeInsetsPreset = .wideRectangle3
         card.bottomBar = bottomBar
@@ -98,13 +98,13 @@ class CardVC: UIViewController {
         
     }
     
-    func continueButtonAction() {
+   @objc public func continueButtonAction() {
         self.dismiss(animated: true) { 
             self.delegate?.cardVCContinueAction(self)
         }
     }
     
-    func cancelButtonAction() {
+   @objc public func cancelButtonAction() {
         self.dismiss(animated: true) {
         //    self.delegate?.cardVCCancelAction(self)
         }

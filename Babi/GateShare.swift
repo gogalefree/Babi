@@ -46,23 +46,28 @@ class GateShare: NSObject {
     var guestPushToken = kGuestPushToken
     
     init(gate: Gate, ownerUid: String, guestname: String?) {
-        gateName        = gate.name
-        placemarkName   = gate.placemarkName
-        gateUid         = gate.uid
-        ownerUID        = ownerUid
-        latitude        = gate.latitude
-        longitude       = gate.longitude
-        shareDate       = Date().timeIntervalSince1970
-        shareToken      = String.generateToken()
-        shareId         = IDManager.shared.shareAutoId
-        guestName       = guestname ?? ""
-        pairDate        = 0
-        ownerPushToken  = FIRInstanceID.instanceID().token() ?? kOwnerPushToken
-
+       
+        self.gateName        = gate.name
+        self.placemarkName   = gate.placemarkName
+        self.gateUid         = gate.uid
+        self.ownerUID        = ownerUid
+        self.latitude        = gate.latitude
+        self.longitude       = gate.longitude
+        self.shareDate       = Date().timeIntervalSince1970
+        self.shareToken      = String.generateToken()
+        self.shareId         = IDManager.shared.shareAutoId
+        self.guestName       = guestname ?? ""
+        self.pairDate        = 0
         super.init()
+
+        
+        InstanceID.instanceID().instanceID(handler: { (result, error) in
+            
+            self.ownerPushToken  =  result?.token ??  kOwnerPushToken
+        })
     }
     
-    init?(snapshot: FIRDataSnapshot) {
+    init?(snapshot: DataSnapshot) {
         
         print(snapshot.key)
         print(snapshot.value as Any)

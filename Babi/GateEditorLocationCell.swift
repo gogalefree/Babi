@@ -18,7 +18,7 @@ class GateEditorLocationCell: UITableViewCell {
     
 //    weak var delegate: GateEditorLocationCellDelegate!
     
-    var initialTitle = String.localizedStringWithFormat("Choose a different location", "tells the user to chose a different location")
+    @objc var initialTitle = String.localizedStringWithFormat("Choose a different location", "tells the user to chose a different location")
     
     
     override func awakeFromNib() {

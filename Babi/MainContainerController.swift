@@ -13,24 +13,24 @@ let kSleepModeKey = "kSleepModeKey"
 
 class MainContainerController: UIViewController {
     
-    lazy var noGatesMessageVC : NoGatesVC!  = {
+    @objc lazy var noGatesMessageVC : NoGatesVC!  = {
         return self.storyboard?.instantiateViewController(withIdentifier: "noGatesMessageVC") as! NoGatesVC
         }()
     
-    lazy var gatesTVCNavigationVC: UINavigationController! = {
+    @objc lazy var gatesTVCNavigationVC: UINavigationController! = {
         return self.storyboard?.instantiateViewController(withIdentifier: "GatesTVCNavController")
-            as! UINavigationController!
+            as? UINavigationController
     }()
     
     @IBOutlet weak var dimmingView: UIView!
     @IBOutlet weak var sleepModeMessageView: UIView!
     @IBOutlet weak var sleepMessageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var wakeUpButton: UIButton!
-    let kSleepMessageHiddenConstant: CGFloat = -400.0
-    let kSleepMessageVisibleConstant: CGFloat = 70.0
+    @objc let kSleepMessageHiddenConstant: CGFloat = -400.0
+    @objc let kSleepMessageVisibleConstant: CGFloat = 70.0
    
     
-    var sleepMode = false
+    @objc var sleepMode = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +61,7 @@ class MainContainerController: UIViewController {
         }
     }
     
-    func presentGatesTVC() {
+    @objc func presentGatesTVC() {
     
             gatesTVCNavigationVC.view.alpha = 0
             self.addChildViewController(gatesTVCNavigationVC)
@@ -81,7 +81,7 @@ class MainContainerController: UIViewController {
             })
     }
     
-    func presentWelcomeMessage() {
+    @objc func presentWelcomeMessage() {
         
         let frame = CGRect(x: 0,y: 56, width: self.view.bounds.width, height: self.view.bounds.height)
         noGatesMessageVC.view.frame = frame
@@ -91,14 +91,14 @@ class MainContainerController: UIViewController {
         noGatesMessageVC.didMove(toParentViewController: self)
     }
     
-    func hideNoMessageVCIfNeeded() {
+    @objc func hideNoMessageVCIfNeeded() {
         let gates = Model.shared.gates()
         if gates != nil && gates?.count != 0{
             self.noGatesMessageVC.view.alpha = 0
         }
     }
     
-    func showNoMessageVCIfNeeded() {
+    @objc func showNoMessageVCIfNeeded() {
         
         
         let gates = Model.shared.gates()
@@ -113,7 +113,7 @@ class MainContainerController: UIViewController {
         }
     }
     
-    func toogleSleepMode() {
+    @objc func toogleSleepMode() {
         
         sleepMode = true
         UserDefaults.standard.set(true, forKey: kSleepModeKey)

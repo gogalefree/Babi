@@ -31,8 +31,8 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
    
-    var selected = false
-    let digits = "0123456789-"
+    @objc var selected = false
+    @objc let digits = "0123456789-"
 
     
     var section: Int!
@@ -45,9 +45,9 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }
     }
     
-    var gate: Gate?
+    @objc var gate: Gate?
     
-    func setInitialTitles() {
+    @objc func setInitialTitles() {
         
         titleLabel.textColor = UIColor.gray
         titleLabel.text = initialTitles[section]
@@ -76,7 +76,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         setIconTintColor()
     }
     
-    func setGateTitles(_ gate: Gate) {
+    @objc func setGateTitles(_ gate: Gate) {
         
         titleLabel.textColor = UIColor.darkGray
         
@@ -106,7 +106,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     }
 
     
-    func headerTapped(_ recognizer: UITapGestureRecognizer) {
+    @objc func headerTapped(_ recognizer: UITapGestureRecognizer) {
         
         selected = !selected
         //animateIcon()
@@ -117,7 +117,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         if let delegate = delegate {delegate.headerTapped(self)}
     }
     
-    func setSelectedState() {
+    @objc func setSelectedState() {
         
         if self.titleLabel.text != initialTitles[section] {textField.text = titleLabel.text}
         
@@ -137,7 +137,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }
     }
     
-    func setIdeleState() {
+    @objc func setIdeleState() {
         switch headerRoll as Roll {
         
         case .gateName, .gatePhoneNumber:
@@ -159,7 +159,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
        // animateIcon()
     }
     
-    func saveGateData() {
+    @objc func saveGateData() {
        
         if let gate = gate {
             
@@ -177,7 +177,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }
     }
     
-    func animateNewText(_ text: String?) {
+    @objc func animateNewText(_ text: String?) {
         
       
         if text == nil || text == "" {
@@ -191,7 +191,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }
     }
     
-    func showTextField() {
+    @objc func showTextField() {
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.textField.alpha = 1
             self.titleLabel.alpha = 0
@@ -200,7 +200,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         }) 
     }
     
-    func hideTextField() {
+    @objc func hideTextField() {
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.textField.alpha = 0
             self.titleLabel.alpha = 1
@@ -208,7 +208,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         })
     }
     
-    func animateIcon() {
+    @objc func animateIcon() {
         
         if selected && self.headerRoll == .gateMode{
             
@@ -258,7 +258,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         textField.isSecureTextEntry = false
     }
     
-    func setIconTintColor() {
+    @objc func setIconTintColor() {
         
         
         var tintColor = UIColor.black
