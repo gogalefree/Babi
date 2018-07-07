@@ -20,7 +20,7 @@ class LocationNotifications: NSObject {
   
   func registerUserNotifications(application: UIApplication) {
     
-    if #available(iOS 10.0, *) {
+    
       let center = UNUserNotificationCenter.current()
       center.delegate = self
       let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -30,38 +30,17 @@ class LocationNotifications: NSObject {
       
       // For iOS 10 data message (sent via FCM)
         Messaging.messaging().delegate = self
-    }
-    
-    let callAction = UIMutableUserNotificationAction()
-    callAction.identifier = kCallActionIdentifier
-    callAction.title = "Open Gate"
-    callAction.activationMode = UIUserNotificationActivationMode.foreground
-    callAction.isDestructive = false
-    callAction.isAuthenticationRequired = true
-    
-    let launchAction = UIMutableUserNotificationAction()
-    launchAction.identifier = kLaunchBabiActionIdentifier
-    launchAction.title = "Launch BaBi"
-    launchAction.activationMode = UIUserNotificationActivationMode.foreground
-    launchAction.isDestructive = false
-    launchAction.isAuthenticationRequired = false
-    
-    let cancelAction = UIMutableUserNotificationAction()
-    cancelAction.identifier = kDissmissActionIdentifier
-    cancelAction.title = "Cancel"
-    cancelAction.activationMode = UIUserNotificationActivationMode.background
-    cancelAction.isDestructive = false
-    cancelAction.isAuthenticationRequired = false
     
     
-    let arrivedToGateCategory = UIMutableUserNotificationCategory()
-    arrivedToGateCategory.identifier = "ARRIVED_CATEGORY"
-    arrivedToGateCategory.setActions([callAction, launchAction,  cancelAction], for: UIUserNotificationActionContext.default)
+    let callAction = UNNotificationAction(identifier: kCallActionIdentifier, title: "Open Gate", options: [.foreground, .authenticationRequired]) //unnotification Action
+    let launchAction = UNNotificationAction(identifier: kLaunchBabiActionIdentifier, title: "Launch BaBi", options: [.foreground])
+    let cancelAction = UNNotificationAction(identifier: kDissmissActionIdentifier, title: "Cancel", options: [])
     
-    let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
-    let types: UIUserNotificationType = [.badge, .alert, .sound]
-    let settings = UIUserNotificationSettings(types: types, categories: categoriesSet)
-    UIApplication.shared.registerUserNotificationSettings(settings)
+    let arrivedToGateCategory = UNNotificationCategory(identifier: "ARRIVED_CATEGORY", actions: [callAction, launchAction,  cancelAction], intentIdentifiers: [], options: []) //UNNotificationCategory
+   
+   // let categoriesSet = Set(arrayLiteral: arrivedToGateCategory)
+   // let authOptions: UNAuthorizationOptions = [.badge, .alert, .sound] //UNAuthorizationOptions
+    UNUserNotificationCenter.current().setNotificationCategories([arrivedToGateCategory])
 
     application.registerForRemoteNotifications()
   }
@@ -69,35 +48,26 @@ class LocationNotifications: NSObject {
   
   func registerGateForLocationNotification(_ gate: Gate) {
     if !gate.automatic { return }
-    guard let localNotification = generateLocalNotification(gate) else {return}
+    generateLocalNotification(gate)
     if registeredGates.contains(gate) {return}
-    UIApplication.shared.scheduleLocalNotification(localNotification)
     registeredGates.add(gate)
   }
   
   func cancelLocalNotification(_ gate: Gate) {
-    
-    if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["gate\(gate.latitude)"])
       UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["gate\(gate.latitude)"])
-    }
-    else {
-      guard let notification = generateLocalNotification(gate) else {return}
-      UIApplication.shared.cancelLocalNotification(notification)
-      if registeredGates.contains(gate){registeredGates.remove(gate)}
-    }
   }
   
-  func didRecieveLocalNotification(_ notification: UILocalNotification) {
+  func didRecieveLocalNotification(_ request: UNNotificationRequest) { //unnotification request
     
-    let userInfo = notification.userInfo as [AnyHashable: Any]?
+    let userInfo = request.content.userInfo as [AnyHashable: Any]?
     if let userInfo = userInfo{
       let phoneNumber = userInfo["phoneNumber"] as? String
       PhoneDialer.callGate(phoneNumber)
     }
   }
   
-  func generateLocalNotification(_ gate: Gate) -> UILocalNotification?{
+  func generateLocalNotification(_ gate: Gate) {
     
     let region = CLCircularRegion(
       center: CLLocationCoordinate2DMake(gate.latitude, gate.longitude),
@@ -106,7 +76,7 @@ class LocationNotifications: NSObject {
     region.notifyOnEntry = true
     region.notifyOnExit = false
     
-    if #available(iOS 10.0, *) {
+    
       let content = UNMutableNotificationContent()
       content.title = "You're getting close to \(gate.name)."
       content.body = "Launch BaBi?"
@@ -119,30 +89,12 @@ class LocationNotifications: NSObject {
       let request = UNNotificationRequest(
         identifier: "gate\(gate.latitude)",
         content: content,
-        trigger: trigger
-      )
-      
-      UNUserNotificationCenter.current().add(
-        request, withCompletionHandler: nil)
-      return nil
-      
-    } else {
-      // Fallback on earlier versions
-      let localNotification = UILocalNotification()
-      localNotification.userInfo = Gate.gateDictionary(gate)
-      localNotification.alertBody = "You're getting close to \(gate.name). Luanch Babi?"
-      localNotification.soundName = UILocalNotificationDefaultSoundName
-      localNotification.regionTriggersOnce = false
-      localNotification.category = "ARRIVED_CATEGORY"
-      localNotification.region = region
-      localNotification.region!.notifyOnEntry = true
-      localNotification.region!.notifyOnExit = false
-      return localNotification
-    }
-  }
+        trigger: trigger)
+    
+    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+ }
 }
 
-@available(iOS 10.0, *)
 extension LocationNotifications: UNUserNotificationCenterDelegate {
   
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void) {
