@@ -20,18 +20,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
-    UINavigationBar.appearance().tintColor = UIColor.black
-    UINavigationBar.appearance().isTranslucent = true
-    UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), for: .default)
     UIApplication.shared.isIdleTimerDisabled = true
     FireBaseController.shared.setup()
     Model.shared.setUp()
     LocationNotifications.shared.registerUserNotifications(application: application)
     FireBaseController.shared.signIn()
     registerSwiftyBeaver()
+    UIApplication.shared.applicationIconBadgeNumber = 0
     return true
   }
   
+    func setAppeance() {
+        UINavigationBar.appearance().tintColor = UIColor.black
+        UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "kob_navBar_normal.jpeg"), for: .default)
+    }
+    
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     
     var token = deviceToken.description as NSString

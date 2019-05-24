@@ -44,6 +44,7 @@ playground.xcworkspace
 
 # CocoaPods - Refactored to standalone file
 Pods/
+Podfile.loc
 # Carthage - Refactored to standalone file
 
 # fastlane
