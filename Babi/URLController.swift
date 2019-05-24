@@ -12,7 +12,7 @@ class URLController: NSObject {
 
   static let shared = URLController()
   
-  func open(_ url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool{
+  func open(_ url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool{
     guard let babi = url.scheme else { return false }
     
     if babi == "babi" {

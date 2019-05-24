@@ -26,18 +26,11 @@ enum GateEditorState {
     var doneButton: UIBarButtonItem!
     var deleteButton: UIBarButtonItem!
     var addressBookButton: UIBarButtonItem!
-    let addressBookRef: ABAddressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
-
     fileprivate let kTableViewHeaderHeight: CGFloat = 160.0
-    
-    
     var visibleSections: [Bool] = [false, false, false, false, false] //count must be equal to the sections count
-    
     var selectedSection: Int!
-    
     var headers = [GateEditorTVCHeaderView]()
     var didCreateHeaders = false
-    
     var gate: Gate!
     var state: GateEditorState!
     
@@ -55,34 +48,34 @@ enum GateEditorState {
         
         //let doneImage = UIImage(named: "tick10.png")
         let gmdDoneImage = UIImage(named: "ic_done.png")
-        self.doneButton = UIBarButtonItem(image: gmdDoneImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(GateEditorVC.doneButtonClicked(_:)))
+        self.doneButton = UIBarButtonItem(image: gmdDoneImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(GateEditorVC.doneButtonClicked(_:)))
         
         //let deleteImage = UIImage(named: "garbage11.png")
         let gmdDeleteImage = UIImage(named: "ic_delete.png")
-        self.deleteButton = UIBarButtonItem(image: gmdDeleteImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.deleteAction))
+        self.deleteButton = UIBarButtonItem(image: gmdDeleteImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.deleteAction))
         
         //let addressBookImage = UIImage(named: "address20.png")
         let gmdAddressBookImage = UIImage(named: "ic_import_contacts.png")
-
-        self.addressBookButton = UIBarButtonItem(image: gmdAddressBookImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addressBookAction))
+        
+        self.addressBookButton = UIBarButtonItem(image: gmdAddressBookImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.addressBookAction))
         
         self.navigationItem.rightBarButtonItems = [self.doneButton, self.deleteButton, self.addressBookButton]
     }
     
     //MARK: - Table View delegate datasource
     
-     @objc public func numberOfSections(in tableView: UITableView) -> Int {
+    @objc public func numberOfSections(in tableView: UITableView) -> Int {
         /*
-           0 gate name
-           1 gate phone number
-           2 gate location
-           3 gate mode
-           4 fence header
+         0 gate name
+         1 gate phone number
+         2 gate location
+         3 gate mode
+         4 fence header
          */
         return 4
     }
     
-     @objc public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    @objc public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 66
     }
     
@@ -105,11 +98,8 @@ enum GateEditorState {
         }
     }
     
-     @objc public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
+    @objc public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
-            
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "GateEditorLocationCell", for: indexPath) as! GateEditorLocationCell
             return cell
@@ -134,7 +124,7 @@ enum GateEditorState {
         }
     }
     
-     @objc public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    @objc public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if section == 4 {
             //fence view
@@ -185,6 +175,9 @@ enum GateEditorState {
         
         //mode section
         if section == 3 {
+//            if  header = headers[3] {
+//                
+//            }
             tableView.reloadSections(IndexSet(integer:section!), with: .automatic)
         }
         
@@ -196,9 +189,7 @@ enum GateEditorState {
     }
     
     func hideHeaders(_ visibleSection: Int?) {
-        
         for index in 0...3 {
-            
             //skip hiding the visible section
             if let visibleSection = visibleSection {
                 if visibleSection == index {continue}
@@ -256,31 +247,27 @@ enum GateEditorState {
                 
                 guard let placemarks = placemarks else  { return }
                 if let placemark = placemarks.first  {
-                let name = placemark.name
-                if let name = name {
-                    self.gate.placemarkName = name
-                    locationHeader.animateNewText(name)
-                    locationHeader.setIconTintColor()
-                }
+                    let name = placemark.name
+                    if let name = name {
+                        self.gate.placemarkName = name
+                        locationHeader.animateNewText(name)
+                        locationHeader.setIconTintColor()
+                    }
                 }
             }
         }
     }
     
-    
-    
     //MARK: - AutomaticCell Delegate
-    
     func didChangeGateAutomaticMode(_ isAutomatic: Bool) {
         
         let header = headers[3]
         header.animateNewText(automaticHeaderTitles[isAutomatic.hashValue])
+        header.setIconTintColor()
         tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
     }
     
     //MARK: - Configure State
-    
-    
     func configureWithState(_ gateState: GateEditorState) {
         switch gateState {
             
@@ -315,13 +302,13 @@ enum GateEditorState {
     }
     
     //MARK: - Button Actions
-   @objc public func doneButtonClicked(_ sender: AnyObject) {
+    @objc public func doneButtonClicked(_ sender: AnyObject) {
         let gateAuthenticated = authenticateGate()
         if !gateAuthenticated.authenticated {showAlert(gateAuthenticated.section!)}
         else {self.performSegue(withIdentifier: "unwindToGatesTVC", sender:self)}
     }
     
-   @objc public func deleteAction() {
+    @objc public func deleteAction() {
         let alert = UIAlertController(title: "Sure you want to delete?", message: "\(gate.name)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) -> Void in
@@ -334,118 +321,9 @@ enum GateEditorState {
     //MARK: - Address Book
     
     @objc public func addressBookAction() {
-        //show address nav controller
         getContacts()
-//        
-//        let authorizationStatus = ABAddressBookGetAuthorizationStatus()
-//        switch authorizationStatus {
-//        case .denied, .restricted:
-//            promptForAddressBookRequestAccess()
-//            
-//        case .authorized:
-//            presentAddressBook()
-//            print("Authorized")
-//        case .notDetermined:
-//            promptForAddressBookRequestAccess()
-//            print("Not Determined")
-//        }
-    }
+       }
     
-    func promptForAddressBookRequestAccess() {
-        
-        ABAddressBookRequestAccessWithCompletion(addressBookRef) {
-            (granted, error) in
-            DispatchQueue.main.async {
-                if !granted {
-                    log.warning("Did Not Authorize contacts for iOS < 9")
-                } else {
-                    self.presentAddressBook()
-                    log.info("Authorized contacts for iOS < 9")
-
-                }
-            }
-        }
-    }
-    
-
-    func presentAddressBook() {
-        let addressBookController = ABPeoplePickerNavigationController()
-        addressBookController.peoplePickerDelegate = self
-        self.present(addressBookController, animated: true, completion: nil)
-    }
-    
-    @objc public func peoplePickerNavigationControllerDidCancel(_ peoplePicker: ABPeoplePickerNavigationController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-     @objc public func peoplePickerNavigationController(_ peoplePicker: ABPeoplePickerNavigationController,
-                                          didSelectPerson person: ABRecord) {
-        
-        
-        var gateName = ""
-        var gatePhoneNumber = ""
-        
-        //first name
-        let firstNameTemp = ABRecordCopyValue(person, kABPersonFirstNameProperty)
-        let firstName: NSObject! = Unmanaged<NSObject>.fromOpaque(firstNameTemp!.toOpaque()).takeRetainedValue()
-        
-        if let firstName = firstName{
-            gateName = firstName as! String
-            print("firstName: \(firstName)")
-        }
-        else {
-            print("fristName is nil")
-        }
-        
-        
-        //last name
-        let lastNameTemp = ABRecordCopyValue(person, kABPersonLastNameProperty)
-        if let lastNameTemp = lastNameTemp {
-            
-            let lastName: NSObject! = Unmanaged<NSObject>.fromOpaque(lastNameTemp.toOpaque()).takeRetainedValue()
-            
-            if let lastName = lastName {
-                gateName = gateName + " " + (lastName as! String)
-                print("gate name including lastName: \(gateName)")
-            }
-        }
-            
-        else {
-            print("lastName is nil")
-            
-        }
-        
-        var pho: ABMultiValue
-        let phoneV : Unmanaged<AnyObject>? = ABRecordCopyValue(person, kABPersonPhoneProperty)
-        
-        if  phoneV != nil {
-            pho = phoneV!.takeUnretainedValue() as ABMultiValue
-            
-            
-            if ABMultiValueGetCount(pho) > 0
-            {
-                let phones: ABMultiValue = ABRecordCopyValue(person, kABPersonPhoneProperty).takeUnretainedValue() as ABMultiValue
-                
-                for index in 0 ..< ABMultiValueGetCount(phones){
-                    
-                    let currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phones, index).takeUnretainedValue() as CFString as String
-                    let currentPhoneValue = ABMultiValueCopyValueAtIndex(phones, index).takeUnretainedValue() as! CFString as String
-                    
-                    gatePhoneNumber = currentPhoneValue
-                    print("phone value \(currentPhoneValue)")
-                    print("phone label \(currentPhoneLabel)")
-                    break
-                    
-                }
-                
-            }
-        }
-        print("final name: \(gateName)")
-        print("final phone: \(gatePhoneNumber)")
-        
-        updateGateAndUIFromAddressBook(gateName , gatePhoneNumber: gatePhoneNumber)
-        
-    }
     
     func updateGateAndUIFromAddressBook(_ gateName: String , gatePhoneNumber: String){
         
@@ -475,70 +353,42 @@ enum GateEditorState {
         showDoneButtonIfNeeded()
     }
     
-    
-     @objc public func peoplePickerNavigationController(
-        _ peoplePicker: ABPeoplePickerNavigationController,
-        shouldContinueAfterSelectingPerson person: ABRecord,
-        property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
-        return false
-    }
-    
-     @objc public func peoplePickerNavigationController(
-        _ peoplePicker: ABPeoplePickerNavigationController,
-        shouldContinueAfterSelectingPerson person: ABRecord) -> Bool {
-        return false
-    }
-    
     //MARK: Contacts
-    
     func getContacts() {
         
-        if #available(iOS 9.0, *) {
-            
-            let store = CNContactStore()
-            if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
-                store.requestAccess(for: .contacts, completionHandler: {
-                    (authorized: Bool, error: Error?) -> Void in
-                    if authorized {
-                        self.presentContactsUI(store)
-                        log.info("authorized contacts iOS > 9")
-
-                    }
-                })
-            } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
-                self.presentContactsUI(store)
-            } else {
-                //no contacts permission
-                log.warning("DID NOT authorize contacts iOS > 9")
-
-            }
-            
+        let store = CNContactStore()
+        if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
+            store.requestAccess(for: .contacts, completionHandler: {
+                (authorized: Bool, error: Error?) -> Void in
+                if authorized {
+                    self.presentContactsUI(store)
+                    log.info("authorized contacts iOS > 9")
+                    
+                }
+            })
+        } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
+            self.presentContactsUI(store)
         } else {
-            // Fallback on earlier versions
-            promptForAddressBookRequestAccess()
-            log.info("request contacts for iOS < 9")
+            //no contacts permission
+            log.warning("DID NOT authorize contacts iOS > 9")
         }
     }
     
-    @available(iOS 9.0, *)
     func presentContactsUI(_ store: CNContactStore) {
-        
         let contactPicker = CNContactPickerViewController()
         contactPicker.delegate = self
         self.present(contactPicker, animated: true, completion: nil)
-
     }
     
-    @available(iOS 9.0, *)
-     @objc public func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
-    
+    @objc public func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        
         let name = contact.givenName
         let middleName = contact.middleName
         let familyName = contact.familyName 
         let numbers = contact.phoneNumbers
-
+        
         var gateName = name
-
+        
         if !middleName.isEmpty {
             gateName += " " + middleName
         }
@@ -555,9 +405,7 @@ enum GateEditorState {
         updateGateAndUIFromAddressBook(gateName, gatePhoneNumber: phoneNumber)
     }
     
-    
     // MARK: - Authenticate Gate
-    
     func showDoneButtonIfNeeded() {
         let authenticated = authenticateGate()
         if authenticated.authenticated {showDoneButton()}
@@ -589,15 +437,12 @@ enum GateEditorState {
         default:
             message = "Unknown error"
         }
-        let alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
-    
-    
     // MARK: - Navigation
-    
     override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "cancelButtonSegue" {

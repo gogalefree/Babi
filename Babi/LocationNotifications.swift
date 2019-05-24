@@ -70,7 +70,7 @@ class LocationNotifications: NSObject {
         content.title = "You're getting close to \(gate.name)."
         content.body = "Launch BaBi?"
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         content.categoryIdentifier = "ARRIVED_CATEGORY"
         content.userInfo = [kPhoneNumberKey : gate.phoneNumber]
         let trigger = UNLocationNotificationTrigger(region: region, repeats: true)

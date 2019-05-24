@@ -164,7 +164,7 @@ extension SwipeableCellTableViewCell {
             duration = 0.4;
         }
         
-        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions() , animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions() , animations: { () -> Void in
             self.layoutIfNeeded()
         }, completion: completion)
     }

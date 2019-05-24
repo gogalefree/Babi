@@ -80,7 +80,7 @@ import CoreLocation
     
     @objc func didDragMap(_ recognizer: UIPanGestureRecognizer) {
         
-        if (recognizer.state == UIGestureRecognizerState.began) {
+        if (recognizer.state == UIGestureRecognizer.State.began) {
                 
             self.trackingUserLocation = false
             self.blureView.animateToAlphaWithSpring(0.4, alpha: 1)

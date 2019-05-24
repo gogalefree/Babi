@@ -11,14 +11,14 @@ import CoreData
 import Firebase
 import SwiftyBeaver
 let log = SwiftyBeaver.self
-
+import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   
   
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
     UINavigationBar.appearance().tintColor = UIColor.black
     UINavigationBar.appearance().isTranslucent = true
@@ -40,15 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     RemoteNotificationsController.sharedInstance.savePushNotificationsTokenInUD(token as String)
   }
   
-  func application(_ application: UIApplication, didReceive notification: UILocalNotification) {}
-  
-  func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Void) {
+    private func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UNNotificationRequest, completionHandler: @escaping () -> Void) {
     if let id = identifier {
       if id == kCallActionIdentifier {
-        let userInfo = notification.userInfo as [AnyHashable: Any]?
-        
+        let userInfo = notification.content.userInfo as [AnyHashable: Any]?
         if let userInfo = userInfo{
-          
           let phoneNumber = userInfo["phoneNumber"] as! String
           PhoneDialer.callGate(phoneNumber)
         }
@@ -56,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
   
-  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
     return URLController.shared.open(url, options: options)
   }
   

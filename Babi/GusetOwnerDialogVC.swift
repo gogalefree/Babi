@@ -237,7 +237,8 @@ import AVFoundation
         
         else {
             stopBlinkAnimation()
-            gateNameLable.text =  (gateShare?.guestName)! + ownerHasArrivedMessage
+            let text = (gateShare?.guestName) ?? ""
+            gateNameLable.text =  text + ownerHasArrivedMessage
             messageLabel.text = ownerMessages[0]
         }
     }
@@ -246,7 +247,7 @@ import AVFoundation
         activity = UIActivityIndicatorView()
         activity.bounds.size.width = 40
         activity.bounds.size.height = 40
-        activity.activityIndicatorViewStyle = .gray
+        activity.style = .gray
         activity.color = .purple
         activity.hidesWhenStopped = true
     }
@@ -267,7 +268,7 @@ import AVFoundation
 //        stopCallButton.tintColor = Color.red.base
 //        stopCallButton.backgroundColor = .white
         callButton.image = UIImage(named:"ic_call_36pt.png")!.withRenderingMode(
-            UIImageRenderingMode.alwaysTemplate)
+            UIImage.RenderingMode.alwaysTemplate)
         callButton.backgroundColor = .white
         
         if gate.isGuest {

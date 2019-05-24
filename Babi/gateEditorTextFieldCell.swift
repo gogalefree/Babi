@@ -75,10 +75,9 @@ class gateEditorTextFieldCell: UITableViewCell, UITextFieldDelegate {
         
         //deleting chars
         if string == "" {
-            let string = text.substring(to: text.characters.index(before: text.endIndex))
-            delegate.editingText(string, indexpath: indexPath)
+            let str = String(text[...text.endIndex])
+            delegate.editingText(str, indexpath: indexPath)
         }
-        
         
         return shouldChange
     }

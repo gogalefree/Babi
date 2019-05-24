@@ -185,7 +185,7 @@ class SwipeableCellTableViewCell: UITableViewCell {
             self.shareButton = shareButton
             let automaticButton = IconButton(image: Icon.cm.play)
             let callButton = IconButton(image: UIImage(named:"ic_phone.png")!.withRenderingMode(
-                UIImageRenderingMode.alwaysTemplate))
+                UIImage.RenderingMode.alwaysTemplate))
             self.callButton = callButton
             self.automaticButton = automaticButton
             

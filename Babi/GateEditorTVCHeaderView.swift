@@ -60,17 +60,17 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         else if self.headerRoll == .gateName{
 
             iconImageView.image = UIImage(named: "ic_edit.png")!.withRenderingMode(
-                UIImageRenderingMode.alwaysTemplate)
+                UIImage.RenderingMode.alwaysTemplate)
         }
         
         else if headerRoll ==  .gatePhoneNumber {
             iconImageView.image = UIImage(named:"ic_phone.png")!.withRenderingMode(
-                UIImageRenderingMode.alwaysTemplate)
+                UIImage.RenderingMode.alwaysTemplate)
         }
         
         else if self.headerRoll == .gateLocation {
             iconImageView.image = UIImage(named: "ic_near_me.png")!.withRenderingMode(
-                UIImageRenderingMode.alwaysTemplate)
+                UIImage.RenderingMode.alwaysTemplate)
         }
         
         setIconTintColor()
@@ -247,7 +247,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
     override func awakeFromNib() {
         super.awakeFromNib()
         self.tapGestureRecognizer.addTarget(self, action: #selector(GateEditorTVCHeaderView.headerTapped(_:)))
-        self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.greaterThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 66))
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.greaterThanOrEqual, toItem: nil, attribute: NSLayoutConstraint.Attribute.height, multiplier: 1, constant: 66))
     
         self.textField.delegate = self
         self.hideTextField()
@@ -265,6 +265,7 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         
         guard  let gate = self.gate else {
             self.iconImageView.tintColor = tintColor
+            if headerRoll == .gateMode { iconImageView.tintColor = .green}
             return
         }
         
@@ -284,9 +285,8 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             if gate.latitude != kGateLatitudeDefaultValue && gate.longitude != kGateLongitudeDefaultValue{
                 tintColor = .green
             }
-            
-        default:
-            break
+        case .gateMode:
+            tintColor = gate.automatic == true ? .green : .black
         }
         
         self.iconImageView.tintColor = tintColor

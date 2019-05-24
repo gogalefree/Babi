@@ -111,8 +111,9 @@ class Gate: NSManagedObject {
             newGate.automatic = automatic ?? true
             newGate.phoneNumber = phoneNumber
             newGate.fireDistanceFromGate = fireDistanceFromGate ?? 0
-            let token = InstanceID.instanceID().token() ?? kOwnerPushToken
-            newGate.ownerPushToken = token
+            InstanceID.instanceID().instanceID(handler: { (result, error) in
+                newGate.ownerPushToken = result?.instanceID ?? kOwnerPushToken
+            })
             gate = newGate
         }
         return gate

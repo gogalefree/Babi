@@ -21,7 +21,7 @@ class PhoneDialer: NSObject {
                     if UIApplication.shared.canOpenURL(url) {
                     
                         if #available(iOS 10.0, *) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
                         } else {
                             // Fallback on earlier versions
                             UIApplication.shared.openURL(url)
@@ -31,4 +31,9 @@ class PhoneDialer: NSObject {
                 }
             }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

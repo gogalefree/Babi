@@ -15,10 +15,7 @@ import CallKit
 
 class BabiCallCenter: NSObject {
     
- //   var callController: AnyObject?
- //   var callProvider: AnyObject?
- //   var callObserver: AnyObject?
-    @objc let callCenter = CXCallObserver()//CTCallCenter()
+    @objc let callCenter = CXCallObserver()
     
     override init () {
         super.init()
@@ -26,25 +23,7 @@ class BabiCallCenter: NSObject {
     }
     
     @objc func setUp() {
-    
-            callCenter.setDelegate(self, queue: nil)
-                /*
-                = { [weak self] (call:CTCall!) in //CXCallObserver
-                
-                print("call state before handler: \(call.callState)") //CXCall
-                
-                switch call.callState {
-                case CTCallStateConnected:
-                    self!.callConnected()
-                case CTCallStateDisconnected:
-                    self!.callDisconnected()
-                default:
-                    //Not concerned with CTCallStateDialing or CTCallStateIncoming
-                    break
-                }
-            }
-
-        */
+        callCenter.setDelegate(self, queue: nil)
     }
     
     @objc func callConnected() {
@@ -54,7 +33,7 @@ class BabiCallCenter: NSObject {
     @objc func callDisconnected() {
         print("CTCallStateDisconnected")
         let url = URL(string: "babi://")
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        UIApplication.shared.open(url!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
     }
 }
 extension BabiCallCenter: CXCallObserverDelegate{
@@ -62,9 +41,20 @@ extension BabiCallCenter: CXCallObserverDelegate{
         
         if call.hasConnected {
             self.callConnected()
-            
-        } else if call.hasEnded {
+            print("call connected")
+        }
+        if !call.hasConnected {
+            print("call has not connected")
             self.callDisconnected()
         }
+        if call.hasEnded {
+            self.callDisconnected()
+            print("call has ended")
+        }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

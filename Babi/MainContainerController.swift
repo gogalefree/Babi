@@ -64,9 +64,9 @@ class MainContainerController: UIViewController {
     @objc func presentGatesTVC() {
     
             gatesTVCNavigationVC.view.alpha = 0
-            self.addChildViewController(gatesTVCNavigationVC)
+            self.addChild(gatesTVCNavigationVC)
             gatesTVCNavigationVC.view.frame = self.view.bounds
-            gatesTVCNavigationVC.didMove(toParentViewController: self)
+            gatesTVCNavigationVC.didMove(toParent: self)
             self.view.addSubview(gatesTVCNavigationVC.view)
     
             UIView.animate(withDuration: 0.4, animations: { () -> Void in
@@ -85,10 +85,10 @@ class MainContainerController: UIViewController {
         
         let frame = CGRect(x: 0,y: 56, width: self.view.bounds.width, height: self.view.bounds.height)
         noGatesMessageVC.view.frame = frame
-        self.addChildViewController(noGatesMessageVC)
+        self.addChild(noGatesMessageVC)
         self.view.addSubview(noGatesMessageVC.view)
-        self.view.bringSubview(toFront: noGatesMessageVC.view)
-        noGatesMessageVC.didMove(toParentViewController: self)
+        self.view.bringSubviewToFront(noGatesMessageVC.view)
+        noGatesMessageVC.didMove(toParent: self)
     }
     
     @objc func hideNoMessageVCIfNeeded() {
@@ -126,8 +126,8 @@ class MainContainerController: UIViewController {
             
             self.dimmingView.alpha = 0.8
             self.sleepModeMessageView.alpha = 1
-            self.view.bringSubview(toFront: self.dimmingView)
-            self.view.bringSubview(toFront: self.sleepModeMessageView)
+            self.view.bringSubviewToFront(self.dimmingView)
+            self.view.bringSubviewToFront(self.sleepModeMessageView)
             
         }, completion: { (completed) -> Void in
             
