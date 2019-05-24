@@ -99,7 +99,8 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             }
             
         case .gateMode:
-            let automaticValue = gate.automatic.hashValue
+         let automaticState = gate.automatic.hashValue
+         let automaticValue = automaticState < 2 ? automaticState : 0
             titleLabel.text = automaticHeaderTitles[automaticValue]
             iconImageView.image = automaticHeaderIcons[automaticValue]?.tint(with: automaticHeaderTintColors[automaticValue])
         }
@@ -265,6 +266,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
         
         guard  let gate = self.gate else {
             self.iconImageView.tintColor = tintColor
+         if self.headerRoll == .gateMode {
+            self.iconImageView.tintColor = .green
+            
+         }
             return
         }
         
@@ -284,10 +289,10 @@ class GateEditorTVCHeaderView: UIView, UIGestureRecognizerDelegate, UITextFieldD
             if gate.latitude != kGateLatitudeDefaultValue && gate.longitude != kGateLongitudeDefaultValue{
                 tintColor = .green
             }
-            
-        default:
-            break
-        }
+         
+        case .gateMode:
+         tintColor = .green
+            }
         
         self.iconImageView.tintColor = tintColor
     }

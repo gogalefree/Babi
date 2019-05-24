@@ -64,7 +64,7 @@ DEPENDENCIES:
   - SwiftyBeaver
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -100,4 +100,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c0c23d71b16eb7a0c28cdb93056f7b90fa0365a4
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
