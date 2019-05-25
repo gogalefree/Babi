@@ -190,11 +190,30 @@ class SwipeableCellTableViewCell: UITableViewCell {
             self.automaticButton = automaticButton
             
             //buttons layout
-            actionsView.layout.vertically(shareButton, top: 0, bottom: 0)
-            actionsView.layout.vertically(automaticButton, top: 0, bottom: 0)
-            actionsView.layout.vertically(callButton, top: 0, bottom: 0)
-            actionsView.layout.horizontally([automaticButton, callButton, shareButton], left: 5, right: 5, interimSpace: 5)
-            
+            let height = actionsView.bounds.height
+            let buttonWidth = (actionsView.bounds.width)/3 + 20
+//          
+            callButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+            shareButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+            automaticButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+            callButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+            shareButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+            automaticButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+
+            let stackView = UIStackView()
+            stackView.axis = .horizontal
+            stackView.distribution = .fillEqually
+            stackView.alignment = .center
+            stackView.spacing = 10
+            stackView.addArrangedSubview(callButton)
+            stackView.addArrangedSubview(automaticButton)
+            stackView.addArrangedSubview(shareButton)
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            actionsView.addSubview(stackView)
+            stackView.centerXAnchor.constraint(equalTo:
+                self.actionsView!.centerXAnchor).isActive = true
+            stackView.centerYAnchor.constraint(equalTo: self.actionsView!.centerYAnchor).isActive = true
+          
             //button actions
             shareButton.addTarget(self, action: #selector(verticalMenuAction), for: .touchUpInside)
             automaticButton.addTarget(self, action: #selector(automaticButtonAction), for: .touchUpInside)

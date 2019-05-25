@@ -76,13 +76,13 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
   - leveldb-library (1.20)
-  - Material (2.16.4):
-    - Material/Core (= 2.16.4)
-  - Material/Core (2.16.4):
-    - Motion (~> 1.4.3)
-  - Motion (1.4.3):
-    - Motion/Core (= 1.4.3)
-  - Motion/Core (1.4.3)
+  - Material (3.1.2):
+    - Material/Core (= 3.1.2)
+  - Material/Core (3.1.2):
+    - Motion (~> 3.1.0)
+  - Motion (3.1.0):
+    - Motion/Core (= 3.1.0)
+  - Motion/Core (3.1.0)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -96,7 +96,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
-  - Material (~> 2)
+  - Material (~> 3)
   - SwiftyBeaver
 
 SPEC REPOS:
@@ -134,12 +134,12 @@ SPEC CHECKSUMS:
   GoogleUtilities: 84df567c76ca84f67b7bb40e769fdd4acc746a10
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
-  Material: 4ed78690b09ffd148b5ffab6b4367fb1d8da1cd3
-  Motion: 153ba49692997888556c7a95207278a8b1f8be95
+  Material: 75f784055f5444a85c61454d7d175a73262b991e
+  Motion: adfaf0a123322dfde099f49cf6cbe3abfa8f3899
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 8c0fc1c2f148bb1afe858c4c0580a0486e0fc0e3
+PODFILE CHECKSUM: 0c3fa63ea3e37805f4ff16edf24aeefca647c6fc
 
 COCOAPODS: 1.5.0

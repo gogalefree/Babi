@@ -93,7 +93,7 @@ protocol CardVCDelegate: NSObjectProtocol {
         card.bottomBar = bottomBar
         card.bottomBarEdgeInsetsPreset = .wideRectangle2
        // card.layou
-        view.layout(card).horizontally(left: 20, right: 20).center()
+        view.layout(card).leftRight(left: 20, right: 20).center()
         print("height: \(contentView.bounds.size.height)")
         
     }

@@ -214,7 +214,7 @@ extension GatesTableViewController {
     func sutupFBObservers() {
         
         let currentUserPath = FireBaseController.shared.currentUserPath
-        print("vurrent user path: " + (currentUserPath?.description())!)
+       // print("vurrent user path: " + (currentUserPath?.description())!)
         //setup Observers
         //an owner fetches his gate shares and observes them.
         currentUserPath?.observe(.childAdded) {snapshot in self.gateShareAddedAsOwner(snapshot)}
